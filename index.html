@@ -1,0 +1,75 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CrithLabs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
+    <style>
+        body {
+            background-color: black;
+            color: #8b0000; /* Updated heavier red color */
+            font-family: 'Creepster', cursive; /* Updated font to Creepster */
+            overflow: hidden;
+            margin: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+        }
+
+        .paragraph {
+            opacity: 0;
+            font-size: 36px;
+            text-align: center;
+            margin: 10px 0;
+            position: relative;
+            animation: appear 3s forwards, glitch 2s infinite linear alternate-reverse;
+        }
+
+        .paragraph:nth-child(1) { animation-delay: 1s; }
+        .paragraph:nth-child(2) { animation-delay: 4s; }
+        .paragraph:nth-child(3) { animation-delay: 7s; }
+        .paragraph:nth-child(4) { animation-delay: 10s; }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(-100%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes glitch {
+            2%, 64% {
+                transform: translate(2px, 0) skewX(10deg);
+            }
+            4%, 60% {
+                transform: translate(-2px, 0) skewX(-10deg);
+            }
+            62% {
+                transform: translate(0, 0) skew(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="paragraph">
+        <p>Thank you for visiting.</p>
+    </div>
+    <div class="paragraph">
+        <p>We will be with you soon.</p>
+    </div>
+    <div class="paragraph">
+        <p>Contact <a href="mailto:crith@crithlabs.com">crith@crithlabs.com</a> for now.</p>
+    </div>
+    <div class="paragraph">
+        <p>See ya!</p>
+    </div>
+</body>
+</html>

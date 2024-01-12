@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join - CrithLabs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
+    <style>
+        body {
+            background-color: black;
+            color: #8b0000; /* Darker red color */
+            font-family: 'Creepster', cursive; /* Creepster font */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden;
+        }
+
+        #content {
+            margin: 20px;
+            text-align: center;
+        }
+
+        #join-title {
+            text-decoration: line-through; /* Crossed-off text */
+            font-size: 2em;
+        }
+
+        #content-text {
+            font-size: 1.5em;
+            margin-bottom: 10px; /* Added margin */
+        }
+
+        #email-box {
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        #email-input {
+            padding: 10px; /* Adjusted size */
+            font-family: 'Creepster', cursive; /* Creepster font */
+            color: #8b0000; /* Darker red color */
+            font-size: 1em; /* Adjusted font size */
+        }
+
+        #join-button {
+            padding: 10px 20px; /* Adjusted size */
+            background-color: #8b0000; /* Darker red color */
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-family: 'Creepster', cursive; /* Creepster font */
+            font-size: 1em; /* Adjusted font size */
+        }
+
+        #back-button {
+            margin-top: 20px; /* Added margin */
+            padding: 10px 20px;
+            background-color: #8b0000; /* Darker red color */
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 1.5em; /* Adjusted font size */
+            font-family: 'Creepster', cursive; /* Creepster font */
+        }
+    </style>
+</head>
+<body>
+    <div id="content">
+        <p id="join-title">JOIN</p>
+        <p id="content-text">We help next-gen content creators, visual artists, and musicians.</p>
+        <p id="content-text">We serve next-gen brands and businesses.</p>
+        <p id="content-text">Join our community!</p>
+        <p id="content-text">Drop a line to <a href="mailto:crith@crithlabs.com">crith@crithlabs.com</a> and let's chat.</p>
+    </div>
+
+    <div id="email-box">
+        <input type="email" id="email-input" placeholder="Enter your email">
+        <button id="join-button">Keep me posted!</button>
+    </div>
+
+    <button id="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.location.href = 'index.html'; // Link to index.html
+        }
+    </script>
+</body>
+</html>

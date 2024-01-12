@@ -1,9 +1,10 @@
+html_code = """
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrithLabs: The Wicked Creator Brand Ecosystem And Web3 Microapp Label</title>
+    <title>Horror Game Menu</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
     <style>
         body {
@@ -104,8 +105,8 @@
     </style>
 </head>
 <body>
-    <section class="glitch" data-text="About" onclick="showContent('About')">About</section>
-    <section class="glitch" data-text="TV" onclick="showContent('TV')">TV</section>
+    <section class="glitch" data-text="About" onclick="showContent('CrithLabs is the wicked creator brand ecosystem & Web3 microapp label.')">About</section>
+    <section class="glitch" data-text="TV" onclick="showContent('Here\'s what\'s live right now (later we will embedd the livestream video to this section), and under that, it says \"weekly schedule\" (later we will create a separate html for this to work)')">TV</section>
     <section class="glitch" data-text="Join" onclick="showContent('Join')">Join</section>
 
     <div id="content">
@@ -115,23 +116,27 @@
 
     <div id="email-box">
         <input type="email" id="email-input" placeholder="Enter your email">
-        <button id="join-button">Keep me posted!</button>
+        <button id="join-button">Join Newsletter</button>
     </div>
 
     <script>
-        function showContent(section) {
-            if (section === 'About') {
-                window.location.href = 'about.html'; // Link to about.html
-            } else if (section === 'TV') {
-                window.location.href = 'tv.html'; // Link to tv.html
-            } else if (section === 'Join') {
-                window.location.href = 'join.html'; // Link to join.html
-            }
+        function showContent(content) {
+            document.getElementById('content-text').innerText = content;
+            document.getElementById('content').style.display = 'block';
+            document.getElementById('email-box').style.display = 'none';
         }
 
         function hideContent() {
             document.getElementById('content').style.display = 'none';
+            document.getElementById('email-box').style.display = 'block';
         }
     </script>
 </body>
 </html>
+"""
+
+# Save HTML code to a file
+with open('index.html', 'w') as file:
+    file.write(html_code)
+
+print("HTML file generated: index.html")

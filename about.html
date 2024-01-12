@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - CrithLabs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
+    <style>
+        body {
+            background-color: black;
+            color: #8b0000; /* Darker red color */
+            font-family: 'Creepster', cursive; /* Creepster font */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px;
+            font-size: 2em; /* Adjust the font size to match the index.html */
+            text-decoration: line-through; /* Cross out text */
+        }
+
+        p {
+            text-align: center;
+            margin: 20px;
+            font-size: 2em; /* Adjust the font size to match the index.html */
+        }
+
+        #back-button {
+            padding: 10px 20px;
+            background-color: #8b0000; /* Darker red color */
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-family: 'Creepster', cursive; /* Creepster font */
+        }
+    </style>
+</head>
+<body>
+    <h1>About CrithLabs</h1>
+    <p>We build tokenized microapps, run our TV, produce events, and the experiences are unforgettable.</p>
+
+    <button id="back-button" onclick="goBack()">Back</button>
+
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>
+</body>
+</html>

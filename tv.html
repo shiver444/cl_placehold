@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TV - CrithLabs</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap">
+    <style>
+        body {
+            background-color: black;
+            color: #8b0000; /* Darker red color */
+            font-family: 'Creepster', cursive; /* Creepster font */
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh; /* Full viewport height */
+            overflow: hidden;
+        }
+
+        h1 {
+            text-align: center;
+            margin: 20px;
+            font-size: 2em; /* Adjust the font size to match the index.html */
+            text-decoration: line-through; /* Cross over the title text */
+        }
+
+        #schedule-button,
+        #back-button {
+            margin: 10px 0; /* Increased margin between the buttons */
+            padding: 10px 20px;
+            background-color: #8b0000; /* Darker red color */
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-family: 'Creepster', cursive; /* Creepster font */
+            font-size: 1.2em;
+        }
+
+        #modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            padding: 20px;
+            text-align: center;
+            font-family: 'Creepster', cursive; /* Creepster font */
+        }
+
+        #close-button {
+            margin-top: 20px; /* Adjusted margin for the Close button */
+            padding: 10px 20px;
+            background-color: #8b0000; /* Darker red color */
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-family: 'Creepster', cursive; /* Creepster font */
+            font-size: 1.2em;
+        }
+    </style>
+</head>
+<body>
+    <h1>Live now:</h1>
+
+    <!-- You can embed a video window here for your livestream TV later -->
+<iframe width="560" height="315" src="https://www.youtube.com/embed/HJ5AjcwTMZc?si=VosdWuJwHZqpvIFE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+    <button id="schedule-button" onclick="showSchedule()">Schedule</button>
+    <button id="back-button" onclick="goBack()">Back</button>
+
+    <div id="modal">
+        <h2>THE MENU:</h2>
+        <p id="modal-content">Custom Message</p>
+        <button id="close-button" onclick="closeModal()">Close</button>
+    </div>
+
+    <script>
+        function showSchedule() {
+            // Customize the title and content of the modal
+            document.getElementById('modal').style.display = 'block';
+            document.getElementById('modal-content').innerText = '5AM UTC - Placehöld 1 +++ 8AM UTC - slightly longer title +++ 2PM UTC - a bit shorter +++ 5PM UTC - welding pilates +++ 9PM UTC - i ran out of ideas +++ 11PM UTC - go to bed!';
+        }
+
+        function goBack() {
+            window.location.href = 'index.html'; // Link to index.html
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

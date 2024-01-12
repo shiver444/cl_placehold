@@ -23,6 +23,8 @@
         #content {
             margin: 20px;
             text-align: center;
+            opacity: 0; /* Initially hidden */
+            animation: appear 3s forwards; /* Appear animation */
         }
 
         #join-title {
@@ -30,9 +32,11 @@
             font-size: 2em;
         }
 
-        #content-text {
+        .content-paragraph {
             font-size: 1.5em;
             margin-bottom: 10px; /* Added margin */
+            opacity: 0; /* Initially hidden */
+            animation: appear 3s forwards; /* Appear animation */
         }
 
         #email-box {
@@ -67,15 +71,37 @@
             font-size: 1.5em; /* Adjusted font size */
             font-family: 'Creepster', cursive; /* Creepster font */
         }
+
+        @keyframes appear {
+            from {
+                opacity: 0;
+                transform: translateY(-20%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes appear-paragraphs {
+            from {
+                opacity: 0;
+                transform: translateY(-20%);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
     </style>
 </head>
 <body>
     <div id="content">
-        <p id="join-title">JOIN</p>
-        <p id="content-text">We elevate next-gen content creators, visual artists, and musicians.</p>
-        <p id="content-text">We serve next-gen brands and businesses.</p>
-        <p id="content-text">Join our community!</p>
-        <p id="content-text">Drop a line to <a href="mailto:crith@crithlabs.com">crith@crithlabs.com</a> and let's chat.</p>
+        <p id="join-title">JOIN US!</p>
+        <p class="content-paragraph" style="animation-delay: 1s;">We elevate next-gen content creators, visual artists, and musicians.</p>
+        <p class="content-paragraph" style="animation-delay: 2s;">We serve next-gen brands and businesses.</p>
+        <p class="content-paragraph" style="animation-delay: 3s;">Join our community!</p>
+        <p class="content-paragraph" style="animation-delay: 4s;">Drop a line to <a href="mailto:crith@crithlabs.com">crith@crithlabs.com</a> and let's chat.</p>
     </div>
 
     <div id="email-box">

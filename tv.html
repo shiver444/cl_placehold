@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,9 +9,7 @@
         body {
             background-color: black;
             color: #8b0000;
-            /* Darker red color */
             font-family: 'Arial', sans-serif;
-            /* Sans-serif font for body text */
             margin: 0;
             padding: 0;
             display: flex;
@@ -20,53 +17,47 @@
             align-items: center;
             justify-content: center;
             height: 100vh;
-            /* Full viewport height */
             overflow-y: auto;
-            /* Enable vertical scrolling */
         }
 
         h1 {
             text-align: center;
             margin: 20px;
             font-size: 2em;
-            /* Adjust the font size to match the index.html */
             font-family: 'Creepster', cursive;
-            /* Creepster font for headers */
             text-decoration: line-through;
-            /* Cross over the title text */
         }
 
         #video-container {
             position: relative;
             width: 100%;
             max-width: 400px;
-            /* Adjusted max width for responsiveness */
-            margin: auto; /* Centering the video container */
+            margin: auto;
         }
 
         #video-frame {
             width: 100%;
             height: 0;
             padding-bottom: 56.25%;
-            /* 16:9 aspect ratio */
             border: none;
         }
 
-        #schedule-button,
-        #back-button {
-            margin: 10px 0;
-            /* Increased margin between the buttons */
+        .button-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 10px;
+        }
+
+        #schedule-button, #back-button {
+            margin: 10px;
             padding: 10px 20px;
             background-color: #8b0000;
-            /* Darker red color */
             color: black;
             border: none;
             cursor: pointer;
             font-family: 'Creepster', cursive;
-            /* Creepster font for buttons */
             font-size: 1.2em;
             border-radius: 5px;
-            /* Rounded corners for buttons */
         }
 
         #modal {
@@ -76,29 +67,22 @@
             left: 50%;
             transform: translate(-50%, -50%);
             background-color: #333;
-            /* Dark gray background color for modals */
             padding: 20px;
             text-align: center;
             font-family: 'Creepster', cursive;
-            /* Creepster font for modals */
             border-radius: 10px;
-            /* Rounded corners for modals */
         }
 
         #close-button {
             margin-top: 20px;
-            /* Adjusted margin for the Close button */
             padding: 10px 20px;
             background-color: #8b0000;
-            /* Darker red color */
             color: black;
             border: none;
             cursor: pointer;
             font-family: 'Creepster', cursive;
-            /* Creepster font for buttons */
             font-size: 1.2em;
             border-radius: 5px;
-            /* Rounded corners for buttons */
         }
 
         #chat-container {
@@ -107,123 +91,42 @@
             align-items: center;
             width: 100%;
             max-width: 300px;
-            /* Adjusted max width for the chat container */
+            margin-top: 10px;
         }
 
         #chat {
             background-color: #1f1f1f;
-            /* Dark background color for chat */
             color: white;
             padding: 10px;
             border-radius: 10px;
             margin-top: 10px;
             width: 100%;
             max-height: 150px;
-            /* Maximum height for the chat container */
             overflow-y: auto;
-            /* Enable vertical scrolling */
         }
 
         .chat-message {
             margin: 5px 0;
         }
-
-        #chat-input {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            margin-top: 10px;
-        }
-
-        #nickname-and-color {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        #nickname-input,
-        #color-picker {
-            margin-right: 5px;
-            padding: 10px;
-            font-family: 'Creepster', cursive;
-            /* Creepster font for inputs */
-            font-size: 1em;
-            border-radius: 5px;
-            /* Rounded corners for inputs */
-        }
-
-        #emoticon-and-message-input {
-            display: flex;
-            align-items: center;
-            margin-bottom: 10px;
-        }
-
-        #message-input {
-            flex-grow: 1;
-            margin-right: 5px;
-            padding: 10px;
-            font-family: 'Creepster', cursive;
-            /* Creepster font for input */
-            font-size: 1em;
-            color: #8b0000;
-            border-radius: 5px;
-            /* Rounded corners for input */
-        }
-
-        #emoticon-button,
-        #send-button {
-            background-color: #8b0000;
-            /* Darker red color */
-            color: black;
-            border: none;
-            cursor: pointer;
-            padding: 15px;
-            font-family: 'Creepster', cursive;
-            /* Creepster font for buttons */
-            font-size: 1em;
-            border-radius: 5px;
-            /* Rounded corners for buttons */
-        }
-
-        #emoticon-tray {
-            display: none;
-            position: absolute;
-            bottom: 50px;
-            left: 50%;
-            transform: translateX(-50%);
-            background-color: #1f1f1f;
-            /* Dark background color for tray */
-            border-radius: 10px;
-            padding: 10px;
-            width: 80%;
-            max-width: 200px;
-        }
-
-        .emoticon {
-            display: inline-block;
-            margin: 5px;
-            cursor: pointer;
-        }
     </style>
 </head>
-
 <body>
     <h1>Live now:</h1>
 
     <div id="video-container">
-        <!-- You can embed a video window here for your livestream TV later -->
         <iframe width="480" height="270" src="https://www.youtube.com/embed/HJ5AjcwTMZc?si=VosdWuJwHZqpvIFE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
     </div>
 
-    <button id="back-button" onclick="goBack()">Back</button>
-    <button id="schedule-button" onclick="showSchedule()">Schedule</button>
-
-    <div id="modal" style="background-color: white; font-family: Arial, sans-serif;">
-    <h2>THE MENU:</h2>
-    <p id="modal-content">Custom Message</p>
-    <button id="close-button" onclick="closeModal()">Close</button>
+    <div class="button-container">
+        <button id="back-button" onclick="goBack()">Back</button>
+        <button id="schedule-button" onclick="showSchedule()">Schedule</button>
     </div>
 
+    <div id="modal" style="background-color: white; font-family: Arial, sans-serif;">
+        <h2>THE MENU:</h2>
+        <p id="modal-content">3AM UTC - Placehöld 1 +++ 6AM UTC - Longer Placehöld Title +++ 10:30AM UTC - Nothingness +++ 4PM UTC - Still Nothingness +++ 11:30PM UTC - Graveyard Shift</p>
+        <button id="close-button" onclick="closeModal()">Close</button>
+    </div>
 
     <div id="chat-container">
         <div id="chat">
@@ -231,26 +134,19 @@
             <div class="chat-message"><span style="color: green;">CrithLabs:</span> Nope, still a placeholder.</div>
             <div class="chat-message"><span style="color: green;">CrithLabs:</span> 😈</div>
         </div>
-
     </div>
 <script>
     function goBack() {
-        // Implementation for going back. For example:
         window.history.back();
     }
 
     function showSchedule() {
-        // Show the schedule modal
         document.getElementById('modal').style.display = 'block';
     }
 
     function closeModal() {
-        // Close the modal
         document.getElementById('modal').style.display = 'none';
     }
 </script>
-
-
 </body>
-
 </html>

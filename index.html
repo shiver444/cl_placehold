@@ -20,51 +20,34 @@
             overflow: hidden;
         }
 
-        section {
-            margin: 20px;
-            text-align: center;
-            cursor: pointer;
-            font-size: 2em;
-        }
-
-        .glitch {
+        .section-glitch {
             position: relative;
             display: inline-block;
-            animation: glitch 2s infinite linear alternate-reverse;
+            color: #8b0000;
+            cursor: pointer;
+            font-size: 2em;
+            margin: 20px;
+            text-align: center;
         }
 
-        .glitch::before, .glitch::after {
+        .section-glitch::before {
             content: attr(data-text);
             position: absolute;
             top: 0;
             left: 0;
-        }
-
-        .glitch::before {
-            color: #000;
-            clip: rect(2px, auto, 4px, 0);
-        }
-
-        .glitch::after {
             color: #8b0000;
-            clip: rect(5px, auto, 6px, 0);
+            opacity: 0.5;
+            transform: scale(0.95);
         }
 
-        @keyframes glitch {
+        @keyframes heartbeat {
             0%, 100% {
-                transform: translate(0);
+                transform: scale(1);
+                opacity: 1;
             }
-            10% {
-                transform: translate(-5px, 5px);
-            }
-            20%, 40%, 60%, 80% {
-                transform: translate(5px, -5px);
-            }
-            30%, 50%, 70% {
-                transform: translate(-5px, -5px);
-            }
-            90% {
-                transform: translate(5px, 5px);
+            50% {
+                transform: scale(1.15);
+                opacity: 0.8;
             }
         }
 
@@ -86,6 +69,7 @@
             cursor: pointer;
             font-size: 1.2em;
             font-family: 'Creepster', cursive;
+            border-radius: 5px;
         }
 
         #email-box {
@@ -98,7 +82,7 @@
             align-items: center;
         }
 
-        #email-input {
+        #email-input, #join-button {
             width: calc(100% - 20px);
             box-sizing: border-box;
             padding: 10px;
@@ -125,9 +109,9 @@
     </style>
 </head>
 <body>
-    <section class="glitch" data-text="About" onclick="showContent('About')">About</section>
-    <section class="glitch" data-text="TV" onclick="showContent('TV')">TV</section>
-    <section class="glitch" data-text="Join" onclick="showContent('Join')">Join</section>
+    <section id="about" class="section-glitch" data-text="About" onclick="showContent('About')">About</section>
+    <section id="tv" class="section-glitch" data-text="TV" onclick="showContent('TV')">TV</section>
+    <section id="join" class="section-glitch" data-text="Join" onclick="showContent('Join')">Join</section>
 
     <div id="content">
         <p id="content-text"></p>
@@ -140,6 +124,20 @@
     </div>
 
     <script>
+        document.querySelectorAll('.section-glitch').forEach(el => {
+            const duration = Math.random() * 2 + 4; // Duration between 4 to 6 seconds
+            const delay = Math.random() * 2; // Delay up to 2 seconds
+
+            el.style.animation = `heartbeat ${duration}s infinite linear alternate-reverse`;
+            el.style.animationDelay = `${delay}s`;
+
+            const beforeEl = el.querySelector('::before');
+            if (beforeEl) {
+                beforeEl.style.animation = `heartbeat ${duration}s infinite linear alternate`;
+                beforeEl.style.animationDelay = `${delay}s`;
+            }
+        });
+
         function showContent(section) {
             if (section === 'About') {
                 window.location.href = 'about.html';
@@ -153,13 +151,6 @@
         function hideContent() {
             document.getElementById('content').style.display = 'none';
         }
-
-        document.querySelectorAll('.glitch').forEach(function(el) {
-            const randomDuration = Math.random() * 1 + 1.5;
-            const randomDelay = Math.random() * 0.5;
-            el.style.animationDuration = `${randomDuration}s`;
-            el.style.animationDelay = `${randomDelay}s`;
-        });
     </script>
 </body>
 </html>

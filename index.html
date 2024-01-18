@@ -8,8 +8,8 @@
     <style>
         body {
             background-color: black;
-            color: #8b0000; /* Darker red color */
-            font-family: 'Creepster', cursive; /* Creepster font */
+            color: #8b0000;
+            font-family: 'Creepster', cursive;
             margin: 0;
             padding: 0;
             display: flex;
@@ -46,7 +46,7 @@
         }
 
         .glitch::after {
-            color: #8b0000; /* Darker red color */
+            color: #8b0000;
             clip: rect(5px, auto, 6px, 0);
         }
 
@@ -80,32 +80,47 @@
 
         #back-button {
             padding: 10px 20px;
-            background-color: #8b0000; /* Darker red color */
+            background-color: #8b0000;
             color: black;
             border: none;
             cursor: pointer;
             font-size: 1.2em;
-            font-family: 'Creepster', cursive; /* Creepster font */
+            font-family: 'Creepster', cursive;
         }
 
         #email-box {
             margin-top: 20px;
             text-align: center;
+            width: 60%;
+            max-width: 300px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
         }
 
         #email-input {
+            width: calc(100% - 20px);
+            box-sizing: border-box;
             padding: 10px;
-            font-family: 'Creepster', cursive; /* Creepster font */
-            color: #8b0000; /* Darker red color */
+            font-family: 'Creepster', cursive;
+            background-color: black;
+            color: #8b0000;
+            border: 2px solid #8b0000;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            text-align: center;
         }
 
         #join-button {
             padding: 10px 20px;
-            background-color: #8b0000; /* Darker red color */
+            background-color: #8b0000;
             color: black;
-            border: none;
+            border: 2px solid #8b0000;
             cursor: pointer;
-            font-family: 'Creepster', cursive; /* Creepster font */
+            width: calc(100% - 20px);
+            box-sizing: border-box;
+            border-radius: 5px;
+            font-family: 'Creepster', cursive;
         }
     </style>
 </head>
@@ -127,11 +142,11 @@
     <script>
         function showContent(section) {
             if (section === 'About') {
-                window.location.href = 'about.html'; // Link to about.html
+                window.location.href = 'about.html';
             } else if (section === 'TV') {
-                window.location.href = 'tv.html'; // Link to tv.html
+                window.location.href = 'tv.html';
             } else if (section === 'Join') {
-                window.location.href = 'join.html'; // Link to join.html
+                window.location.href = 'join.html';
             }
         }
 
@@ -139,10 +154,9 @@
             document.getElementById('content').style.display = 'none';
         }
 
-        // JavaScript to randomize animation duration and delay
         document.querySelectorAll('.glitch').forEach(function(el) {
-            const randomDuration = Math.random() * 1 + 1.5; // Random duration between 0.5s and 1s
-            const randomDelay = Math.random() * 0.5; // Random delay up to 0.5s
+            const randomDuration = Math.random() * 1 + 1.5;
+            const randomDelay = Math.random() * 0.5;
             el.style.animationDuration = `${randomDuration}s`;
             el.style.animationDelay = `${randomDelay}s`;
         });

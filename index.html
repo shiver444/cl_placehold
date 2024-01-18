@@ -30,7 +30,7 @@
         .glitch {
             position: relative;
             display: inline-block;
-            animation: glitch 1s infinite linear alternate-reverse;
+            animation: glitch 2s infinite linear alternate-reverse;
         }
 
         .glitch::before, .glitch::after {
@@ -51,14 +51,20 @@
         }
 
         @keyframes glitch {
-            2%, 64% {
-                transform: translate(2px, 0) skewX(10deg);
+            0%, 100% {
+                transform: translate(0);
             }
-            4%, 60% {
-                transform: translate(-2px, 0) skewX(-10deg);
+            10% {
+                transform: translate(-5px, 5px);
             }
-            62% {
-                transform: translate(0, 0) skew(0);
+            20%, 40%, 60%, 80% {
+                transform: translate(5px, -5px);
+            }
+            30%, 50%, 70% {
+                transform: translate(-5px, -5px);
+            }
+            90% {
+                transform: translate(5px, 5px);
             }
         }
 
@@ -132,16 +138,14 @@
         function hideContent() {
             document.getElementById('content').style.display = 'none';
         }
+
+        // JavaScript to randomize animation duration and delay
+        document.querySelectorAll('.glitch').forEach(function(el) {
+            const randomDuration = Math.random() * 1 + 1.5; // Random duration between 0.5s and 1s
+            const randomDelay = Math.random() * 0.5; // Random delay up to 0.5s
+            el.style.animationDuration = `${randomDuration}s`;
+            el.style.animationDelay = `${randomDelay}s`;
+        });
     </script>
-
-    <script>
-    function handleButtonClick() {
-        // Your existing code
-
-        // Prevent default action
-        event.preventDefault();
-    }
-</script>
-
 </body>
 </html>

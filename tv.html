@@ -120,7 +120,10 @@
     <h1>Live now:</h1>
 
     <div id="video-container">
-        <iframe width="480" height="270" src="https://www.youtube.com/embed/HJ5AjcwTMZc?si=VosdWuJwHZqpvIFE" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe>
+       <div id="video-container" onclick="loadVideo()">
+    <img src="https://i.ytimg.com/vi/HJ5AjcwTMZc/maxresdefault.jpg" alt="Video Thumbnail" id="video-thumbnail" style="width: 480px; height: 270px; cursor: pointer;">
+</div>
+
     </div>
 
     <div class="button-container">
@@ -142,6 +145,24 @@
         </div>
     </div>
 <script>
+ function loadVideo() {
+            var container = document.getElementById('video-container');
+            var iframe = document.createElement('iframe');
+            
+            iframe.setAttribute('src', 'https://www.youtube.com/embed/HJ5AjcwTMZc?autoplay=1');
+            iframe.setAttribute('width', '480');
+            iframe.setAttribute('height', '270');
+            iframe.setAttribute('frameborder', '0');
+            iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
+            iframe.setAttribute('allowfullscreen', 'true');
+
+            // Remove the thumbnail image
+            var thumbnail = document.getElementById('video-thumbnail');
+            container.removeChild(thumbnail);
+
+            container.appendChild(iframe);
+        }
+    
   function goBack() {
     window.location.href = 'index.html'; // Directly navigate to the index page
     }

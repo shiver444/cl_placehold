@@ -31,6 +31,13 @@
         p {
             font-size: 1.2em;
         }
+        .links-container {
+            display: flex;
+            justify-content: center; /* Aligns items horizontally */
+            flex-wrap: wrap; /* Allows items to wrap on small screens */
+            gap: 10px; /* Adds space between links */
+            margin-top: 20px; /* Additional spacing from the text above */
+        }
         a {
             color: #8b0000;
             text-decoration: none;
@@ -54,10 +61,12 @@
         <h1>404: Pit unlocked</h1>
         <p>Nooo! Not the pit!</p>
         <p>Let's get you back to safety:</p>
-        <a href="https://www.crithlabs.com/">Home</a> |
-        <a href="https://www.crithlabs.com/about">About Us</a> |
-        <a href="https://www.crithlabs.com/tv">CrithLabs TV</a> |
-        <a href="https://www.crithlabs.com/join">Join Us</a>
+        <div class="links-container">
+            <a href="https://www.crithlabs.com/">Home</a> |
+            <a href="https://www.crithlabs.com/about">About</a> |
+            <a href="https://www.crithlabs.com/tv">CrithLabs TV</a> |
+            <a href="https://www.crithlabs.com/join">Join</a>
+        </div>
     </div>
 </body>
 </html>

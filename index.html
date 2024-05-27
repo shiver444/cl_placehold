@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CrithLabs: Web3 Microapps - Livestream TV - Events </title>
 
-   <!-- Add meta description here -->
+    <!-- Add meta description here -->
     <meta name="description" content="Join Crithlabs, a community of next-level content creators, musicians, visual artists, brands, and businesses. Web3 microapps - livestream TV - events.">
     <link rel="canonical" href="https://crithlabs.com/">
 
     <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
 
     <style>
         body {
@@ -114,7 +114,7 @@
             font-family: 'Creepster', cursive;
         }
 
-         .visually-hidden {
+        .visually-hidden {
             position: absolute;
             width: 1px;
             height: 1px;
@@ -125,11 +125,56 @@
             border: 0;
             white-space: nowrap; /* added to keep content on one line */
         }
+
+        /* Pop-up styles */
+        .popup {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: white;
+            color: #8b0000;
+            padding: 20px;
+            text-align: center;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            width: 80%;
+            max-width: 400px;
+        }
+
+        .popup h2 {
+            font-size: 2em;
+            margin-bottom: 20px;
+            font-family: 'Creepster', cursive;
+        }
+
+        .popup .event-details {
+            font-size: 1.2em;
+            margin-bottom: 20px;
+        }
+
+        .popup .event-link {
+            color: #8b0000;
+            text-decoration: underline;
+        }
+
+        .popup .close-button {
+            padding: 10px 20px;
+            background-color: #8b0000;
+            color: black;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            font-family: 'Creepster', cursive;
+            border-radius: 5px;
+        }
     </style>
 </head>
 <body>
     <h1 class="visually-hidden">CrithLabs: web3 microapps - livestream TV - events. </h1>
-    
+
     <section id="about" class="section-glitch" data-text="About" onclick="showContent('About')">About</section>
     <section id="tv" class="section-glitch" data-text="TV" onclick="showContent('TV')">TV</section>
     <section id="join" class="section-glitch" data-text="Join" onclick="showContent('Join')">Join</section>
@@ -140,9 +185,36 @@
     </div>
 
     <div id="email-box">
-        <input type="email" id="email-input" placeholder="I want your mail">
+        <input type="email" id="email-input" placeholder="I want your mail (placeholder atm)">
         <button id="join-button">Keep me posted!</button>
     </div>
+
+    <!-- Pop-up window for event announcement -->
+   <div id="event-popup" class="popup glow">
+        <h2>Pssst!</h2>
+        <p class="event-details">October 12: <a href="https://jen-pop.com" target="_blank" class="event-link">Jen Pop (LA)</a> + NothingOverBeer @ The Old Glassworks Ptuj, Slovenia!</p>
+        <p><a href="mailto:crith@crithlabs.com">Send us an email called "crithster egg"</a>. You're in for a treat!</p>
+
+
+        <button class="close-button" onclick="closePopup()">Close</button>
+   </div>
+
+    <style>
+    /* Glowing effect for the popup */
+    .glow {
+        animation: glow 1.5s ease-in-out infinite alternate;
+    }
+
+    @keyframes glow {
+        from {
+            box-shadow: 0 0 10px #8b0000;
+        }
+        to {
+            box-shadow: 0 0 20px #ff0000;
+        }
+    }
+    </style>
+
 
     <script>
         document.querySelectorAll('.section-glitch').forEach(el => {
@@ -172,6 +244,41 @@
         function hideContent() {
             document.getElementById('content').style.display = 'none';
         }
+
+        // Function to close the popup
+        function closePopup() {
+            document.getElementById('event-popup').style.display = 'none';
+        }
+
+        // Function to show the popup when the page loads
+        window.onload = function() {
+            document.getElementById('event-popup').style.display = 'block';
+        }
+
+
+
     </script>
+
+    <script>
+            // Function to check if the popup has been shown in the current session
+            function checkPopupShown() {
+                // Check if a sessionStorage item exists indicating that the popup has been shown before in this session
+                if (!sessionStorage.getItem('popupShown')) {
+                    // If not shown before in this session, display the popup
+                    document.getElementById('event-popup').style.display = 'block';
+
+                    // Set a sessionStorage item to indicate that the popup has been shown in this session
+                    sessionStorage.setItem('popupShown', true);
+                }
+            }
+
+            // Call the function to check if the popup should be shown
+            window.onload = function() {
+                checkPopupShown();
+            };
+    </script>
+
 </body>
+
 </html>
+

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrithLabs: Web3 Microapps - Livestream TV - Events </title>
+    <title>CrithLabs: Web3 Microapps - Livestream TV - Events</title>
 
     <!-- Add meta description here -->
     <meta name="description" content="Join Crithlabs, a community of next-level content creators, musicians, visual artists, brands, and businesses. Web3 microapps - livestream TV - events.">
@@ -173,7 +173,7 @@
     </style>
 </head>
 <body>
-    <h1 class="visually-hidden">CrithLabs: web3 microapps - livestream TV - events. </h1>
+    <h1 class="visually-hidden">CrithLabs: web3 microapps - livestream TV - events.</h1>
 
     <section id="about" class="section-glitch" data-text="About" onclick="showContent('About')">About</section>
     <section id="tv" class="section-glitch" data-text="TV" onclick="showContent('TV')">TV</section>
@@ -190,14 +190,20 @@
     </div>
 
     <!-- Pop-up window for event announcement -->
-   <div id="event-popup" class="popup glow">
+    <div id="event-popup" class="popup glow">
         <h2>Pssst!</h2>
         <p class="event-details">October 12: <a href="https://jen-pop.com" target="_blank" class="event-link">Jen Pop (LA)</a> + NothingOverBeer @ The Old Glassworks Ptuj, Slovenia!</p>
         <p><a href="mailto:crith@crithlabs.com">Send us an email titled "crithster egg"</a>. You're in for a treat!</p>
-
-
         <button class="close-button" onclick="closePopup()">Close</button>
-   </div>
+    </div>
+
+    <!-- New pop-up window for embedded link -->
+    <div id="promo-popup" class="popup glow">
+        <h2>Miann's album 'GGTB' is out now!</h2>
+        <p class="event-details">Dark, filthy, and for proper basement creatures only.</p>
+        <p><a href="https://distrokid.com/hyperfollow/miann/ggtb" target="_blank" class="event-link">Listen Now</a></p>
+        <button class="close-button" onclick="closePromoPopup()">Close</button>
+    </div>
 
     <style>
     /* Glowing effect for the popup */
@@ -214,7 +220,6 @@
         }
     }
     </style>
-
 
     <script>
         document.querySelectorAll('.section-glitch').forEach(el => {
@@ -250,35 +255,33 @@
             document.getElementById('event-popup').style.display = 'none';
         }
 
-        // Function to show the popup when the page loads
-        window.onload = function() {
-            document.getElementById('event-popup').style.display = 'block';
+        // Function to close the promo popup
+        function closePromoPopup() {
+            document.getElementById('promo-popup').style.display = 'none';
         }
 
-
-
-    </script>
-
-    <script>
-            // Function to check if the popup has been shown in the current session
-            function checkPopupShown() {
-                // Check if a sessionStorage item exists indicating that the popup has been shown before in this session
-                if (!sessionStorage.getItem('popupShown')) {
-                    // If not shown before in this session, display the popup
-                    document.getElementById('event-popup').style.display = 'block';
-
-                    // Set a sessionStorage item to indicate that the popup has been shown in this session
-                    sessionStorage.setItem('popupShown', true);
-                }
+        // Function to check if the popup has been shown in the current session
+        function checkPopupShown() {
+            if (!sessionStorage.getItem('popupShown')) {
+                document.getElementById('event-popup').style.display = 'block';
+                sessionStorage.setItem('popupShown', 'true');
             }
+        }
 
-            // Call the function to check if the popup should be shown
-            window.onload = function() {
-                checkPopupShown();
-            };
+        // Function to check if the promo popup has been shown in the current session
+        function checkPromoPopupShown() {
+            if (!sessionStorage.getItem('promoPopupShown')) {
+                document.getElementById('promo-popup').style.display = 'block';
+                sessionStorage.setItem('promoPopupShown', 'true');
+            }
+        }
+
+        // Call the function to check if the popups should be shown
+        window.onload = function() {
+            checkPopupShown();
+            checkPromoPopupShown();
+        };
     </script>
-
 </body>
-
 </html>
 

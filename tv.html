@@ -5,12 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TV - CrithLabs</title>
 
-     <!-- Add meta description here -->
+    <!-- Add meta description here -->
     <meta name="description" content="Watch CrithLabs TV! Join Crithlabs, a community of next-level content creators, musicians, visual artists, brands, and businesses. Web3 microapps - livestream TV - events.">
     <link rel="canonical" href="https://crithlabs.com/tv">
 
-        <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-<link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
+    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
 
     <style>
         body {
@@ -35,18 +35,38 @@
             text-decoration: line-through;
         }
 
+        /* Updated TV-like container */
         #video-container {
             position: relative;
-            width: 100%;
-            max-width: 400px;
-            margin: auto;
+            width: 90%;
+            max-width: 480px;
+            height: 270px;
+            background: black;
+            border: 4px solid #8b0000; /* Thinner and red border */
+            border-radius: 20px;
+            box-shadow: 0 0 20px rgba(139, 0, 0, 0.7); /* Red glow effect */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
         }
 
-        #video-frame {
-            width: 100%;
-            height: 0;
-            padding-bottom: 56.25%;
-            border: none;
+        /* Flashing text with chat box font */
+        .flashing-text {
+            color: #8b0000;
+            font-family: 'Arial', sans-serif; /* Updated to match chat box font */
+            font-size: 1.5em;
+            text-align: center;
+            animation: flash 1s ease-in-out infinite alternate;
+        }
+
+        @keyframes flash {
+            from {
+                opacity: 1;
+            }
+            to {
+                opacity: 0.1;
+            }
         }
 
         .button-container {
@@ -120,10 +140,9 @@
 <body>
     <h1>Live On Crithlabs TV:</h1>
 
-    <div id="video-container" onclick="loadVideo()" style="cursor: pointer;">
-    <img src="https://i.ibb.co/PWwnxpV/cllll-1.webp" alt="Video Thumbnail" id="video-thumbnail" style="width: 480px; height: 270px;">
-</div>
-
+    <!-- Updated TV-like screen container -->
+    <div id="video-container">
+        <div class="flashing-text">LOADING...<br> please come back later.</div>
     </div>
 
     <div class="button-container">
@@ -144,35 +163,19 @@
             <div class="chat-message"><span style="color: green;">CrithLabs:</span> 😈</div>
         </div>
     </div>
-<script>
-function loadVideo() {
-    var container = document.getElementById('video-container');
-    container.innerHTML = ''; // Clear the container
 
-    var iframe = document.createElement('iframe');
-    
-    iframe.setAttribute('src', 'https://www.youtube.com/embed/HJ5AjcwTMZc?autoplay=1');
-    iframe.setAttribute('width', '480');
-    iframe.setAttribute('height', '270');
-    iframe.setAttribute('frameborder', '0');
-    iframe.setAttribute('allow', 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share');
-    iframe.setAttribute('allowfullscreen', 'true');
+    <script>
+        function goBack() {
+            window.location.href = 'index.html'; // Directly navigate to the index page
+        }
 
-    container.appendChild(iframe);
-}
+        function showSchedule() {
+            document.getElementById('modal').style.display = 'block';
+        }
 
-    
-  function goBack() {
-    window.location.href = 'index.html'; // Directly navigate to the index page
-    }
-
-    function showSchedule() {
-        document.getElementById('modal').style.display = 'block';
-    }
-
-    function closeModal() {
-        document.getElementById('modal').style.display = 'none';
-    }
-</script>
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+    </script>
 </body>
 </html>

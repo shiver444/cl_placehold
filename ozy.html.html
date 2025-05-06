@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ozy "Crith" Kokol – Professional Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --main-color: #1a1a1a;
+      --accent-color: #005577;
+      --background: #f7f7f7;
+      --font: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--background);
+      color: var(--main-color);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      margin-bottom: 32px;
+    }
+
+    .avatar {
+      width: 64px;
+      height: 64px;
+      border-radius: 50%;
+      object-fit: cover;
+      margin-bottom: 12px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    .section {
+      border-top: 1px solid #ddd;
+    }
+
+    .section-header {
+      padding: 14px 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+    }
+
+    .section-header:hover {
+      background-color: #f0f0f0;
+    }
+
+    .section-content {
+      display: none;
+      padding: 12px 10px;
+      background-color: white;
+      font-size: 0.95rem;
+    }
+
+    .active .section-content {
+      display: block;
+    }
+
+    .section-header::after {
+      content: '+';
+      font-weight: 600;
+    }
+
+    .active .section-header::after {
+      content: '-';
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <img src="ocl.jpg" alt="Avatar" class="avatar" />
+      <h1>Ozy "Crith" Kokol</h1>
+      <p>Creative Strategist • Technologist • Consultant</p>
+    </header>
+
+    <div id="about" class="section">
+      <div class="section-header" onclick="toggleSection('about')">About</div>
+      <div class="section-content">
+        <p>Hi, I'm a multidisciplinary professional blending creative strategy, tech insights, and entrepreneurial instinct. I work with forward-thinking teams to build, brand, and scale ideas.</p>
+      </div>
+    </div>
+
+    <div id="content" class="section">
+      <div class="section-header" onclick="toggleSection('content')">Content</div>
+      <div class="section-content">
+        <p>Thoughts, links, and essays on emerging media, tech, and transformation. Coming soon.</p>
+      </div>
+    </div>
+
+    <div id="work" class="section">
+      <div class="section-header" onclick="toggleSection('work')">Work</div>
+      <div class="section-content">
+        <p>Projects and clients range from startups to global brands. I specialize in strategy, branding, and product architecture.</p>
+      </div>
+    </div>
+
+    <div id="contact" class="section">
+      <div class="section-header" onclick="toggleSection('contact')">Contact</div>
+      <div class="section-content">
+        <p>Email: <a href="mailto:you@example.com">you@example.com</a><br/>
+        LinkedIn: <a href="https://linkedin.com/in/yourprofile" target="_blank">yourprofile</a></p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const allSections = document.querySelectorAll('.section');
+      allSections.forEach(section => {
+        if (section.id === id) {
+          section.classList.toggle('active');
+        } else {
+          section.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

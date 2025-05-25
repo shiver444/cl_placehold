@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Miann's Filthy Basement</title>
+  <style>
+    body {
+      margin: 0;
+      background-color: #0e0e0e;
+      color: #e4e4e4;
+      font-family: 'Georgia', serif;
+      background-image: url('Mianns-Filthy-Basement.png');
+      background-size: cover;
+      background-repeat: no-repeat;
+      background-position: center top;
+    }
+
+    .overlay {
+      background: rgba(0, 0, 0, 0.85);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      padding: 40px 20px;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5em;
+      color: #b30000;
+      margin-bottom: 0.2em;
+    }
+
+    h2 {
+      font-size: 1.2em;
+      color: #ccc;
+      margin-top: 0;
+    }
+
+    iframe {
+      margin: 40px auto;
+      border-radius: 12px;
+      max-width: 100%;
+    }
+
+    .buttons {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 15px;
+      margin-top: 40px;
+    }
+
+    .buttons a {
+      background: #1e1e1e;
+      padding: 10px 20px;
+      color: #f0f0f0;
+      text-decoration: none;
+      border: 1px solid #444;
+      border-radius: 8px;
+      transition: background 0.3s;
+      width: 200px;
+      text-align: center;
+    }
+
+    .buttons a:hover {
+      background: #b30000;
+      color: #fff;
+    }
+
+    @media (min-width: 768px) {
+      h1 {
+        font-size: 3em;
+      }
+      h2 {
+        font-size: 1.5em;
+      }
+      .buttons {
+        flex-direction: row;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="overlay">
+    <div>
+      <h1>Miann's Filthy Basement</h1>
+      <h2>The playlist for the wicked</h2>
+      <iframe style="border-radius:12px" src="https://open.spotify.com/embed/playlist/6Znh3GjV4RPLptrvt7JVOf?utm_source=generator" width="100%" height="352" frameBorder="0" allowfullscreen="" allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" loading="lazy"></iframe>
+    </div>
+    <div class="buttons">
+      <a href="https://crithlabs.com" target="_blank">CrithLabs</a>
+      <a href="mailto:crith@crithlabs.com">Contact</a>
+      <a href="https://soundcloud.com/miannverse" target="_blank">MiannCloud</a>
+    </div>
+  </div>
+</body>
+</html>

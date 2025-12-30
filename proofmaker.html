@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>The Proofmaker | CrithLabs</title>
+
+  <meta name="description" content="The Proofmaker is a lightweight fingerprinting tool for generating verifiable digital proof. Built by CrithLabs.">
+  <link rel="canonical" href="https://crithlabs.com/proofmaker.html">
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --main-color: #1a1a1a;
+      --accent-color: #005577;
+      --background: #f7f7f7;
+      --font: 'Inter', sans-serif;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: var(--font);
+      background-color: var(--background);
+      color: var(--main-color);
+      line-height: 1.6;
+      padding: 24px 16px;
+    }
+
+    .container {
+      max-width: 480px;
+      margin: 0 auto;
+    }
+
+    header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 32px;
+    }
+
+    .avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 8px;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 600;
+    }
+
+    p {
+      font-size: 0.95rem;
+    }
+
+    .section {
+      border-top: 1px solid #ddd;
+    }
+
+    .section-header {
+      padding: 14px 10px;
+      cursor: pointer;
+      font-weight: 600;
+      color: var(--accent-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: 1rem;
+    }
+
+    .section-header:hover {
+      background-color: #f0f0f0;
+    }
+
+    .section-content {
+      display: none;
+      padding: 12px 10px;
+      background-color: white;
+      font-size: 0.95rem;
+    }
+
+    .active .section-content {
+      display: block;
+    }
+
+    .section-header::after {
+      content: '+';
+      font-weight: 600;
+    }
+
+    .active .section-header::after {
+      content: '-';
+    }
+
+    a {
+      color: var(--accent-color);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .download-btn {
+      display: inline-block;
+      margin-top: 10px;
+      padding: 10px 14px;
+      background-color: var(--accent-color);
+      color: white;
+      border-radius: 6px;
+      font-weight: 600;
+    }
+
+    .download-btn:hover {
+      opacity: 0.9;
+      text-decoration: none;
+    }
+
+    code {
+      font-size: 0.8rem;
+      background: #f2f2f2;
+      padding: 2px 4px;
+      border-radius: 4px;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="container">
+
+    <!-- HEADER -->
+    <header>
+      <img src="fingerprint.png" alt="The Proofmaker icon" class="avatar" />
+      <div>
+        <h1>The Proofmaker</h1>
+        <p>Digital fingerprinting & verifiable proof</p>
+      </div>
+    </header>
+
+    <!-- ABOUT -->
+    <div id="about" class="section active">
+      <div class="section-header" onclick="toggleSection('about')">What it is</div>
+      <div class="section-content">
+        <p>
+          The Proofmaker is a lightweight desktop tool for generating
+          cryptographic fingerprints of digital files and content.
+          It helps establish authorship, integrity, and timing —
+          without relying on centralized platforms.
+        </p>
+      </div>
+    </div>
+
+    <!-- DOWNLOAD -->
+    <div id="download" class="section">
+      <div class="section-header" onclick="toggleSection('download')">Download</div>
+      <div class="section-content">
+        <p><strong>Windows installer</strong></p>
+        <p>Version 1.0.0 • Inno Setup (.exe)</p>
+
+        <!-- THIS IS WHERE YOU PUT THE FILE -->
+        <a class="download-btn"
+           href="/proofmaker/TheProofmaker-Setup.exe"
+           download>
+          Download for Windows
+        </a>
+
+        <!-- Optional, but recommended -->
+        <p style="margin-top:10px;">
+          SHA-256: <code>PUT_HASH_HERE</code>
+        </p>
+
+        <p style="font-size:0.85rem;color:#555;margin-top:8px;">
+          Windows may show a security warning for new installers.
+        </p>
+      </div>
+    </div>
+
+    <!-- SUPPORT -->
+    <div id="support" class="section">
+      <div class="section-header" onclick="toggleSection('support')">Support the project</div>
+      <div class="section-content">
+        <p>
+          The Proofmaker is built and maintained independently.
+          If you find it useful, you can support further development below.
+        </p>
+
+        <p>
+          • <a href="#" target="_blank">Donate via crypto</a><br/>
+          • <a href="#" target="_blank">Buy me a coffee</a><br/>
+          • <a href="mailto:crith@crithlabs.com">Contact</a>
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    function toggleSection(id) {
+      const allSections = document.querySelectorAll('.section');
+      allSections.forEach(section => {
+        if (section.id === id) {
+          section.classList.toggle('active');
+        } else {
+          section.classList.remove('active');
+        }
+      });
+    }
+  </script>
+</body>
+</html>

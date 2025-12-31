@@ -230,21 +230,118 @@
       </div>
     </div>
     
-    <!-- SUPPORT -->
-    <div id="support" class="section">
-      <div class="section-header" onclick="toggleSection('support')">Support the project</div>
-      <div class="section-content">
-        <p>
-          You can support further CrithLabs development below. 
-        </p>
+<!-- SUPPORT -->
+<div id="support" class="section">
+  <div class="section-header" onclick="toggleSection('support')">
+    Support CrithLabs
+  </div>
 
-        <p>
-          • <a href="#" target="_blank">Donate (DAG, USDT)</a><br/>
-          • <a href="#" target="_blank">Buy us a 6-pack</a><br/>
-          • <a href="mailto:crith@crithlabs.com">Contact</a>
-        </p>
-      </div>
+  <div class="section-content">
+    <p>
+      Direct support options:
+    </p>
+
+    <div class="donation-address">
+      <strong>DAG:</strong>
+      <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
+      <button class="copy-btn" data-target="dag-address" title="Copy DAG address">Copy</button>
+      <span class="copy-feedback" id="dag-feedback"></span>
     </div>
+
+    <div class="donation-address">
+      <strong>USDT (ERC-20):</strong>
+      <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
+      <button class="copy-btn" data-target="usdt-address" title="Copy USDT address">Copy</button>
+      <span class="copy-feedback" id="usdt-feedback"></span>
+    </div>
+
+    <div class="donation-address">
+      <strong>PayPal:</strong>
+      <a href="https://paypal.me/crithlabs" target="_blank" rel="noopener noreferrer" class="copy-btn" title="Click to support CrithLabs">
+        Buy us a six-pack 🍺
+      </a>
+    </div>
+
+    <p class="disclaimer">
+      Please double-check the network before sending. Transactions are non-refundable.
+    </p>
+  </div>
+</div>
+
+<!-- Copy Button Script -->
+<script>
+document.querySelectorAll('.copy-btn').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.getAttribute('data-target');
+    if (targetId) {
+      const text = document.getElementById(targetId).innerText;
+      navigator.clipboard.writeText(text).then(() => {
+        const feedback = document.getElementById(targetId + '-feedback');
+        feedback.innerText = 'Copied ✓';
+        feedback.style.color = 'green';
+        feedback.style.marginLeft = '8px';
+        setTimeout(() => { feedback.innerText = ''; }, 1500);
+      });
+    }
+  });
+});
+</script>
+
+<!-- Support Section CSS -->
+<style>
+.section-content {
+  padding: 12px 0;
+}
+
+.donation-address {
+  margin-bottom: 14px;
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.donation-address strong {
+  width: 120px;
+}
+
+.donation-address code {
+  background-color: #f5f5f5;
+  padding: 2px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.donation-address button.copy-btn,
+.donation-address a.copy-btn {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  padding: 4px 8px;
+  cursor: pointer;
+  text-decoration: none;
+  color: #fff;
+  background-color: #0070ba;
+  border: none;
+  border-radius: 4px;
+  transition: background-color 0.2s;
+}
+
+.donation-address button.copy-btn:hover,
+.donation-address a.copy-btn:hover {
+  background-color: #005c99;
+}
+
+.copy-feedback {
+  font-size: 0.85rem;
+}
+
+.disclaimer {
+  font-size: 0.85rem;
+  color: #555;
+  margin-top: 12px;
+}
+</style>
+
+
 
   </div>
 
@@ -262,6 +359,7 @@
   </script>
 </body>
 </html>
+
 
 
 

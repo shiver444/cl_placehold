@@ -250,9 +250,11 @@
 
     <div class="donation-address">
       <strong>USDT (ERC-20):</strong>
-      <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
-      <button class="copy-btn" data-target="usdt-address" title="Copy USDT address">Copy</button>
-      <span class="copy-feedback" id="usdt-feedback"></span>
+      <div style="display:flex; align-items:center; flex-wrap:wrap;">
+        <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
+        <button class="copy-btn" data-target="usdt-address" title="Copy USDT address" style="margin-left:8px;">Copy</button>
+        <span class="copy-feedback" id="usdt-feedback" style="margin-left:8px;"></span>
+      </div>
     </div>
 
     <div class="donation-address">
@@ -279,7 +281,6 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
         const feedback = document.getElementById(targetId + '-feedback');
         feedback.innerText = 'Copied ✓';
         feedback.style.color = 'green';
-        feedback.style.marginLeft = '8px';
         setTimeout(() => { feedback.innerText = ''; }, 1500);
       });
     }
@@ -296,7 +297,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 .donation-address {
   margin-bottom: 14px;
   display: flex;
-  align-items: center;
+  align-items: flex-start;
   flex-wrap: wrap;
 }
 
@@ -343,6 +344,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 
 
 
+
   </div>
 
   <script>
@@ -359,6 +361,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   </script>
 </body>
 </html>
+
 
 
 

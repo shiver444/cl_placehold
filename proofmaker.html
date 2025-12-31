@@ -241,6 +241,7 @@
 
     <!-- DAG -->
     <div class="donation-address">
+      <img src="dag-logo.png" alt="DAG" class="donation-icon">
       <strong>DAG:</strong>
       <div class="donation-row">
         <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
@@ -251,6 +252,7 @@
 
     <!-- USDT -->
     <div class="donation-address">
+      <img src="usdt-logo.png" alt="USDT" class="donation-icon">
       <strong>USDT (ERC-20):</strong>
       <div class="donation-row">
         <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
@@ -261,6 +263,7 @@
 
     <!-- PayPal -->
     <div class="donation-address">
+      <img src="paypal-logo.png" alt="PayPal" class="donation-icon">
       <strong>PayPal:</strong>
       <div class="donation-row">
         <a href="https://paypal.me/crithlabs" target="_blank" rel="noopener noreferrer" class="copy-btn" title="Click to support CrithLabs">
@@ -302,12 +305,21 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 .donation-address {
   margin-bottom: 14px;
   display: flex;
-  flex-wrap: wrap;
   align-items: flex-start;
+  flex-wrap: wrap;
 }
 
 .donation-address strong {
   width: 140px;
+  display: flex;
+  align-items: center;
+}
+
+.donation-icon {
+  width: 18px;
+  height: 18px;
+  margin-right: 6px;
+  vertical-align: middle;
 }
 
 .donation-row {
@@ -359,6 +371,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 
 
 
+
   </div>
 
   <script>
@@ -375,6 +388,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   </script>
 </body>
 </html>
+
 
 
 

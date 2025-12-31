@@ -237,31 +237,36 @@
   </div>
 
   <div class="section-content">
-    <p>
-      Direct support options:
-    </p>
+    <p>Direct support options:</p>
 
+    <!-- DAG -->
     <div class="donation-address">
       <strong>DAG:</strong>
-      <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
-      <button class="copy-btn" data-target="dag-address" title="Copy DAG address">Copy</button>
-      <span class="copy-feedback" id="dag-feedback"></span>
-    </div>
-
-    <div class="donation-address">
-      <strong>USDT (ERC-20):</strong>
-      <div style="display:flex; align-items:center; flex-wrap:wrap;">
-        <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
-        <button class="copy-btn" data-target="usdt-address" title="Copy USDT address" style="margin-left:8px;">Copy</button>
-        <span class="copy-feedback" id="usdt-feedback" style="margin-left:8px;"></span>
+      <div class="donation-row">
+        <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
+        <button class="copy-btn" data-target="dag-address" title="Copy DAG address">Copy</button>
+        <span class="copy-feedback" id="dag-feedback"></span>
       </div>
     </div>
 
+    <!-- USDT -->
+    <div class="donation-address">
+      <strong>USDT (ERC-20):</strong>
+      <div class="donation-row">
+        <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
+        <button class="copy-btn" data-target="usdt-address" title="Copy USDT address">Copy</button>
+        <span class="copy-feedback" id="usdt-feedback"></span>
+      </div>
+    </div>
+
+    <!-- PayPal -->
     <div class="donation-address">
       <strong>PayPal:</strong>
-      <a href="https://paypal.me/crithlabs" target="_blank" rel="noopener noreferrer" class="copy-btn" title="Click to support CrithLabs">
-        Buy us a six-pack 🍺
-      </a>
+      <div class="donation-row">
+        <a href="https://paypal.me/crithlabs" target="_blank" rel="noopener noreferrer" class="copy-btn" title="Click to support CrithLabs">
+          Buy us a six-pack 🍺
+        </a>
+      </div>
     </div>
 
     <p class="disclaimer">
@@ -297,23 +302,30 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
 .donation-address {
   margin-bottom: 14px;
   display: flex;
-  align-items: flex-start;
   flex-wrap: wrap;
+  align-items: flex-start;
 }
 
 .donation-address strong {
-  width: 120px;
+  width: 140px;
 }
 
-.donation-address code {
+.donation-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  flex: 1;
+}
+
+.donation-row code {
   background-color: #f5f5f5;
   padding: 2px 6px;
   border-radius: 4px;
   font-family: monospace;
 }
 
-.donation-address button.copy-btn,
-.donation-address a.copy-btn {
+.donation-row button.copy-btn,
+.donation-row a.copy-btn {
   margin-left: 8px;
   font-size: 0.85rem;
   padding: 4px 8px;
@@ -326,13 +338,14 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   transition: background-color 0.2s;
 }
 
-.donation-address button.copy-btn:hover,
-.donation-address a.copy-btn:hover {
+.donation-row button.copy-btn:hover,
+.donation-row a.copy-btn:hover {
   background-color: #005c99;
 }
 
 .copy-feedback {
   font-size: 0.85rem;
+  margin-left: 8px;
 }
 
 .disclaimer {
@@ -341,6 +354,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   margin-top: 12px;
 }
 </style>
+
 
 
 
@@ -361,6 +375,7 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   </script>
 </body>
 </html>
+
 
 
 

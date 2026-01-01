@@ -285,24 +285,6 @@
 </div>
 
 
-<!-- Copy Button Script -->
-<script>
-document.querySelectorAll('.copy-btn').forEach(btn => {
-  btn.addEventListener('click', () => {
-    const targetId = btn.getAttribute('data-target');
-    if (targetId) {
-      const text = document.getElementById(targetId).innerText;
-      navigator.clipboard.writeText(text).then(() => {
-        const feedback = document.getElementById(targetId + '-feedback');
-        feedback.innerText = 'Copied ✓';
-        feedback.style.color = 'green';
-        setTimeout(() => { feedback.innerText = ''; }, 1500);
-      });
-    }
-  });
-});
-</script>
-
 <!-- Support Section CSS -->
 <style>
 .section-content {
@@ -494,23 +476,30 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
     }
   </script>
 
-  <script>
+<script>
 document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   btn.addEventListener('click', () => {
-    const id = btn.dataset.target;
-    const text = document.getElementById(id).innerText;
+    const targetId = btn.dataset.target;
+    const text = document.getElementById(targetId).innerText;
+
     navigator.clipboard.writeText(text).then(() => {
-      const fb = document.getElementById(id + '-feedback');
-      fb.textContent = 'Copied ✓';
-      setTimeout(() => fb.textContent = '', 1500);
+      const originalText = btn.innerText;
+
+      btn.innerText = 'Copied ✓';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }, 1500);
     });
   });
 });
 </script>
-
   
 </body>
 </html>
+
 
 
 

@@ -235,7 +235,6 @@
   </div>
 </div>
 
-    
 <!-- SUPPORT -->
 <div id="support" class="section">
   <div class="section-header" onclick="toggleSection('support')">
@@ -347,8 +346,10 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   padding: 3px 6px;
   border-radius: 4px;
   font-family: monospace;
-  word-break: break-all;
+  word-break: break-word;
   overflow-wrap: anywhere;
+  font-size: 0.85rem; /* slightly larger for readability */
+  max-width: 100%;
 }
 
 .copy-btn {
@@ -391,11 +392,19 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   }
 
   .support-grid code {
-    word-break: normal;
+    font-size: 0.75rem; /* slightly smaller to fit */
+    word-break: break-word;
     overflow-wrap: break-word;
+    max-width: 100%;
+  }
+
+  .section-content {
+    padding-left: 8px;
+    padding-right: 8px;
   }
 }
 </style>
+
 
 
   </div>
@@ -436,6 +445,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

@@ -239,34 +239,39 @@
   <div class="section-content">
     <p>Direct support options:</p>
 
-    <!-- DAG -->
-    <div class="donation-address">
-      <img src="dag-logo.png" alt="DAG" class="donation-icon">
-      <strong>DAG:</strong>
-      <div class="donation-row">
+    <div class="support-grid">
+      <!-- DAG -->
+      <div class="label">
+        <img src="dag.svg" alt="DAG">
+        DAG
+      </div>
+      <div class="value">
         <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
-        <button class="copy-btn" data-target="dag-address" title="Copy DAG address">Copy</button>
-        <span class="copy-feedback" id="dag-feedback"></span>
+        <button class="copy-btn" data-target="dag-address">Copy</button>
+        <span id="dag-feedback" class="copy-feedback"></span>
       </div>
-    </div>
 
-    <!-- USDT -->
-    <div class="donation-address">
-      <img src="usdt-logo.png" alt="USDT" class="donation-icon">
-      <strong>USDT (ERC-20):</strong>
-      <div class="donation-row">
+      <!-- USDT -->
+      <div class="label">
+        <img src="usdt.svg" alt="USDT">
+        USDT (ERC-20)
+      </div>
+      <div class="value">
         <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
-        <button class="copy-btn" data-target="usdt-address" title="Copy USDT address">Copy</button>
-        <span class="copy-feedback" id="usdt-feedback"></span>
+        <button class="copy-btn" data-target="usdt-address">Copy</button>
+        <span id="usdt-feedback" class="copy-feedback"></span>
       </div>
-    </div>
 
-    <!-- PayPal -->
-    <div class="donation-address">
-      <img src="paypal-logo.png" alt="PayPal" class="donation-icon">
-      <strong>PayPal:</strong>
-      <div class="donation-row">
-        <a href="https://paypal.me/crithlabs" target="_blank" rel="noopener noreferrer" class="copy-btn" title="Click to support CrithLabs">
+      <!-- PayPal -->
+      <div class="label">
+        <img src="paypal.svg" alt="PayPal">
+        PayPal
+      </div>
+      <div class="value">
+        <a href="https://paypal.me/crithlabs"
+           class="copy-btn"
+           target="_blank"
+           rel="noopener noreferrer">
           Buy us a six-pack 🍺
         </a>
       </div>
@@ -277,6 +282,7 @@
     </p>
   </div>
 </div>
+
 
 <!-- Copy Button Script -->
 <script>
@@ -365,6 +371,68 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   color: #555;
   margin-top: 12px;
 }
+
+  .support-grid {
+  display: grid;
+  grid-template-columns: 160px 1fr;
+  row-gap: 14px;
+  column-gap: 12px;
+  align-items: center;
+}
+
+.support-grid .label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-weight: 600;
+}
+
+.support-grid .label img {
+  width: 18px;
+  height: 18px;
+}
+
+.support-grid .value {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.support-grid code {
+  background: #f5f5f5;
+  padding: 3px 6px;
+  border-radius: 4px;
+  font-family: monospace;
+}
+
+.copy-btn {
+  margin-left: 8px;
+  padding: 4px 8px;
+  font-size: 0.85rem;
+  border-radius: 4px;
+  border: none;
+  background: #0070ba;
+  color: #fff;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.copy-btn:hover {
+  background: #005c99;
+}
+
+.copy-feedback {
+  margin-left: 8px;
+  font-size: 0.85rem;
+  color: green;
+}
+
+.disclaimer {
+  margin-top: 14px;
+  font-size: 0.85rem;
+  color: #555;
+}
+
 </style>
 
 
@@ -386,8 +454,25 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
       });
     }
   </script>
+
+  <script>
+document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const id = btn.dataset.target;
+    const text = document.getElementById(id).innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const fb = document.getElementById(id + '-feedback');
+      fb.textContent = 'Copied ✓';
+      setTimeout(() => fb.textContent = '', 1500);
+    });
+  });
+});
+</script>
+
+  
 </body>
 </html>
+
 
 
 

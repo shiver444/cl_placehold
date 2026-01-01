@@ -63,6 +63,15 @@
       padding: 24px 16px;
     }
 
+    /* Download section - mobile hash fix */
+@media (max-width: 600px) {
+  #download code {
+    font-size: 0.8rem;       /* slightly smaller for phones */
+    word-break: break-all;   /* break anywhere if too long */
+    overflow-wrap: anywhere; /* fallback for some browsers */
+  }
+}
+
     .container {
       max-width: 480px;
       margin: 0 auto;
@@ -220,9 +229,9 @@
         Digital Evidence</a>.
     </p>
     <p>(You can start for free – 500 monthly credits granted.)</p>
-
+    <br>
     <p>2. Create a profile in The Proofmaker using your Tenant ID, Org ID, and API key.</p>
-
+    <br>
     <p>3. Start fingerprinting! (Your first print will automatically generate a log file and a 
       <span class="tooltip">
         JSON receipt
@@ -444,6 +453,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

@@ -249,7 +249,6 @@
       <div class="value">
         <code id="dag-address">DAG3jTMmMvJ5qPqcJGjqX4vFbxsyBJ66DKgnpNau</code>
         <button class="copy-btn" data-target="dag-address">Copy</button>
-        <span id="dag-feedback" class="copy-feedback"></span>
       </div>
 
       <!-- USDT -->
@@ -260,7 +259,6 @@
       <div class="value">
         <code id="usdt-address">0x7D52dfdF173cDFcE3A487E0eC2EbFE003c90741B</code>
         <button class="copy-btn" data-target="usdt-address">Copy</button>
-        <span id="usdt-feedback" class="copy-feedback"></span>
       </div>
 
       <!-- PayPal -->
@@ -284,91 +282,31 @@
   </div>
 </div>
 
+<!-- Copy Button Script -->
+<script>
+document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const targetId = btn.dataset.target;
+    const text = document.getElementById(targetId).innerText;
+
+    navigator.clipboard.writeText(text).then(() => {
+      const originalText = btn.innerText;
+
+      btn.innerText = 'Copied ✓';
+      btn.disabled = true;
+
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.disabled = false;
+      }, 1500);
+    });
+  });
+});
+</script>
 
 <!-- Support Section CSS -->
 <style>
-.section-content {
-  padding: 12px 0;
-}
-
-.donation-address {
-  margin-bottom: 14px;
-  display: flex;
-  align-items: flex-start;
-  flex-wrap: wrap;
-}
-
-.donation-address strong {
-  width: 140px;
-  display: flex;
-  align-items: center;
-}
-
-.donation-address code {
-  word-break: break-all;
-  overflow-wrap: anywhere;
-}
-
-.donation-address {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  flex-wrap: wrap;
-}
-
-
-.donation-icon {
-  width: 18px;
-  height: 18px;
-  margin-right: 6px;
-  vertical-align: middle;
-}
-
-.donation-row {
-  display: flex;
-  flex-wrap: wrap;
-  align-items: center;
-  flex: 1;
-}
-
-.donation-row code {
-  background-color: #f5f5f5;
-  padding: 2px 6px;
-  border-radius: 4px;
-  font-family: monospace;
-}
-
-.donation-row button.copy-btn,
-.donation-row a.copy-btn {
-  margin-left: 8px;
-  font-size: 0.85rem;
-  padding: 4px 8px;
-  cursor: pointer;
-  text-decoration: none;
-  color: #fff;
-  background-color: #0070ba;
-  border: none;
-  border-radius: 4px;
-  transition: background-color 0.2s;
-}
-
-.donation-row button.copy-btn:hover,
-.donation-row a.copy-btn:hover {
-  background-color: #005c99;
-}
-
-.copy-feedback {
-  font-size: 0.85rem;
-  margin-left: 8px;
-}
-
-.disclaimer {
-  font-size: 0.85rem;
-  color: #555;
-  margin-top: 12px;
-}
-
-  .support-grid {
+.support-grid {
   display: grid;
   grid-template-columns: 160px 1fr;
   row-gap: 14px;
@@ -399,6 +337,8 @@
   padding: 3px 6px;
   border-radius: 4px;
   font-family: monospace;
+  word-break: break-all; /* Desktop okay */
+  overflow-wrap: anywhere;
 }
 
 .copy-btn {
@@ -411,16 +351,11 @@
   color: #fff;
   cursor: pointer;
   text-decoration: none;
+  transition: background-color 0.2s;
 }
 
 .copy-btn:hover {
-  background: #005c99;
-}
-
-.copy-feedback {
-  margin-left: 8px;
-  font-size: 0.85rem;
-  color: green;
+  background-color: #005c99;
 }
 
 .disclaimer {
@@ -429,37 +364,28 @@
   color: #555;
 }
 
+/* ===== Mobile layout fix ===== */
 @media (max-width: 600px) {
   .support-grid {
     grid-template-columns: 1fr;
   }
 
-  .support-grid .label {
-    margin-bottom: 4px;
-  }
-
   .support-grid .value {
-    margin-bottom: 12px;
+    flex-direction: column;
+    align-items: flex-start;
   }
 
   .support-grid code {
-    word-break: break-all;
-    overflow-wrap: anywhere;
+    word-break: normal;
+    overflow-wrap: break-word;
   }
 
   .copy-btn {
-    margin-top: 6px;
     margin-left: 0;
+    margin-top: 6px;
   }
 }
-
-
 </style>
-
-
-
-
-
 
   </div>
 
@@ -499,6 +425,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

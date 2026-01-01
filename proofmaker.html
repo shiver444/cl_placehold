@@ -447,6 +447,31 @@ document.querySelectorAll('.copy-btn').forEach(btn => {
   color: #555;
 }
 
+@media (max-width: 600px) {
+  .support-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .support-grid .label {
+    margin-bottom: 4px;
+  }
+
+  .support-grid .value {
+    margin-bottom: 12px;
+  }
+
+  .support-grid code {
+    word-break: break-all;
+    overflow-wrap: anywhere;
+  }
+
+  .copy-btn {
+    margin-top: 6px;
+    margin-left: 0;
+  }
+}
+
+
 </style>
 
 
@@ -486,6 +511,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

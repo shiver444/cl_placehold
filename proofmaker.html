@@ -72,6 +72,17 @@
   }
 }
 
+/* Mobile tooltip adjustment */
+@media (max-width: 600px) {
+  .tooltip-text {
+    left: 0;          /* align to the left of parent */
+    transform: none;  /* remove horizontal shift */
+    max-width: 90vw;  /* allow it to shrink to screen width */
+    white-space: normal; /* wrap text nicely */
+  }
+}
+
+
     .container {
       max-width: 480px;
       margin: 0 auto;
@@ -453,6 +464,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

@@ -211,7 +211,6 @@
       </div>
     </div>
 
-    <!-- INSTRUCTIONS -->
 <!-- INSTRUCTIONS -->
 <div id="instructions" class="section">
   <div class="section-header" onclick="toggleSection('instructions')">Instructions</div>
@@ -293,6 +292,8 @@
 document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   btn.addEventListener('click', () => {
     const targetId = btn.dataset.target;
+    if (!targetId) return;
+
     const text = document.getElementById(targetId).innerText;
 
     navigator.clipboard.writeText(text).then(() => {
@@ -320,6 +321,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   align-items: center;
 }
 
+/* Labels with icons */
 .support-grid .label {
   display: flex;
   align-items: center;
@@ -332,10 +334,12 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   height: 18px;
 }
 
+/* Values: code + button */
 .support-grid .value {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
+  flex-direction: row; /* Desktop: button next to address */
 }
 
 .support-grid code {
@@ -343,7 +347,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   padding: 3px 6px;
   border-radius: 4px;
   font-family: monospace;
-  word-break: break-all; /* Desktop okay */
+  word-break: break-all;
   overflow-wrap: anywhere;
 }
 
@@ -370,28 +374,29 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   color: #555;
 }
 
-/* ===== Mobile layout fix ===== */
+/* ===== Mobile layout ===== */
 @media (max-width: 600px) {
   .support-grid {
     grid-template-columns: 1fr;
   }
 
   .support-grid .value {
-    flex-direction: column;
+    flex-direction: column; /* button under address */
     align-items: flex-start;
+  }
+
+  .copy-btn {
+    margin-left: 0;
+    margin-top: 6px; /* space above button on phone */
   }
 
   .support-grid code {
     word-break: normal;
     overflow-wrap: break-word;
   }
-
-  .copy-btn {
-    margin-left: 0;
-    margin-top: 6px;
-  }
 }
 </style>
+
 
   </div>
 
@@ -431,6 +436,7 @@ document.querySelectorAll('.copy-btn[data-target]').forEach(btn => {
   
 </body>
 </html>
+
 
 
 

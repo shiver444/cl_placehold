@@ -1,289 +1,346 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CrithLabs: Media - Events - Tokenized Apps</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- Add meta description here -->
-    <meta name="description" content="Join Crithlabs, a community of next-level content creators, musicians, visual artists, brands, and businesses. Media - Events - Tokenized Apps.">
-    <link rel="canonical" href="https://crithlabs.com/">
+<title>CrithLabs</title>
 
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" as="font" type="font/woff2" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
 
-    <style>
-        body {
-            background-color: black;
-            color: #8b0000;
-            font-family: 'Creepster', cursive;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            height: 100vh;
-            overflow: hidden;
-        }
+<style>
 
-        .section-glitch {
-            position: relative;
-            display: inline-block;
-            color: #8b0000;
-            cursor: pointer;
-            font-size: 2em;
-            margin: 20px;
-            text-align: center;
-        }
+:root {
+  --main-color: #1a1a1a;
+  --accent-color: #005577;
+  --background: #f7f7f7;
+  --font: 'Inter', sans-serif;
+}
 
-        .section-glitch::before {
-            content: attr(data-text);
-            position: absolute;
-            top: 0;
-            left: 0;
-            color: #8b0000;
-            opacity: 0.5;
-            transform: scale(0.95);
-        }
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-        @keyframes heartbeat {
-            0%, 100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-            50% {
-                transform: scale(1.15);
-                opacity: 0.8;
-            }
-        }
+body {
 
-        #content {
-            display: none;
-            margin: 20px;
-            text-align: center;
-        }
+  font-family: var(--font);
+  background-color: var(--background);
+  color: var(--main-color);
+  line-height: 1.6;
+  padding: 24px 16px;
 
-        #content-text {
-            font-size: 1.5em;
-        }
+}
 
-        #back-button {
-            padding: 10px 20px;
-            background-color: #8b0000;
-            color: black;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            font-family: 'Creepster', cursive;
-            border-radius: 5px;
-        }
+.container {
 
-        #email-box {
-            margin-top: 20px;
-            text-align: center;
-            width: 60%;
-            max-width: 300px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
+  max-width: 480px;
+  margin: 0 auto;
 
-        #email-input, #join-button {
-            width: calc(100% - 20px);
-            box-sizing: border-box;
-            padding: 10px;
-            font-family: 'Creepster', cursive;
-            background-color: black;
-            color: #8b0000;
-            border: 2px solid #8b0000;
-            margin-bottom: 10px;
-            border-radius: 5px;
-            text-align: center;
-        }
+}
 
-        #join-button {
-            padding: 10px 20px;
-            background-color: #8b0000;
-            color: black;
-            border: 2px solid #8b0000;
-            cursor: pointer;
-            width: calc(100% - 20px);
-            box-sizing: border-box;
-            border-radius: 5px;
-            font-family: 'Creepster', cursive;
-        }
+header {
 
-        .visually-hidden {
-            position: absolute;
-            width: 1px;
-            height: 1px;
-            margin: -1px;
-            padding: 0;
-            overflow: hidden;
-            clip: rect(0, 0, 0, 0);
-            border: 0;
-            white-space: nowrap; /* added to keep content on one line */
-        }
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 32px;
 
-        /* Pop-up styles */
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background-color: white;
-            color: #8b0000;
-            padding: 20px;
-            text-align: center;
-            border-radius: 10px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-            z-index: 1000;
-            width: 80%;
-            max-width: 400px;
-        }
+}
 
-        .popup h2 {
-            font-size: 2em;
-            margin-bottom: 20px;
-            font-family: 'Creepster', cursive;
-        }
+.logo {
 
-        .popup .event-details {
-            font-size: 1.2em;
-            margin-bottom: 20px;
-        }
+  width: 56px;
+  height: 56px;
+  border-radius: 8px;
+  object-fit: contain;
+  background: #ddd;
 
-        .popup .event-link {
-            color: #8b0000;
-            text-decoration: underline;
-        }
+}
 
-        .popup .close-button {
-            padding: 10px 20px;
-            background-color: #8b0000;
-            color: black;
-            border: none;
-            cursor: pointer;
-            font-size: 1.2em;
-            font-family: 'Creepster', cursive;
-            border-radius: 5px;
-        }
-    </style>
+h1 {
+
+  font-size: 1.4rem;
+  font-weight: 600;
+
+}
+
+.tagline {
+
+  font-size: 0.9rem;
+  color: #666;
+
+}
+
+
+/* Accordion */
+
+.section {
+
+  border-top: 1px solid #ddd;
+
+}
+
+.section-header {
+
+  padding: 14px 10px;
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--accent-color);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+}
+
+.section-header:hover {
+
+  background-color: #f0f0f0;
+
+}
+
+.section-content {
+
+  display: none;
+  padding: 12px 10px;
+  background-color: white;
+
+}
+
+.active .section-content {
+
+  display: block;
+
+}
+
+.section-header::after {
+
+  content: '+';
+
+}
+
+.active .section-header::after {
+
+  content: '-';
+
+}
+
+
+/* Optional elements you might use later */
+
+.button {
+
+  display: inline-block;
+  margin-top: 10px;
+  padding: 10px 14px;
+  background-color: var(--accent-color);
+  color: white;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: 600;
+
+}
+
+.button:hover {
+
+  opacity: 0.9;
+
+}
+
+footer {
+
+  margin-top: 40px;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #666;
+
+}
+
+footer a {
+
+  color: var(--accent-color);
+  text-decoration: none;
+
+}
+
+footer a:hover {
+
+  text-decoration: underline;
+
+}
+
+</style>
 </head>
+
+
 <body>
-    <h1 class="visually-hidden">CrithLabs: Media - Events - Tokenized Apps.</h1>
 
-    <section id="about" class="section-glitch" data-text="About" onclick="showContent('About')">About</section>
-    <section id="tv" class="section-glitch" data-text="TV" onclick="showContent('TV')">TV</section>
-    <section id="join" class="section-glitch" data-text="Join" onclick="showContent('Join')">Join</section>
 
-    <div id="content">
-        <p id="content-text"></p>
-        <button id="back-button" onclick="hideContent()">Back</button>
-    </div>
+<div class="container">
 
-    <div id="email-box">
-        <input type="email" id="email-input" placeholder="I want your mail (placeholder)">
-        <button id="join-button">Keep me posted!</button>
-    </div>
 
-    <!-- Pop-up window for event announcement -->
-    <div id="event-popup" class="popup glow">
-        <h2>Pssst!</h2>
-        <p>Renovating a bit, meanwhile you can:
-    <li><a href="https://crithlabs.com/glitch" target="_blank">watch 'I Am The Glitch' (short film - selected for Miami Art Tech Summit 2025: AI and VR Film Visionaries)</a></li></a>
-    <br>
-    <li><a href="https://www.crithlabs.com/proofmaker" target="_blank">check out 'The Proofmaker' - digital fingerprinting tool</a></li></a>
-    <br>
-        
-    <li><a href="https://www.youtube.com/watch?v=dQw4w9WgXcQ" target="_blank">open the mysterious link</a></li></a>    
-    <br>
-    <br> 
-        
-        <button class="close-button" onclick="closePopup()">Close</button>
-    </div>
+<header>
 
-    <style>
-    /* Glowing effect for the popup */
-    .glow {
-        animation: glow 1.5s ease-in-out infinite alternate;
-    }
+<div class="logo"></div>
 
-    @keyframes glow {
-        from {
-            box-shadow: 0 0 10px #8b0000;
-        }
-        to {
-            box-shadow: 0 0 20px #ff0000;
-        }
-    }
-    </style>
+<div>
 
-    <script>
-        document.querySelectorAll('.section-glitch').forEach(el => {
-            const duration = Math.random() * 2 + 4; // Duration between 4 to 6 seconds
-            const delay = Math.random() * 2; // Delay up to 2 seconds
+<h1>CrithLabs</h1>
 
-            el.style.animation = `heartbeat ${duration}s infinite linear alternate-reverse`;
-            el.style.animationDelay = `${delay}s`;
+<div class="tagline">
 
-            const beforeEl = el.querySelector('::before');
-            if (beforeEl) {
-                beforeEl.style.animation = `heartbeat ${duration}s infinite linear alternate`;
-                beforeEl.style.animationDelay = `${delay}s`;
-            }
-        });
+Media · Events · Tokenized Apps
 
-        function showContent(section) {
-            if (section === 'About') {
-                window.location.href = 'about.html';
-            } else if (section === 'TV') {
-                window.location.href = 'tv.html';
-            } else if (section === 'Join') {
-                window.location.href = 'join.html';
-            }
-        }
+</div>
 
-        function hideContent() {
-            document.getElementById('content').style.display = 'none';
-        }
+</div>
 
-        // Function to close the popup
-        function closePopup() {
-            document.getElementById('event-popup').style.display = 'none';
-        }
+</header>
 
-        // Function to close the promo popup
-        function closePromoPopup() {
-            document.getElementById('promo-popup').style.display = 'none';
-        }
 
-        // Function to check if the popup has been shown in the current session
-        function checkPopupShown() {
-            if (!sessionStorage.getItem('popupShown')) {
-                document.getElementById('event-popup').style.display = 'block';
-                sessionStorage.setItem('popupShown', 'true');
-            }
-        }
 
-        // Function to check if the promo popup has been shown in the current session
-        function checkPromoPopupShown() {
-            if (!sessionStorage.getItem('promoPopupShown')) {
-                document.getElementById('promo-popup').style.display = 'block';
-                sessionStorage.setItem('promoPopupShown', 'true');
-            }
-        }
+<!-- SECTION TEMPLATE -->
 
-        // Call the function to check if the popups should be shown
-        window.onload = function() {
-            checkPopupShown();
-            checkPromoPopupShown();
-        };
-    </script>
+<div id="section1" class="section active">
+
+<div class="section-header" onclick="toggleSection('section1')">
+
+Section One
+
+</div>
+
+<div class="section-content">
+
+<p>
+
+Editable content area.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div id="section2" class="section">
+
+<div class="section-header" onclick="toggleSection('section2')">
+
+Section Two
+
+</div>
+
+<div class="section-content">
+
+<p>
+
+Editable content area.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div id="section3" class="section">
+
+<div class="section-header" onclick="toggleSection('section3')">
+
+Section Three
+
+</div>
+
+<div class="section-content">
+
+<p>
+
+Editable content area.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<div id="section4" class="section">
+
+<div class="section-header" onclick="toggleSection('section4')">
+
+Section Four
+
+</div>
+
+<div class="section-content">
+
+<p>
+
+Editable content area.
+
+</p>
+
+</div>
+
+</div>
+
+
+
+<footer>
+
+© CrithLabs
+
+<br><br>
+
+<a href="mailto:crith@crithlabs.com">
+
+Contact
+
+</a>
+
+</footer>
+
+
+
+</div>
+
+
+
+<script>
+
+function toggleSection(id) {
+
+const allSections = document.querySelectorAll('.section');
+
+allSections.forEach(section => {
+
+if(section.id === id){
+
+section.classList.toggle('active');
+
+}
+
+else{
+
+section.classList.remove('active');
+
+}
+
+});
+
+}
+
+</script>
+
+
+
 </body>
 </html>
+
 
 
 

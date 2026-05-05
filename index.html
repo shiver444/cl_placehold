@@ -1,0 +1,1087 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VidProof — Prove What Actually Happened</title>
+<meta name="description" content="A digital evidence protocol. Proof that travels with the file. Verifiable by anyone, without us.">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:ital,wght@0,300;0,400;0,500;1,300&family=DM+Sans:wght@300;400;500&display=swap');
+
+:root {
+  --black:   #080808;
+  --offwhite:#f0ede6;
+  --green:   #00e87a;
+  --red:     #ff3c3c;
+  --yellow:  #ffe141;
+  --dim:     #3a3a3a;
+  --border:  #1c1c1c;
+  --card:    #111111;
+}
+
+*, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--black);
+  color: var(--offwhite);
+  font-family: 'DM Sans', sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+body::after {
+  content:'';
+  position:fixed;
+  inset:0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events:none;
+  z-index:999;
+  opacity:.4;
+}
+
+nav {
+  position: fixed;
+  top:0; left:0; right:0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20px 48px;
+  border-bottom: 1px solid transparent;
+  transition: all .3s ease;
+}
+
+nav.scrolled {
+  background: rgba(8,8,8,.92);
+  border-bottom-color: var(--border);
+  backdrop-filter: blur(12px);
+}
+
+.nav-logo {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 26px;
+  letter-spacing: 3px;
+  color: var(--offwhite);
+  text-decoration: none;
+}
+
+.nav-logo span { color: var(--green); }
+
+.nav-links { display: flex; gap: 36px; list-style: none; }
+
+.nav-links a {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--dim);
+  text-decoration: none;
+  transition: color .2s;
+}
+
+.nav-links a:hover { color: var(--offwhite); }
+
+#hero {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 120px 48px 80px;
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+  background-size: 64px 64px;
+}
+
+.hero-glow {
+  position: absolute;
+  width: 600px; height: 600px;
+  background: radial-gradient(circle, rgba(0,232,122,.08) 0%, transparent 70%);
+  top: 10%; right: -100px;
+  pointer-events: none;
+}
+
+.hero-content { position: relative; z-index: 1; max-width: 900px; }
+
+.hero-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.hero-label::before {
+  content: '';
+  display: block;
+  width: 32px; height: 1px;
+  background: var(--green);
+}
+
+h1 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(72px, 12vw, 148px);
+  line-height: .92;
+  letter-spacing: -1px;
+  margin-bottom: 32px;
+}
+
+h1 em { font-style: normal; color: var(--green); }
+h1 .outline { -webkit-text-stroke: 1px var(--offwhite); color: transparent; }
+
+.hero-sub {
+  font-size: clamp(16px, 2vw, 20px);
+  color: var(--dim);
+  max-width: 580px;
+  line-height: 1.65;
+  margin-bottom: 24px;
+  font-weight: 300;
+}
+
+.hero-sub strong { color: var(--offwhite); font-weight: 400; }
+
+.hero-edge {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 1px;
+  color: var(--green);
+  margin-bottom: 48px;
+  padding: 12px 16px;
+  border-left: 2px solid var(--green);
+  background: rgba(0,232,122,.04);
+  max-width: 540px;
+}
+
+.hero-cta { display: flex; gap: 16px; flex-wrap: wrap; }
+
+.btn-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: var(--green);
+  color: var(--black);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: none;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.btn-primary:hover { background: var(--offwhite); transform: translateY(-2px); }
+
+.btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  padding: 14px 28px;
+  background: transparent;
+  color: var(--offwhite);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  text-decoration: none;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.btn-secondary:hover { border-color: var(--offwhite); transform: translateY(-2px); }
+
+.hero-scroll {
+  position: absolute;
+  bottom: 40px; left: 48px;
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--dim);
+  text-transform: uppercase;
+  animation: bounce 2s infinite;
+}
+
+@keyframes bounce {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(4px); }
+}
+
+.marquee-wrap {
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  overflow: hidden;
+  padding: 14px 0;
+  background: var(--card);
+}
+
+.marquee-track {
+  display: flex;
+  gap: 48px;
+  animation: marquee 20s linear infinite;
+  width: max-content;
+}
+
+.marquee-item {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--dim);
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 48px;
+}
+
+.marquee-item::after { content: '◆'; color: var(--green); font-size: 6px; }
+
+@keyframes marquee {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+section { padding: 120px 48px; }
+
+.section-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 16px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.section-label::before {
+  content: '';
+  display: block;
+  width: 24px; height: 1px;
+  background: var(--green);
+}
+
+h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(40px, 6vw, 72px);
+  line-height: 1;
+  letter-spacing: 1px;
+  margin-bottom: 20px;
+}
+
+#challenge {
+  background: var(--card);
+  border-top: 1px solid var(--border);
+  border-bottom: 1px solid var(--border);
+  padding: 80px 48px;
+}
+
+.challenge-inner { max-width: 760px; }
+
+.challenge-question {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(32px, 5vw, 56px);
+  line-height: 1.05;
+  color: var(--offwhite);
+  margin-bottom: 24px;
+}
+
+.challenge-question em { font-style: normal; color: var(--green); }
+
+.challenge-body {
+  font-size: 16px;
+  color: var(--dim);
+  line-height: 1.75;
+  max-width: 600px;
+  margin-bottom: 32px;
+}
+
+.challenge-body strong { color: var(--offwhite); font-weight: 400; }
+
+.guarantees { display: flex; flex-direction: column; gap: 2px; }
+
+.guarantee-item {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 12px 16px;
+  background: var(--black);
+  border-left: 2px solid var(--green);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 1px;
+  color: var(--offwhite);
+}
+
+.guarantee-item::before { content: '✔'; color: var(--green); font-size: 12px; flex-shrink: 0; }
+
+#who { background: var(--black); }
+
+.who-intro {
+  font-size: 15px;
+  color: var(--dim);
+  max-width: 560px;
+  line-height: 1.7;
+  margin-bottom: 48px;
+  margin-top: 16px;
+}
+
+.who-intro strong { color: var(--offwhite); font-weight: 400; }
+
+.who-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-bottom: 32px;
+}
+
+.who-card { background: var(--card); padding: 28px 24px; transition: background .2s; }
+.who-card:hover { background: #161616; }
+.who-icon { font-size: 22px; margin-bottom: 12px; display: block; }
+
+.who-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--offwhite);
+  margin-bottom: 8px;
+}
+
+.who-desc { font-size: 12px; color: var(--dim); line-height: 1.65; }
+
+.who-secondary {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--dim);
+  padding: 12px 0;
+  border-top: 1px solid var(--border);
+}
+
+.who-secondary span { color: var(--offwhite); }
+
+#how { background: var(--card); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); }
+
+.steps {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: var(--border);
+  border: 1px solid var(--border);
+  margin-top: 48px;
+}
+
+.step { background: var(--black); padding: 40px 32px; position: relative; }
+
+.step-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 72px;
+  color: var(--border);
+  line-height: 1;
+  margin-bottom: 16px;
+  display: block;
+}
+
+.step-title {
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--green);
+  margin-bottom: 12px;
+}
+
+.step-desc { font-size: 13px; color: var(--dim); line-height: 1.7; }
+
+.step-arrow {
+  position: absolute;
+  top: 40px; right: -1px;
+  width: 24px; height: 24px;
+  background: var(--black);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 10px;
+  color: var(--green);
+  z-index: 1;
+}
+
+#verifier { background: var(--black); border-top: 1px solid var(--border); }
+.verifier-wrap { max-width: 640px; margin: 48px auto 0; }
+
+.drop-zone {
+  border: 1px solid var(--border);
+  padding: 56px 32px;
+  text-align: center;
+  cursor: pointer;
+  transition: all .25s ease;
+  background: var(--card);
+  position: relative;
+  overflow: hidden;
+}
+
+.drop-zone::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(135deg, rgba(0,232,122,.04) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+.drop-zone:hover, .drop-zone.drag-over { border-color: var(--green); background: rgba(0,232,122,.04); }
+.drop-zone.drag-over { transform: scale(1.01); }
+input[type="file"] { display: none; }
+.drop-icon { font-size: 36px; margin-bottom: 16px; display: block; }
+
+.drop-label {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 22px;
+  letter-spacing: 2px;
+  margin-bottom: 8px;
+}
+
+.drop-sublabel {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--dim);
+}
+
+.drop-sublabel span { color: var(--green); }
+
+.status-bar {
+  display: none;
+  padding: 12px 16px;
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-top: none;
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  color: var(--dim);
+}
+
+.status-bar.visible { display: block; }
+.progress-list { display: none; flex-direction: column; gap: 2px; margin-top: 2px; }
+.progress-list.visible { display: flex; }
+
+.progress-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 16px;
+  background: var(--black);
+  border-left: 2px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1px;
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all .25s ease;
+}
+
+.progress-item.show { opacity: 1; transform: translateX(0); }
+.progress-item.pass { border-left-color: var(--green); }
+.progress-item.fail { border-left-color: var(--red); }
+.progress-item.warn { border-left-color: var(--yellow); }
+.check-icon { width: 14px; flex-shrink: 0; }
+.check-label { flex: 1; color: var(--offwhite); }
+.check-detail { color: var(--dim); font-size: 9px; }
+
+.verdict {
+  display: none;
+  padding: 32px;
+  text-align: center;
+  margin-top: 2px;
+  border: 1px solid var(--border);
+}
+
+.verdict.visible { display: block; }
+.verdict.valid { border-color: rgba(0,232,122,.3); background: rgba(0,232,122,.05); }
+.verdict.invalid { border-color: rgba(255,60,60,.3); background: rgba(255,60,60,.05); }
+.verdict-icon { font-size: 40px; display: block; margin-bottom: 12px; }
+
+.verdict-text {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 32px;
+  letter-spacing: 3px;
+  margin-bottom: 6px;
+}
+
+.verdict.valid .verdict-text { color: var(--green); }
+.verdict.invalid .verdict-text { color: var(--red); }
+
+.verdict-sub {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: var(--dim);
+  text-transform: uppercase;
+}
+
+.bundle-info {
+  display: none;
+  background: var(--black);
+  border: 1px solid var(--border);
+  border-top: none;
+  padding: 16px;
+}
+
+.bundle-info.visible { display: block; }
+
+.info-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--border);
+  font-family: 'DM Mono', monospace;
+  font-size: 9px;
+  gap: 12px;
+}
+
+.info-row:last-child { border-bottom: none; }
+.info-key { color: var(--dim); letter-spacing: 1px; flex-shrink: 0; }
+.info-val { color: var(--offwhite); text-align: right; word-break: break-all; }
+
+.reset-btn {
+  display: none;
+  width: 100%;
+  padding: 14px;
+  background: transparent;
+  border: 1px solid var(--border);
+  border-top: none;
+  color: var(--dim);
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: all .2s ease;
+}
+
+.reset-btn:hover { border-color: var(--offwhite); color: var(--offwhite); }
+.reset-btn.visible { display: block; }
+
+@keyframes spin { to { transform: rotate(360deg); } }
+.spinner {
+  display: inline-block;
+  width: 10px; height: 10px;
+  border: 1.5px solid var(--border);
+  border-top-color: var(--green);
+  border-radius: 50%;
+  animation: spin .7s linear infinite;
+}
+
+#contact { border-top: 1px solid var(--border); text-align: center; }
+.contact-wrap { max-width: 600px; margin: 0 auto; }
+
+.contact-tagline {
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--dim);
+  line-height: 1.7;
+  margin-bottom: 40px;
+}
+
+.contact-tagline strong { color: var(--offwhite); font-weight: 400; }
+.contact-links { display: flex; justify-content: center; gap: 16px; flex-wrap: wrap; }
+
+footer {
+  border-top: 1px solid var(--border);
+  padding: 32px 48px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 20px; letter-spacing: 3px; color: var(--dim); }
+.footer-logo span { color: var(--green); }
+.footer-copy { font-family: 'DM Mono', monospace; font-size: 9px; letter-spacing: 2px; color: var(--dim); text-transform: uppercase; }
+
+.fade-up { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+.fade-up.visible { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 768px) {
+  nav { padding: 16px 24px; }
+  .nav-links { display: none; }
+  section { padding: 80px 24px; }
+  #hero { padding: 100px 24px 60px; }
+  #challenge { padding: 60px 24px; }
+  .steps { grid-template-columns: 1fr; }
+  .step-arrow { display: none; }
+  footer { padding: 24px; }
+  .hero-scroll { left: 24px; }
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a class="nav-logo" href="#hero">Vid<span>Proof</span></a>
+  <ul class="nav-links">
+    <li><a href="#challenge">The problem</a></li>
+    <li><a href="#who">Who it's for</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#verifier">Verify a bundle</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-glow"></div>
+  <div class="hero-content">
+    <div class="hero-label">CrithLabs · Digital Evidence Protocol</div>
+    <h1>
+      Prove what<br>
+      <em>actually</em><br>
+      <span class="outline">happened.</span>
+    </h1>
+    <p class="hero-sub">
+      VidProof is a digital evidence protocol. It takes any video, content, or recorded decision
+      and produces a sealed proof bundle — a single file containing
+      <strong>the complete chain of custody.</strong>
+    </p>
+    <div class="hero-edge">
+      Verification does not depend on VidProof. The proof travels with the file.
+    </div>
+    <div class="hero-cta">
+      <a class="btn-primary" href="#verifier">▶ Verify a bundle</a>
+      <a class="btn-secondary" href="#contact">Get in touch</a>
+    </div>
+  </div>
+  <div class="hero-scroll">↓ scroll</div>
+</section>
+
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <span class="marquee-item">Proof travels with the file</span>
+    <span class="marquee-item">No vendor dependency</span>
+    <span class="marquee-item">Alteration is detectable</span>
+    <span class="marquee-item">Chain of custody</span>
+    <span class="marquee-item">Constellation Network</span>
+    <span class="marquee-item">Verifiable by anyone</span>
+    <span class="marquee-item">Still valid if we disappear</span>
+    <span class="marquee-item">AI decision logging</span>
+    <span class="marquee-item">Proof travels with the file</span>
+    <span class="marquee-item">No vendor dependency</span>
+    <span class="marquee-item">Alteration is detectable</span>
+    <span class="marquee-item">Chain of custody</span>
+    <span class="marquee-item">Constellation Network</span>
+    <span class="marquee-item">Verifiable by anyone</span>
+    <span class="marquee-item">Still valid if we disappear</span>
+    <span class="marquee-item">AI decision logging</span>
+  </div>
+</div>
+
+<section id="challenge">
+  <div class="challenge-inner fade-up">
+    <div class="challenge-question">
+      If this gets challenged —<br>
+      <em>can you prove it's real?</em>
+    </div>
+    <p class="challenge-body">
+      Most digital evidence systems require you to trust the vendor.
+      Their platform. Their servers. Their word.
+      <strong>When they're gone, the proof is gone.</strong>
+      When they're challenged, you're challenged.
+      VidProof works differently.
+    </p>
+    <div class="guarantees">
+      <div class="guarantee-item">Proof can't be altered without detection</div>
+      <div class="guarantee-item">Anyone can verify it in seconds</div>
+      <div class="guarantee-item">No account, platform, or vendor required</div>
+      <div class="guarantee-item">Still verifiable even if we disappear</div>
+    </div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="section-label">Who it's for</div>
+  <h2>When the stakes<br>are real.</h2>
+  <p class="who-intro">
+    VidProof is built for situations where evidence gets challenged.
+    <strong>Legal. Financial. Institutional. Accountability.</strong>
+    If the outcome depends on whether something is real and unaltered,
+    this is the tool.
+  </p>
+  <div class="who-grid">
+    <div class="who-card fade-up">
+      <span class="who-icon">⚖️</span>
+      <div class="who-title">Legal</div>
+      <div class="who-desc">Cryptographic chain of custody. Holds up when opposing counsel challenges authenticity. Verification takes 30 seconds, requires nothing from us.</div>
+    </div>
+    <div class="who-card fade-up">
+      <span class="who-icon">🛡️</span>
+      <div class="who-title">Insurance</div>
+      <div class="who-desc">Submitted evidence verified mathematically. Fraud doesn't survive a hash check. Automated, instant, no manual review required.</div>
+    </div>
+    <div class="who-card fade-up">
+      <span class="who-icon">🔍</span>
+      <div class="who-title">Investigations</div>
+      <div class="who-desc">Surveillance and incident footage sealed on capture. Chain of evidence from the moment of recording to the moment it's presented.</div>
+    </div>
+    <div class="who-card fade-up">
+      <span class="who-icon">🤖</span>
+      <div class="who-title">AI Systems</div>
+      <div class="who-desc">Every decision an AI makes — sealed, timestamped, verifiable. Audit trail that satisfies compliance requirements and survives legal challenge.</div>
+    </div>
+    <div class="who-card fade-up">
+      <span class="who-icon">🏢</span>
+      <div class="who-title">HR & Compliance</div>
+      <div class="who-desc">Recorded incidents and interviews sealed at the moment of capture. Tamper-proof. Timestamped. Defensible in any proceeding.</div>
+    </div>
+    <div class="who-card fade-up">
+      <span class="who-icon">🏠</span>
+      <div class="who-title">Real Estate</div>
+      <div class="who-desc">Property condition locked to a specific date and time. Undisputable record that predates any claim of damage or alteration.</div>
+    </div>
+  </div>
+  <div class="who-secondary">
+    Also used by <span>journalists, content creators, and activists</span> when proof of authenticity is required.
+  </div>
+</section>
+
+<section id="how">
+  <div class="section-label">How it works</div>
+  <h2>One protocol.<br>Three steps.<br>No trust required.</h2>
+  <div class="steps">
+    <div class="step fade-up">
+      <span class="step-num">01</span>
+      <div class="step-title">Seal</div>
+      <p class="step-desc">Content gets hashed with SHA256, signed with ECDSA, and anchored to the Constellation Network blockchain. From this moment forward, any alteration is mathematically detectable — by anyone.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step fade-up">
+      <span class="step-num">02</span>
+      <div class="step-title">Bundle</div>
+      <p class="step-desc">The content, signature, proof report, and full chain of evidence get packaged into one sealed file with a signed SHA256 sidecar. Everything needed to verify is inside. No external system required.</p>
+      <div class="step-arrow">→</div>
+    </div>
+    <div class="step fade-up">
+      <span class="step-num">03</span>
+      <div class="step-title">Verify</div>
+      <p class="step-desc">Drop the bundle here or open verify.html inside the zip. No account. No software. No us. The proof is self-contained and permanent. It was true before we existed and stays true if we disappear.</p>
+    </div>
+  </div>
+</section>
+
+<section id="verifier">
+  <div class="section-label">Verify a bundle</div>
+  <h2>Drop it.<br>Get the truth.</h2>
+  <div class="verifier-wrap">
+    <div class="drop-zone" id="dropZone">
+      <input type="file" id="fileInput" accept=".zip">
+      <span class="drop-icon">📦</span>
+      <div class="drop-label">Drop your proof bundle</div>
+      <div class="drop-sublabel">or click to select — <span>.zip file</span></div>
+    </div>
+    <div class="status-bar" id="statusBar"></div>
+    <div class="progress-list" id="progressList"></div>
+    <div class="verdict" id="verdict">
+      <span class="verdict-icon" id="verdictIcon"></span>
+      <div class="verdict-text" id="verdictText"></div>
+      <div class="verdict-sub" id="verdictSub"></div>
+    </div>
+    <div class="bundle-info" id="bundleInfo"></div>
+    <button class="reset-btn" id="resetBtn">Verify another bundle</button>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="contact-wrap">
+    <div class="section-label" style="justify-content:center">Get in touch</div>
+    <h2>First one's<br>on the house.</h2>
+    <p class="contact-tagline">
+      Lawyers, investigators, HR, insurance, real estate —
+      if you <strong>need evidence that holds up when it gets challenged,</strong>
+      drop me a line.
+    </p>
+    <div class="contact-links">
+      <a class="btn-primary" href="mailto:crith@crithlabs.com">✉ crith@crithlabs.com</a>
+      <a class="btn-secondary" href="https://crithlabs.com" target="_blank">crithlabs.com →</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Vid<span>Proof</span></div>
+  <div class="footer-copy">© 2026 CrithLabs · Powered by Constellation Network</div>
+</footer>
+
+<script>
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => {
+  nav.classList.toggle('scrolled', window.scrollY > 40);
+});
+
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+
+document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+async function sha256Hex(buffer) {
+  const h = await crypto.subtle.digest('SHA-256', buffer);
+  return Array.from(new Uint8Array(h)).map(b => b.toString(16).padStart(2,'0')).join('');
+}
+
+async function sha256HexFromString(str) {
+  return sha256Hex(new TextEncoder().encode(str));
+}
+
+async function computeMerkleRoot(hashes) {
+  if (!hashes || !hashes.length) return null;
+  let current = [...hashes];
+  while (current.length > 1) {
+    const next = [];
+    for (let i = 0; i < current.length; i += 2) {
+      const l = current[i], r = i+1 < current.length ? current[i+1] : l;
+      next.push(await sha256HexFromString(l + r));
+    }
+    current = next;
+  }
+  return current[0];
+}
+
+async function computeFileMerkleRoot(buf) {
+  const size = 1024*1024, chunks = [];
+  for (let o = 0; o < buf.byteLength; o += size)
+    chunks.push(await sha256Hex(buf.slice(o, o+size)));
+  return computeMerkleRoot(chunks);
+}
+
+const progressList = document.getElementById('progressList');
+const statusBar    = document.getElementById('statusBar');
+
+function setStatus(msg) {
+  statusBar.textContent = msg;
+  statusBar.classList.add('visible');
+}
+
+function addStep(label, detail='') {
+  const item = document.createElement('div');
+  item.className = 'progress-item';
+  item.innerHTML = `
+    <span class="check-icon"><div class="spinner"></div></span>
+    <span class="check-label">${label}</span>
+    <span class="check-detail">${detail}</span>`;
+  progressList.appendChild(item);
+  progressList.classList.add('visible');
+  setTimeout(() => item.classList.add('show'), 10);
+  return item;
+}
+
+function resolveStep(item, pass, detail='') {
+  item.classList.add(pass ? 'pass' : 'fail');
+  item.querySelector('.check-icon').textContent = pass ? '✔' : '✗';
+  if (detail) item.querySelector('.check-detail').textContent = detail;
+}
+
+function warnStep(item, detail='') {
+  item.classList.add('warn');
+  item.querySelector('.check-icon').textContent = '⚠';
+  if (detail) item.querySelector('.check-detail').textContent = detail;
+}
+
+function showBundleInfo(manifest, name) {
+  const el = document.getElementById('bundleInfo');
+  const type = manifest.bundle_type || 'video';
+  const rows = [
+    ['Bundle', name],
+    ['Type',   type === 'decision_log' ? 'Decision Log' : 'Video Evidence'],
+    ['Project', manifest.project || manifest.session_name || '—'],
+    ['Built',  (manifest.build_timestamp||'—').slice(0,19).replace('T',' ') + ' UTC'],
+    ['Anchor', manifest.fingerprint_hash && manifest.fingerprint_hash !== 'NOT_ANCHORED'
+      ? manifest.fingerprint_hash.slice(0,20)+'...' : 'Not anchored'],
+  ];
+  el.innerHTML = rows.map(([k,v]) =>
+    `<div class="info-row"><span class="info-key">${k}</span><span class="info-val">${v}</span></div>`
+  ).join('');
+  el.classList.add('visible');
+}
+
+async function verifyBundle(file) {
+  const checks = {};
+  setStatus('Reading bundle...');
+  progressList.innerHTML = '';
+  progressList.classList.remove('visible');
+  document.getElementById('verdict').classList.remove('visible');
+  document.getElementById('bundleInfo').classList.remove('visible');
+  document.getElementById('resetBtn').classList.remove('visible');
+
+  const buf = await file.arrayBuffer();
+
+  let zip;
+  const s1 = addStep('Opening bundle');
+  try {
+    zip = await JSZip.loadAsync(buf);
+    resolveStep(s1, true, file.name);
+  } catch(e) {
+    resolveStep(s1, false, 'Not a valid zip');
+    document.getElementById('verdict').className = 'verdict visible invalid';
+    document.getElementById('verdictIcon').textContent = '❌';
+    document.getElementById('verdictText').textContent = 'INVALID';
+    document.getElementById('verdictSub').textContent  = 'Could not open bundle file';
+    document.getElementById('resetBtn').classList.add('visible');
+    return;
+  }
+
+  const s2 = addStep('Reading manifest');
+  let manifest;
+  try {
+    const mf = zip.file('manifest.json');
+    if (!mf) throw new Error('manifest.json missing');
+    manifest = JSON.parse(await mf.async('string'));
+    resolveStep(s2, true);
+  } catch(e) {
+    resolveStep(s2, false, e.message);
+    document.getElementById('resetBtn').classList.add('visible');
+    return;
+  }
+
+  const bundleType = manifest.bundle_type || 'video';
+  showBundleInfo(manifest, file.name);
+
+  const s3 = addStep('Checking required files');
+  const required = bundleType === 'decision_log'
+    ? ['manifest.json','manifest.sig', manifest.output_file,'chain_of_evidence.txt']
+    : ['manifest.json','manifest.sig','output.mp4','tokens_used.json','proof_report.json','chain_of_evidence.txt'];
+
+  let allPresent = true;
+  for (const f of required) if (!zip.file(f)) { allPresent = false; break; }
+  checks.files = allPresent;
+  resolveStep(s3, allPresent, allPresent ? `${required.length} files present` : 'Missing files');
+
+  if (!allPresent) {
+    document.getElementById('verdict').className = 'verdict visible invalid';
+    document.getElementById('verdictIcon').textContent = '❌';
+    document.getElementById('verdictText').textContent = 'INVALID';
+    document.getElementById('verdictSub').textContent  = 'Bundle is incomplete';
+    document.getElementById('resetBtn').classList.add('visible');
+    return;
+  }
+
+  const s4 = addStep('Verifying signature');
+  let sigValid = false;
+  try {
+    const sigBytes = await zip.file('manifest.sig').async('uint8array');
+    const pubKey   = manifest.public_key;
+    sigValid = sigBytes.length > 0 && !!pubKey;
+    resolveStep(s4, sigValid, sigValid ? 'Signature present' : 'Signature missing');
+  } catch(e) { resolveStep(s4, false, e.message); }
+  checks.signature = sigValid;
+
+  const s5 = addStep('Verifying content hash');
+  let hashValid = false;
+  try {
+    const fname    = bundleType === 'decision_log' ? manifest.output_file : 'output.mp4';
+    const outBuf   = await zip.file(fname).async('arraybuffer');
+    const computed = await sha256Hex(outBuf);
+    hashValid = computed === manifest.output_hash;
+    resolveStep(s5, hashValid, hashValid ? 'Hash matches' : 'Hash mismatch');
+  } catch(e) { resolveStep(s5, false, e.message); }
+  checks.output_hash = hashValid;
+
+  const s6 = addStep(bundleType === 'decision_log' ? 'Verifying session integrity' : 'Verifying Merkle root');
+  let merkleValid = false;
+  try {
+    if (bundleType === 'decision_log') {
+      merkleValid = !!manifest.session_hash;
+      resolveStep(s6, merkleValid, merkleValid ? 'Session hash present' : 'Missing');
+    } else {
+      const vBuf = await zip.file('output.mp4').async('arraybuffer');
+      const cm   = await computeFileMerkleRoot(vBuf);
+      merkleValid = cm === manifest.output_merkle_root;
+      resolveStep(s6, merkleValid, merkleValid ? 'Merkle matches' : 'Mismatch');
+    }
+  } catch(e) { resolveStep(s6, false, e.message); }
+  checks.merkle = merkleValid;
+
+  const s7 = addStep(bundleType === 'decision_log' ? 'Verifying decision count' : 'Verifying token Merkle');
+  let tokenValid = false;
+  try {
+    if (bundleType === 'decision_log') {
+      tokenValid = (manifest.decision_count || 0) > 0;
+      resolveStep(s7, tokenValid, `${manifest.decision_count} decisions`);
+    } else {
+      const toks   = JSON.parse(await zip.file('tokens_used.json').async('string'));
+      const hashes = toks.map(t => t.file_hash).filter(Boolean);
+      const cm     = await computeMerkleRoot(hashes);
+      tokenValid   = cm === manifest.token_merkle_root;
+      resolveStep(s7, tokenValid, tokenValid ? 'Token Merkle matches' : 'Mismatch');
+    }
+  } catch(e) { resolveStep(s7, false, e.message); }
+  checks.tokens = tokenValid;
+
+  const s8 = addStep('Checking external anchor');
+  const fp = manifest.fingerprint_hash;
+  const anchorOk = fp && fp !== 'NOT_ANCHORED' && fp !== 'NO_LINK';
+  anchorOk ? resolveStep(s8, true, fp.slice(0,16)+'...') : warnStep(s8, 'No anchor');
+  checks.anchor = anchorOk;
+
+  const core    = [checks.files, checks.output_hash, checks.merkle, checks.tokens];
+  const verdict = core.every(Boolean);
+
+  setStatus(verdict ? '✔ Verification complete' : '✗ Verification failed');
+
+  const vel = document.getElementById('verdict');
+  vel.className = 'verdict visible ' + (verdict ? 'valid' : 'invalid');
+  document.getElementById('verdictIcon').textContent = verdict ? '✅' : '❌';
+  document.getElementById('verdictText').textContent = verdict ? 'VALID' : 'INVALID';
+  document.getElementById('verdictSub').textContent  = verdict
+    ? 'Content is authentic and unaltered'
+    : 'Verification failed — bundle may be compromised';
+
+  document.getElementById('resetBtn').classList.add('visible');
+}
+
+const dropZone  = document.getElementById('dropZone');
+const fileInput = document.getElementById('fileInput');
+const resetBtn  = document.getElementById('resetBtn');
+
+dropZone.addEventListener('click', () => fileInput.click());
+fileInput.addEventListener('change', e => { if (e.target.files[0]) verifyBundle(e.target.files[0]); });
+dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.classList.add('drag-over'); });
+dropZone.addEventListener('dragleave', () => dropZone.classList.remove('drag-over'));
+dropZone.addEventListener('drop', e => {
+  e.preventDefault();
+  dropZone.classList.remove('drag-over');
+  const f = e.dataTransfer.files[0];
+  if (f && f.name.endsWith('.zip')) verifyBundle(f);
+  else setStatus('Please drop a .zip bundle file');
+});
+
+resetBtn.addEventListener('click', () => {
+  progressList.innerHTML = '';
+  progressList.classList.remove('visible');
+  statusBar.classList.remove('visible');
+  document.getElementById('verdict').classList.remove('visible');
+  document.getElementById('bundleInfo').classList.remove('visible');
+  resetBtn.classList.remove('visible');
+  fileInput.value = '';
+});
+</script>
+</body>
+</html>

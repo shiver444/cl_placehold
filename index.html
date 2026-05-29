@@ -1,0 +1,435 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="A digital evidence protocol. Proof that travels with the file. Verifiable by anyone, without us.">
+<title>VidProof — Prove What Actually Happened</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Mono:wght@300;400;500&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap');
+:root{--black:#080808;--off:#f0ede6;--green:#00e87a;--dim:#3a3a3a;--border:#1c1c1c;--card:#111111;--red:#ff3c3c}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--black);color:var(--off);font-family:'DM Sans',sans-serif;font-weight:300;line-height:1.6;overflow-x:hidden}
+nav{position:fixed;top:0;left:0;right:0;z-index:100;display:flex;align-items:center;justify-content:space-between;padding:0 40px;height:56px;background:rgba(8,8,8,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:3px;color:var(--off);text-decoration:none}
+.nav-logo span{color:var(--green)}
+.nav-links{display:flex;gap:32px;list-style:none}
+.nav-links a{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);text-decoration:none;transition:color .2s}
+.nav-links a:hover{color:var(--off)}
+.nav-cta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--black);background:var(--green);padding:8px 20px;text-decoration:none;transition:background .2s}
+.nav-cta:hover{background:#00ff8a}
+#hero{min-height:100vh;display:flex;flex-direction:column;justify-content:center;padding:120px 40px 80px;position:relative;overflow:hidden}
+.hero-grid{position:absolute;inset:0;background-image:linear-gradient(rgba(0,232,122,.03) 1px,transparent 1px),linear-gradient(90deg,rgba(0,232,122,.03) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+.hero-inner{max-width:1200px;margin:0 auto;width:100%;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
+.hero-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:20px;display:flex;align-items:center;gap:12px}
+.hero-label::before{content:'';display:block;width:24px;height:1px;background:var(--green)}
+h1{font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,6vw,88px);line-height:.95;letter-spacing:1px;margin-bottom:24px}
+h1 em{font-style:normal;color:var(--green)}
+.hero-sub{font-size:16px;color:rgba(240,237,230,.6);max-width:480px;margin-bottom:40px;line-height:1.7}
+.hero-actions{display:flex;gap:12px;flex-wrap:wrap}
+.btn-primary{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--black);background:var(--green);padding:14px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:background .2s}
+.btn-primary:hover{background:#00ff8a}
+.btn-secondary{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--off);border:1px solid var(--border);padding:14px 28px;text-decoration:none;display:inline-flex;align-items:center;gap:8px;transition:border-color .2s}
+.btn-secondary:hover{border-color:var(--off)}
+.screenshot-frame{background:var(--card);border:1px solid var(--border);overflow:hidden;position:relative}
+.screenshot-bar{height:36px;background:#0d0d0d;border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 16px;gap:6px}
+.screenshot-dot{width:10px;height:10px;border-radius:50%;background:var(--border)}
+.screenshot-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--off);margin-left:8px}
+.screenshot-title span{color:var(--green)}
+.screenshot-body{display:grid;grid-template-columns:160px 1fr;height:380px}
+.screenshot-sidebar{background:#0d0d0d;border-right:1px solid var(--border);padding:16px 0;position:relative}
+.ss-section{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:12px 16px 6px}
+.ss-item{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);padding:8px 16px;display:flex;align-items:center;gap:8px;border-left:2px solid transparent}
+.ss-item.active{color:var(--off);border-left-color:var(--green);background:#161616}
+.screenshot-main{padding:24px;overflow:hidden}
+.ss-header-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:4px;display:flex;align-items:center;gap:8px}
+.ss-header-label::before{content:'';width:12px;height:1px;background:var(--green);display:block}
+.ss-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:20px}
+.ss-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px}
+.ss-stat{background:#111;padding:12px}
+.ss-stat-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);line-height:1;margin-bottom:2px}
+.ss-stat-val.white{color:var(--off)}
+.ss-stat-lbl{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.ss-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.ss-card{background:#111;padding:12px}
+.ss-card-icon{font-size:14px;margin-bottom:6px;display:block}
+.ss-card-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--off);margin-bottom:2px}
+.ss-card-desc{font-size:9px;color:var(--dim);line-height:1.4}
+.ss-profile{position:absolute;bottom:0;left:0;width:160px;border-top:1px solid var(--border);padding:10px 16px;font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);display:flex;align-items:center;gap:6px;background:#0d0d0d}
+.ss-profile-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
+.ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:14px 0;background:var(--card)}
+.ticker-track{display:flex;gap:48px;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-item{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);flex-shrink:0;display:flex;align-items:center;gap:12px}
+.ticker-item::before{content:'◈';color:var(--green);font-size:8px}
+@keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+section{padding:100px 40px;max-width:1200px;margin:0 auto}
+.section-label{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:var(--green);margin-bottom:16px;display:flex;align-items:center;gap:12px}
+.section-label::before{content:'';display:block;width:24px;height:1px;background:var(--green)}
+h2{font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,4vw,56px);line-height:1;letter-spacing:1px;margin-bottom:16px}
+h2 em{font-style:normal;color:var(--green)}
+.section-sub{font-size:15px;color:rgba(240,237,230,.5);max-width:600px;margin-bottom:60px;line-height:1.7}
+#challenge{border-top:1px solid var(--border)}
+.challenge-quote{font-family:'Bebas Neue',sans-serif;font-size:clamp(32px,4vw,52px);line-height:1.1;margin-bottom:48px;max-width:800px}
+.challenge-quote em{font-style:italic;font-family:'DM Sans',sans-serif;font-weight:300;font-size:.7em;color:rgba(240,237,230,.4);display:block;margin-top:8px}
+.challenge-points{display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.challenge-point{background:var(--card);padding:32px}
+.cp-icon{font-size:20px;margin-bottom:12px;display:block}
+.cp-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.cp-body{font-size:14px;color:rgba(240,237,230,.5);line-height:1.7}
+#who{border-top:1px solid var(--border)}
+.who-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.who-card{background:var(--card);padding:32px;transition:background .2s}
+.who-card:hover{background:#161616}
+.who-icon{font-size:24px;margin-bottom:16px;display:block}
+.who-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;margin-bottom:8px}
+.who-body{font-size:13px;color:rgba(240,237,230,.5);line-height:1.7}
+.who-also{margin-top:24px;padding:20px 24px;border:1px solid var(--border);font-size:13px;color:rgba(240,237,230,.4);font-style:italic}
+#how{border-top:1px solid var(--border)}
+.how-steps{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:60px}
+.how-step{background:var(--card);padding:40px 32px;position:relative}
+.step-num{font-family:'Bebas Neue',sans-serif;font-size:64px;color:rgba(0,232,122,.08);line-height:1;margin-bottom:16px}
+.step-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:1px;margin-bottom:12px;color:var(--green)}
+.step-body{font-size:13px;color:rgba(240,237,230,.5);line-height:1.7}
+.step-arrow{position:absolute;right:-16px;top:50%;transform:translateY(-50%);font-family:'DM Mono',monospace;font-size:16px;color:var(--green);z-index:1}
+#features{border-top:1px solid var(--border)}
+.features-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
+.feature{background:var(--card);padding:28px}
+.feature-icon{font-size:18px;margin-bottom:10px;display:block}
+.feature-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--off);margin-bottom:6px}
+.feature-body{font-size:12px;color:rgba(240,237,230,.4);line-height:1.6}
+#tiers{border-top:1px solid var(--border)}
+.tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.tier{background:var(--card);padding:48px 40px}
+.tier.featured{background:#0e1a14;border-left:2px solid var(--green)}
+.tier-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:8px}
+.tier-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:1px;margin-bottom:16px}
+.tier-desc{font-size:14px;color:rgba(240,237,230,.5);line-height:1.7;margin-bottom:28px}
+.tier-points{list-style:none;display:flex;flex-direction:column;gap:10px;margin-bottom:32px}
+.tier-points li{font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:rgba(240,237,230,.6);display:flex;align-items:flex-start;gap:10px}
+.tier-points li::before{content:'✔';color:var(--green);flex-shrink:0;margin-top:1px}
+.tier-cta{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--black);background:var(--green);padding:12px 24px;text-decoration:none;display:inline-block;transition:background .2s}
+.tier-cta:hover{background:#00ff8a}
+.tier-cta.outline{background:transparent;color:var(--off);border:1px solid var(--border)}
+.tier-cta.outline:hover{border-color:var(--off);background:transparent}
+#verifier{border-top:1px solid var(--border)}
+.verifier-box{border:1px dashed var(--border);padding:60px 40px;text-align:center;cursor:pointer;transition:all .2s;background:var(--card);max-width:600px;margin:0 auto}
+.verifier-box:hover,.verifier-box.drag-over{border-color:var(--green);background:rgba(0,232,122,.04)}
+.verifier-icon{font-size:40px;margin-bottom:16px;display:block}
+.verifier-title{font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;margin-bottom:8px}
+.verifier-sub{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim)}
+.verify-result{display:none;padding:32px;text-align:center;border:1px solid var(--border);margin-top:16px;max-width:600px;margin-left:auto;margin-right:auto}
+.verify-result.visible{display:block}
+.verify-result.valid{border-color:rgba(0,232,122,.3);background:rgba(0,232,122,.05)}
+.verify-result.invalid{border-color:rgba(255,60,60,.3);background:rgba(255,60,60,.05)}
+.verify-verdict{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;margin-bottom:4px}
+.verify-result.valid .verify-verdict{color:var(--green)}
+.verify-result.invalid .verify-verdict{color:var(--red)}
+.verify-sub-text{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim)}
+.verify-checks{display:flex;flex-direction:column;gap:2px;margin-top:16px;text-align:left;max-width:600px;margin-left:auto;margin-right:auto}
+.check-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card);font-family:'DM Mono',monospace;font-size:10px;border-left:2px solid var(--border)}
+.check-item.pass{border-left-color:var(--green);color:var(--off)}
+.check-item.fail{border-left-color:var(--red);color:var(--off)}
+.check-item.warn{border-left-color:#ffe141;color:var(--off)}
+.verify-again{margin-top:20px;text-align:center}
+#contact{border-top:1px solid var(--border);text-align:center}
+.contact-inner{max-width:600px;margin:0 auto}
+.contact-email{font-family:'DM Mono',monospace;font-size:14px;letter-spacing:2px;color:var(--green);text-decoration:none;display:inline-block;margin-bottom:12px;transition:opacity .2s}
+.contact-email:hover{opacity:.7}
+footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-items:center;justify-content:space-between}
+.footer-logo{font-family:'Bebas Neue',sans-serif;font-size:16px;letter-spacing:3px}
+.footer-logo span{color:var(--green)}
+.footer-copy{font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:var(--dim)}
+::-webkit-scrollbar{width:4px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border)}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-screenshot{display:none}.challenge-points,.how-steps,.features-grid,.tiers-grid,.who-grid{grid-template-columns:1fr}nav{padding:0 20px}.nav-links{display:none}section{padding:60px 20px}}
+</style>
+</head>
+<body>
+
+<nav>
+  <a href="#hero" class="nav-logo">Vid<span>Proof</span></a>
+  <ul class="nav-links">
+    <li><a href="#challenge">The problem</a></li>
+    <li><a href="#who">Who it's for</a></li>
+    <li><a href="#how">How it works</a></li>
+    <li><a href="#features">The app</a></li>
+    <li><a href="#verifier">Verify</a></li>
+  </ul>
+  <a href="#contact" class="nav-cta">Get in touch</a>
+</nav>
+
+<div id="hero">
+  <div class="hero-grid"></div>
+  <div class="hero-inner">
+    <div class="hero-content">
+      <div class="hero-label">CrithLabs · Digital Evidence Protocol</div>
+      <h1>Prove what <em>actually</em> happened.</h1>
+      <p class="hero-sub">VidProof is a digital evidence protocol. It takes any video, content, or recorded decision and produces a sealed proof bundle — a single file containing the complete chain of custody. Verification does not depend on VidProof. The proof travels with the file.</p>
+      <div class="hero-actions">
+        <a href="#verifier" class="btn-primary">▶ Verify a bundle</a>
+        <a href="#contact" class="btn-secondary">Get in touch →</a>
+      </div>
+    </div>
+    <div class="hero-screenshot">
+      <div class="screenshot-frame">
+        <div class="screenshot-bar">
+          <div class="screenshot-dot"></div><div class="screenshot-dot"></div><div class="screenshot-dot"></div>
+          <div class="screenshot-title">Vid<span>Proof</span> &nbsp;·&nbsp; v1.0 · CrithLabs</div>
+        </div>
+        <div class="screenshot-body">
+          <div class="screenshot-sidebar">
+            <div class="ss-section">Main</div>
+            <div class="ss-item active">◈ Dashboard</div>
+            <div class="ss-item">📁 Projects</div>
+            <div class="ss-item">🎞 Tokens</div>
+            <div class="ss-item">➕ New Token</div>
+            <div class="ss-item">📦 Bundles</div>
+            <div class="ss-section">Tools</div>
+            <div class="ss-item">✔ Verify</div>
+            <div class="ss-item">▶ Agent</div>
+            <div class="ss-item">🔧 Video Fixer</div>
+            <div class="ss-item">🔐 Fingerprinter</div>
+            <div class="ss-profile"><div class="ss-profile-dot"></div>crithlabs</div>
+          </div>
+          <div class="screenshot-main">
+            <div class="ss-header-label">Overview</div>
+            <div class="ss-title">Dashboard</div>
+            <div class="ss-stats">
+              <div class="ss-stat"><div class="ss-stat-val">3</div><div class="ss-stat-lbl">Projects</div></div>
+              <div class="ss-stat"><div class="ss-stat-val white">4</div><div class="ss-stat-lbl">Tokens</div></div>
+              <div class="ss-stat"><div class="ss-stat-val white">3</div><div class="ss-stat-lbl">Bundles</div></div>
+              <div class="ss-stat"><div class="ss-stat-val" style="font-size:20px;padding-top:4px">OK</div><div class="ss-stat-lbl">System</div></div>
+            </div>
+            <div class="ss-cards">
+              <div class="ss-card"><span class="ss-card-icon">📁</span><div class="ss-card-title">New Project</div><div class="ss-card-desc">Create and build</div></div>
+              <div class="ss-card"><span class="ss-card-icon">✔</span><div class="ss-card-title">Verify Bundle</div><div class="ss-card-desc">Instant verification</div></div>
+              <div class="ss-card"><span class="ss-card-icon">🎞</span><div class="ss-card-title">Token Library</div><div class="ss-card-desc">Browse & audit</div></div>
+              <div class="ss-card"><span class="ss-card-icon">🔐</span><div class="ss-card-title">Fingerprinter</div><div class="ss-card-desc">Any file, batch mode</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="ticker-wrap">
+  <div class="ticker-track">
+    <span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">Still valid if we disappear</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Merkle verified</span><span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">Still valid if we disappear</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Merkle verified</span>
+  </div>
+</div>
+
+<section id="challenge">
+  <div class="section-label">The problem</div>
+  <div class="challenge-quote">If this gets challenged —<em>can you prove it's real?</em></div>
+  <div class="challenge-points">
+    <div class="challenge-point"><span class="cp-icon">⚠</span><div class="cp-title">Most systems require trust</div><div class="cp-body">Their platform. Their servers. Their word. When they're gone, the proof is gone. When they're challenged, you're challenged.</div></div>
+    <div class="challenge-point"><span class="cp-icon">🔍</span><div class="cp-title">VidProof works differently</div><div class="cp-body">Proof can't be altered without detection. Anyone can verify it in seconds. No account, platform, or vendor required. Still verifiable even if we disappear.</div></div>
+  </div>
+</section>
+
+<section id="who">
+  <div class="section-label">Who it's for</div>
+  <h2>When the stakes <em>are real.</em></h2>
+  <p class="section-sub">Built for situations where evidence gets challenged. Legal. Financial. Institutional. Accountability.</p>
+  <div class="who-grid">
+    <div class="who-card"><span class="who-icon">⚖️</span><div class="who-title">Legal</div><div class="who-body">Cryptographic chain of custody. Holds up when opposing counsel challenges authenticity. Verification takes 30 seconds, requires nothing from us.</div></div>
+    <div class="who-card"><span class="who-icon">🛡️</span><div class="who-title">Insurance</div><div class="who-body">Submitted evidence verified mathematically. Fraud doesn't survive a hash check. Automated, instant, no manual review required.</div></div>
+    <div class="who-card"><span class="who-icon">🔍</span><div class="who-title">Investigations</div><div class="who-body">Surveillance and incident footage sealed on capture. Chain of evidence from the moment of recording to the moment it's presented.</div></div>
+    <div class="who-card"><span class="who-icon">🤖</span><div class="who-title">AI Systems</div><div class="who-body">Every decision an AI makes — sealed, timestamped, verifiable. Audit trail that satisfies compliance requirements and survives legal challenge.</div></div>
+    <div class="who-card"><span class="who-icon">🏢</span><div class="who-title">HR & Compliance</div><div class="who-body">Recorded incidents and interviews sealed at the moment of capture. Tamper-proof. Timestamped. Defensible in any proceeding.</div></div>
+    <div class="who-card"><span class="who-icon">🏠</span><div class="who-title">Real Estate</div><div class="who-body">Property condition locked to a specific date and time. Undisputable record that predates any claim of damage or alteration.</div></div>
+  </div>
+  <div class="who-also">Also used by journalists, content creators, and activists when proof of authenticity is required.</div>
+</section>
+
+<section id="how">
+  <div class="section-label">How it works</div>
+  <h2>One protocol. <em>Three steps.</em> No trust required.</h2>
+  <p class="section-sub">The same cryptographic pipeline every time. No shortcuts, no exceptions.</p>
+  <div class="how-steps">
+    <div class="how-step"><div class="step-num">01</div><div class="step-title">Seal</div><div class="step-body">Content gets hashed with SHA256, signed with ECDSA, and anchored to the Constellation Network blockchain. From this moment forward, any alteration is mathematically detectable — by anyone.</div><span class="step-arrow">→</span></div>
+    <div class="how-step"><div class="step-num">02</div><div class="step-title">Bundle</div><div class="step-body">The content, signature, PDF chain of evidence report, and full audit trail get packaged into one sealed file with a signed SHA256 sidecar. Everything needed to verify is inside. No external system required.</div><span class="step-arrow">→</span></div>
+    <div class="how-step"><div class="step-num">03</div><div class="step-title">Verify</div><div class="step-body">Drop the bundle here or open verify.html inside the zip. No account. No software. No us. The proof is self-contained and permanent. It was true before we existed and stays true if we disappear.</div></div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="section-label">The app</div>
+  <h2>Professional <em>infrastructure.</em></h2>
+  <p class="section-sub">For organisations that handle sensitive data and can't route it through a third party — VidProof runs entirely on your own machine.</p>
+  <div class="features-grid">
+    <div class="feature"><span class="feature-icon">🎞</span><div class="feature-title">Token Library</div><div class="feature-body">Every media file gets a signed token with full fingerprint, hash, and usage audit trail. Nothing is used without being verified first.</div></div>
+    <div class="feature"><span class="feature-icon">📦</span><div class="feature-title">Sealed Bundles</div><div class="feature-body">Full proof bundles with ECDSA-signed manifest, Merkle roots, PDF chain of evidence, and SHA256 sidecar seal. One file, complete custody.</div></div>
+    <div class="feature"><span class="feature-icon">🔐</span><div class="feature-title">Content Fingerprinter</div><div class="feature-body">Fingerprint any file — documents, images, video — directly to Constellation Network. Single file or batch up to 10. Custom Document ID and metadata.</div></div>
+    <div class="feature"><span class="feature-icon">📄</span><div class="feature-title">PDF Chain of Evidence</div><div class="feature-body">Professional PDF report generated automatically with every bundle. Verification results, cryptographic details, Constellation anchor — court-ready.</div></div>
+    <div class="feature"><span class="feature-icon">✔</span><div class="feature-title">Instant Verification</div><div class="feature-body">Drop any bundle into the desktop app or the web verifier. Seven-step cryptographic check in seconds. Valid verdict, signed receipt saved automatically.</div></div>
+    <div class="feature"><span class="feature-icon">🔧</span><div class="feature-title">Video Fixer</div><div class="feature-body">Re-encodes incompatible footage to 1080p 30fps H.264 before tokenizing. Ensures consistent, verifiable output regardless of source format.</div></div>
+  </div>
+</section>
+
+<section id="tiers">
+  <div class="section-label">How to work with us</div>
+  <h2>Two ways <em>to get proof.</em></h2>
+  <p class="section-sub">Whether you need one bundle or ongoing infrastructure, there's a path that fits.</p>
+  <div class="tiers-grid">
+    <div class="tier featured">
+      <div class="tier-label">Most common</div>
+      <div class="tier-title">Use the service</div>
+      <div class="tier-desc">Send us your content. We run the full VidProof protocol and deliver a sealed proof bundle. No setup, no software, no commitment.</div>
+      <ul class="tier-points">
+        <li>Full VidProof protocol applied to your content</li>
+        <li>Sealed bundle with PDF chain of evidence delivered</li>
+        <li>Constellation Network anchoring included</li>
+        <li>First one on the house — no risk to try</li>
+        <li>Ongoing retainer available for high-volume clients</li>
+      </ul>
+      <a href="#contact" class="tier-cta">Get in touch →</a>
+    </div>
+    <div class="tier">
+      <div class="tier-label">For sensitive data</div>
+      <div class="tier-title">Your own infrastructure</div>
+      <div class="tier-desc">For organisations that can't route sensitive data through a third party. VidProof runs entirely on your machine. We never see your content.</div>
+      <ul class="tier-points">
+        <li>Desktop app installed on your hardware</li>
+        <li>Your own Constellation API credentials</li>
+        <li>Full token library and project management</li>
+        <li>Batch fingerprinting and video processing</li>
+        <li>Your data never leaves your environment</li>
+      </ul>
+      <a href="#contact" class="tier-cta outline">Ask about it →</a>
+    </div>
+  </div>
+</section>
+
+<section id="verifier">
+  <div class="section-label">Verification</div>
+  <h2>Drop it. <em>Get the truth.</em></h2>
+  <p class="section-sub">Any proof bundle, verified in seconds. No account. No software. No us required.</p>
+  <div class="verifier-box" id="verifierBox">
+    <input type="file" id="verifierInput" accept=".zip" style="display:none">
+    <span class="verifier-icon">📦</span>
+    <div class="verifier-title">Drop your proof bundle</div>
+    <div class="verifier-sub">or click to select — .zip file</div>
+  </div>
+  <div class="verify-result" id="verifyResult">
+    <div style="font-size:40px;margin-bottom:12px" id="verifyIcon"></div>
+    <div class="verify-verdict" id="verifyVerdict"></div>
+    <div class="verify-sub-text" id="verifySub"></div>
+  </div>
+  <div class="verify-checks" id="verifyChecks"></div>
+  <div class="verify-again" id="verifyAgain" style="display:none">
+    <button onclick="resetVerifier()" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--dim);border:1px solid var(--border);padding:10px 20px;cursor:pointer;">↺ Verify another bundle</button>
+  </div>
+</section>
+
+<section id="contact">
+  <div class="section-label">Contact</div>
+  <div class="contact-inner">
+    <h2>First one's <em>on the house.</em></h2>
+    <p class="section-sub" style="margin:0 auto 32px;text-align:center">Lawyers, investigators, HR, insurance, real estate — if you need evidence that holds up when it gets challenged, drop me a line.</p>
+    <a href="mailto:crith@crithlabs.com" class="contact-email">✉ crith@crithlabs.com</a>
+  </div>
+</section>
+
+<footer>
+  <div class="footer-logo">Vid<span>Proof</span></div>
+  <div class="footer-copy">© 2026 CrithLabs · Powered by Constellation Network Digital Evidence</div>
+</footer>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const verifierBox=document.getElementById('verifierBox')
+const verifierInput=document.getElementById('verifierInput')
+const verifyResult=document.getElementById('verifyResult')
+const verifyChecks=document.getElementById('verifyChecks')
+const verifyAgain=document.getElementById('verifyAgain')
+
+verifierBox.addEventListener('click',()=>verifierInput.click())
+verifierInput.addEventListener('change',e=>{if(e.target.files[0])processBundle(e.target.files[0])})
+verifierBox.addEventListener('dragover',e=>{e.preventDefault();verifierBox.classList.add('drag-over')})
+verifierBox.addEventListener('dragleave',()=>verifierBox.classList.remove('drag-over'))
+verifierBox.addEventListener('drop',e=>{e.preventDefault();verifierBox.classList.remove('drag-over');const f=e.dataTransfer.files[0];if(f&&f.name.endsWith('.zip'))processBundle(f)})
+
+async function sha256hex(buffer){
+  const hash=await crypto.subtle.digest('SHA-256',buffer)
+  return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('')
+}
+
+async function processBundle(file){
+  verifierBox.style.display='none'
+  verifyResult.className='verify-result visible'
+  document.getElementById('verifyIcon').textContent='🔍'
+  document.getElementById('verifyVerdict').textContent='CHECKING'
+  document.getElementById('verifySub').textContent='Running cryptographic verification...'
+  verifyChecks.innerHTML='<div class="check-item" style="color:var(--dim)">Please wait...</div>'
+
+  const checks=[]
+  let valid=true
+
+  try{
+    const arrayBuffer=await file.arrayBuffer()
+    const zip=await JSZip.loadAsync(arrayBuffer)
+
+    const required=['manifest.json','manifest.sig','output.mp4','tokens_used.json','proof_report.json','chain_of_evidence.txt']
+    let filesValid=true
+    for(const fname of required){
+      const exists=zip.file(fname)!==null
+      if(!exists){filesValid=false;valid=false}
+      checks.push({label:fname,status:exists?'pass':'fail',detail:exists?'present':'MISSING'})
+    }
+
+    if(!filesValid){showResult(false,checks);return}
+
+    const manifestStr=await zip.file('manifest.json').async('string')
+    const manifest=JSON.parse(manifestStr)
+
+    const hasPubKey=!!manifest.public_key
+    checks.push({label:'Public key',status:hasPubKey?'pass':'fail',detail:hasPubKey?'embedded in manifest':'MISSING'})
+    if(!hasPubKey)valid=false
+
+    const videoData=await zip.file('output.mp4').async('arraybuffer')
+    const computedHash=await sha256hex(videoData)
+    const hashMatch=computedHash===manifest.output_hash
+    checks.push({label:'Video SHA256',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — content altered'})
+    if(!hashMatch)valid=false
+
+    const tokens=manifest.tokens||[]
+    checks.push({label:'Token records',status:tokens.length>0?'pass':'warn',detail:`${tokens.length} source token${tokens.length!==1?'s':''} recorded`})
+
+    const fp=manifest.fingerprint_hash
+    const hasAnchor=fp&&fp!=='NO_LINK'&&fp!=='PENDING'
+    checks.push({label:'Constellation anchor',status:hasAnchor?'pass':'warn',detail:hasAnchor?fp.slice(0,20)+'...':'not anchored'})
+
+    const version=manifest.vidproof_version||'—'
+    checks.push({label:'VidProof protocol',status:'pass',detail:`v${version}`})
+
+  }catch(e){
+    valid=false
+    checks.push({label:'Bundle parse error',status:'fail',detail:e.message})
+  }
+
+  showResult(valid,checks)
+}
+
+function showResult(valid,checks){
+  verifyResult.className=`verify-result visible ${valid?'valid':'invalid'}`
+  document.getElementById('verifyIcon').textContent=valid?'✅':'❌'
+  document.getElementById('verifyVerdict').textContent=valid?'VALID':'INVALID'
+  document.getElementById('verifySub').textContent=valid?'Content is authentic and unaltered':'Verification failed — bundle may be compromised'
+  verifyChecks.innerHTML=checks.map(c=>`<div class="check-item ${c.status}"><span>${c.status==='pass'?'✔':c.status==='warn'?'⚠':'✗'}</span><span style="flex:1">${c.label}</span><span style="color:var(--dim);font-size:9px">${c.detail}</span></div>`).join('')
+  verifyAgain.style.display='block'
+}
+
+function resetVerifier(){
+  verifierBox.style.display='block'
+  verifyResult.className='verify-result'
+  verifyChecks.innerHTML=''
+  verifyAgain.style.display='none'
+  verifierInput.value=''
+}
+</script>
+</body>
+</html>

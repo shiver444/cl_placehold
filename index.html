@@ -357,6 +357,34 @@ async function sha256hex(buffer){
   return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('')
 }
 
+async function sha256hexStr(str){
+  return sha256hex(new TextEncoder().encode(str))
+}
+
+async function computeMerkleRoot(hashes){
+  if(!hashes||hashes.length===0)return null
+  let current=[...hashes]
+  while(current.length>1){
+    const next=[]
+    for(let i=0;i<current.length;i+=2){
+      const left=current[i]
+      const right=i+1<current.length?current[i+1]:left
+      next.push(await sha256hexStr(left+right))
+    }
+    current=next
+  }
+  return current[0]
+}
+
+async function computeFileMerkleRoot(arrayBuffer){
+  const chunkSize=1024*1024
+  const chunks=[]
+  for(let offset=0;offset<arrayBuffer.byteLength;offset+=chunkSize){
+    chunks.push(await sha256hex(arrayBuffer.slice(offset,offset+chunkSize)))
+  }
+  return computeMerkleRoot(chunks)
+}
+
 async function processBundle(file){
   verifierBox.style.display='none'
   verifyResult.className='verify-result visible'
@@ -372,38 +400,64 @@ async function processBundle(file){
     const arrayBuffer=await file.arrayBuffer()
     const zip=await JSZip.loadAsync(arrayBuffer)
 
-    const required=['manifest.json','manifest.sig','output.mp4','tokens_used.json','proof_report.json','chain_of_evidence.txt']
+    // Step 1 — Load manifest
+    const manifestStr=await zip.file('manifest.json').async('string')
+    const manifest=JSON.parse(manifestStr)
+    const bundleType=manifest.bundle_type||'video'
+
+    // Step 2 — Required files
+    const required=bundleType==='decision_log'
+      ?['manifest.json','manifest.sig',manifest.output_file,'chain_of_evidence.txt']
+      :['manifest.json','manifest.sig','output.mp4','tokens_used.json','proof_report.json','chain_of_evidence.txt']
     let filesValid=true
     for(const fname of required){
       const exists=zip.file(fname)!==null
       if(!exists){filesValid=false;valid=false}
       checks.push({label:fname,status:exists?'pass':'fail',detail:exists?'present':'MISSING'})
     }
-
     if(!filesValid){showResult(false,checks);return}
 
-    const manifestStr=await zip.file('manifest.json').async('string')
-    const manifest=JSON.parse(manifestStr)
-
+    // Step 3 — Public key
     const hasPubKey=!!manifest.public_key
     checks.push({label:'Public key',status:hasPubKey?'pass':'fail',detail:hasPubKey?'embedded in manifest':'MISSING'})
     if(!hasPubKey)valid=false
 
-    const videoData=await zip.file('output.mp4').async('arraybuffer')
-    const computedHash=await sha256hex(videoData)
+    // Step 4 — Content hash
+    const outputFileName=bundleType==='decision_log'?manifest.output_file:'output.mp4'
+    const outputData=await zip.file(outputFileName).async('arraybuffer')
+    const computedHash=await sha256hex(outputData)
     const hashMatch=computedHash===manifest.output_hash
-    checks.push({label:'Video SHA256',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — content altered'})
+    checks.push({label:bundleType==='decision_log'?'Decision log SHA256':'Video SHA256',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — content altered'})
     if(!hashMatch)valid=false
 
-    const tokens=manifest.tokens||[]
-    checks.push({label:'Token records',status:tokens.length>0?'pass':'warn',detail:`${tokens.length} source token${tokens.length!==1?'s':''} recorded`})
+    // Step 5 — Merkle / session integrity
+    if(bundleType==='decision_log'){
+      const hasSessionHash=!!manifest.session_hash
+      checks.push({label:'Session integrity',status:hasSessionHash?'pass':'warn',detail:hasSessionHash?'Session hash present':'Missing'})
+    } else {
+      const videoData=await zip.file('output.mp4').async('arraybuffer')
+      const computedMerkle=await computeFileMerkleRoot(videoData)
+      const merkleMatch=computedMerkle===manifest.output_merkle_root
+      checks.push({label:'Merkle root',status:merkleMatch?'pass':'fail',detail:merkleMatch?'matches manifest':'MISMATCH'})
+      if(!merkleMatch)valid=false
+    }
 
+    // Step 6 — Tokens / decisions
+    if(bundleType==='decision_log'){
+      const count=manifest.decision_count||0
+      checks.push({label:'Decision count',status:count>0?'pass':'warn',detail:`${count} decisions recorded`})
+    } else {
+      const tokens=manifest.tokens||[]
+      checks.push({label:'Token records',status:tokens.length>0?'pass':'warn',detail:`${tokens.length} source token${tokens.length!==1?'s':''} recorded`})
+    }
+
+    // Step 7 — Constellation anchor
     const fp=manifest.fingerprint_hash
-    const hasAnchor=fp&&fp!=='NO_LINK'&&fp!=='PENDING'
+    const hasAnchor=fp&&fp!=='NO_LINK'&&fp!=='PENDING'&&fp!=='NOT_ANCHORED'
     checks.push({label:'Constellation anchor',status:hasAnchor?'pass':'warn',detail:hasAnchor?fp.slice(0,20)+'...':'not anchored'})
 
-    const version=manifest.vidproof_version||'—'
-    checks.push({label:'VidProof protocol',status:'pass',detail:`v${version}`})
+    // Step 8 — Protocol version
+    checks.push({label:'VidProof protocol',status:'pass',detail:`v${manifest.vidproof_version||'—'} · ${bundleType==='decision_log'?'Decision Log':'Video Evidence'}`})
 
   }catch(e){
     valid=false

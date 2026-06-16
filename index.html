@@ -37,29 +37,29 @@ h1 em{font-style:normal;color:var(--green)}
 .screenshot-dot{width:10px;height:10px;border-radius:50%;background:var(--border)}
 .screenshot-title{font-family:'Bebas Neue',sans-serif;font-size:13px;letter-spacing:2px;color:var(--off);margin-left:8px}
 .screenshot-title span{color:var(--green)}
-.screenshot-body{display:grid;grid-template-columns:160px 1fr;height:380px}
-.screenshot-sidebar{background:#0d0d0d;border-right:1px solid var(--border);padding:16px 0;position:relative}
-.ss-section{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:12px 16px 6px}
-.ss-item{font-family:'DM Mono',monospace;font-size:10px;color:var(--dim);padding:8px 16px;display:flex;align-items:center;gap:8px;border-left:2px solid transparent}
+.screenshot-body{display:grid;grid-template-columns:150px 1fr;height:420px}
+.screenshot-sidebar{background:#0d0d0d;border-right:1px solid var(--border);padding:14px 0;position:relative;overflow:hidden}
+.ss-section{font-family:'DM Mono',monospace;font-size:6.5px;letter-spacing:3px;text-transform:uppercase;color:var(--dim);padding:10px 14px 5px}
+.ss-item{font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);padding:6.5px 14px;display:flex;align-items:center;gap:7px;border-left:2px solid transparent}
 .ss-item.active{color:var(--off);border-left-color:var(--green);background:#161616}
-.screenshot-main{padding:24px;overflow:hidden}
+.screenshot-main{padding:22px;overflow:hidden}
 .ss-header-label{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:3px;text-transform:uppercase;color:var(--green);margin-bottom:4px;display:flex;align-items:center;gap:8px}
 .ss-header-label::before{content:'';width:12px;height:1px;background:var(--green);display:block}
-.ss-title{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:1px;margin-bottom:20px}
-.ss-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:16px}
-.ss-stat{background:#111;padding:12px}
-.ss-stat-val{font-family:'Bebas Neue',sans-serif;font-size:28px;color:var(--green);line-height:1;margin-bottom:2px}
+.ss-title{font-family:'Bebas Neue',sans-serif;font-size:26px;letter-spacing:1px;margin-bottom:18px}
+.ss-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-bottom:14px}
+.ss-stat{background:#111;padding:11px}
+.ss-stat-val{font-family:'Bebas Neue',sans-serif;font-size:24px;color:var(--green);line-height:1;margin-bottom:2px}
 .ss-stat-val.white{color:var(--off)}
-.ss-stat-lbl{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
+.ss-stat-lbl{font-family:'DM Mono',monospace;font-size:6.5px;letter-spacing:2px;text-transform:uppercase;color:var(--dim)}
 .ss-cards{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--border);border:1px solid var(--border)}
-.ss-card{background:#111;padding:12px}
-.ss-card-icon{font-size:14px;margin-bottom:6px;display:block}
-.ss-card-title{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:1px;text-transform:uppercase;color:var(--off);margin-bottom:2px}
-.ss-card-desc{font-size:9px;color:var(--dim);line-height:1.4}
-.ss-profile{position:absolute;bottom:0;left:0;width:160px;border-top:1px solid var(--border);padding:10px 16px;font-family:'DM Mono',monospace;font-size:9px;color:var(--dim);display:flex;align-items:center;gap:6px;background:#0d0d0d}
+.ss-card{background:#111;padding:11px}
+.ss-card-icon{font-size:13px;margin-bottom:5px;display:block}
+.ss-card-title{font-family:'DM Mono',monospace;font-size:7px;letter-spacing:1px;text-transform:uppercase;color:var(--off);margin-bottom:2px}
+.ss-card-desc{font-size:8px;color:var(--dim);line-height:1.4}
+.ss-profile{position:absolute;bottom:0;left:0;width:150px;border-top:1px solid var(--border);padding:9px 14px;font-family:'DM Mono',monospace;font-size:8px;color:var(--dim);display:flex;align-items:center;gap:6px;background:#0d0d0d}
 .ss-profile-dot{width:6px;height:6px;border-radius:50%;background:var(--green);flex-shrink:0}
 .ticker-wrap{border-top:1px solid var(--border);border-bottom:1px solid var(--border);overflow:hidden;padding:14px 0;background:var(--card)}
-.ticker-track{display:flex;gap:48px;animation:ticker 30s linear infinite;white-space:nowrap}
+.ticker-track{display:flex;gap:48px;animation:ticker 34s linear infinite;white-space:nowrap}
 .ticker-item{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);flex-shrink:0;display:flex;align-items:center;gap:12px}
 .ticker-item::before{content:'◈';color:var(--green);font-size:8px}
 @keyframes ticker{from{transform:translateX(0)}to{transform:translateX(-50%)}}
@@ -98,6 +98,21 @@ h2 em{font-style:normal;color:var(--green)}
 .feature-icon{font-size:18px;margin-bottom:10px;display:block}
 .feature-title{font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--off);margin-bottom:6px}
 .feature-body{font-size:12px;color:rgba(240,237,230,.4);line-height:1.6}
+
+/* COMPLIANCE SECTION */
+#compliance{border-top:1px solid var(--border)}
+.compliance-grid{display:grid;grid-template-columns:1.1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
+.compliance-main{background:var(--card);padding:40px}
+.compliance-side{background:var(--card);padding:40px;display:flex;flex-direction:column;gap:1px;background:var(--border)}
+.compliance-side .art-card{background:var(--card);padding:24px}
+.art-eyebrow{font-family:'DM Mono',monospace;font-size:8px;letter-spacing:2px;text-transform:uppercase;color:var(--green);margin-bottom:6px}
+.art-title{font-family:'Bebas Neue',sans-serif;font-size:20px;letter-spacing:1px;margin-bottom:8px}
+.art-body{font-size:12px;color:rgba(240,237,230,.5);line-height:1.6}
+.compliance-main h3{font-family:'Bebas Neue',sans-serif;font-size:30px;letter-spacing:1px;margin-bottom:14px;line-height:1.05}
+.compliance-main p{font-size:14px;color:rgba(240,237,230,.55);line-height:1.7;margin-bottom:14px}
+.compliance-tag{display:inline-flex;align-items:center;gap:8px;font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:var(--dim);border:1px solid var(--border);padding:6px 12px;margin-bottom:20px}
+.compliance-tag span{color:var(--green)}
+
 #tiers{border-top:1px solid var(--border)}
 .tiers-grid{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:var(--border);border:1px solid var(--border)}
 .tier{background:var(--card);padding:48px 40px}
@@ -143,7 +158,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
 ::-webkit-scrollbar{width:4px}
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:var(--border)}
-@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-screenshot{display:none}.challenge-points,.how-steps,.features-grid,.tiers-grid,.who-grid{grid-template-columns:1fr}nav{padding:0 20px}.nav-links{display:none}section{padding:60px 20px}}
+@media(max-width:900px){.hero-inner{grid-template-columns:1fr}.hero-screenshot{display:none}.challenge-points,.how-steps,.features-grid,.tiers-grid,.who-grid,.compliance-grid{grid-template-columns:1fr}nav{padding:0 20px}.nav-links{display:none}section{padding:60px 20px}}
 </style>
 </head>
 <body>
@@ -154,7 +169,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
     <li><a href="#challenge">The problem</a></li>
     <li><a href="#who">Who it's for</a></li>
     <li><a href="#how">How it works</a></li>
-    <li><a href="#features">The app</a></li>
+    <li><a href="#compliance">Compliance</a></li>
     <li><a href="#verifier">Verify</a></li>
   </ul>
   <a href="#contact" class="nav-cta">Get in touch</a>
@@ -166,7 +181,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
     <div class="hero-content">
       <div class="hero-label">CrithLabs · Digital Evidence Protocol</div>
       <h1>Prove what <em>actually</em> happened.</h1>
-      <p class="hero-sub">VidProof is a digital evidence protocol. It takes any video, content, or recorded decision and produces a sealed proof bundle — a single file containing the complete chain of custody. Verification does not depend on VidProof. The proof travels with the file.</p>
+      <p class="hero-sub">VidProof seals video, content, and AI decisions into tamper-proof proof bundles — a single file containing the complete chain of custody. Verification does not depend on VidProof. The proof travels with the file.</p>
       <div class="hero-actions">
         <a href="#verifier" class="btn-primary">▶ Verify a bundle</a>
         <a href="#contact" class="btn-secondary">Get in touch →</a>
@@ -187,7 +202,9 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
             <div class="ss-item">➕ New Token</div>
             <div class="ss-item">📦 Bundles</div>
             <div class="ss-section">Tools</div>
-            <div class="ss-item">✔ Verify</div>            
+            <div class="ss-item">✔ Verify</div>
+            <div class="ss-item">🛡 Compliance</div>
+            <div class="ss-item">🗂 Datasets</div>
             <div class="ss-item">🔧 Video Fixer</div>
             <div class="ss-item">🔐 Fingerprinter</div>
             <div class="ss-profile"><div class="ss-profile-dot"></div>crithlabs</div>
@@ -199,12 +216,12 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
               <div class="ss-stat"><div class="ss-stat-val">3</div><div class="ss-stat-lbl">Projects</div></div>
               <div class="ss-stat"><div class="ss-stat-val white">4</div><div class="ss-stat-lbl">Tokens</div></div>
               <div class="ss-stat"><div class="ss-stat-val white">3</div><div class="ss-stat-lbl">Bundles</div></div>
-              <div class="ss-stat"><div class="ss-stat-val" style="font-size:20px;padding-top:4px">OK</div><div class="ss-stat-lbl">System</div></div>
+              <div class="ss-stat"><div class="ss-stat-val" style="font-size:18px;padding-top:4px">OK</div><div class="ss-stat-lbl">System</div></div>
             </div>
             <div class="ss-cards">
               <div class="ss-card"><span class="ss-card-icon">📁</span><div class="ss-card-title">New Project</div><div class="ss-card-desc">Create and build</div></div>
-              <div class="ss-card"><span class="ss-card-icon">✔</span><div class="ss-card-title">Verify Bundle</div><div class="ss-card-desc">Instant verification</div></div>
-              <div class="ss-card"><span class="ss-card-icon">🎞</span><div class="ss-card-title">Token Library</div><div class="ss-card-desc">Browse & audit</div></div>
+              <div class="ss-card"><span class="ss-card-icon">🛡</span><div class="ss-card-title">Compliance</div><div class="ss-card-desc">Log AI decisions</div></div>
+              <div class="ss-card"><span class="ss-card-icon">🗂</span><div class="ss-card-title">Datasets</div><div class="ss-card-desc">Provenance registry</div></div>
               <div class="ss-card"><span class="ss-card-icon">🔐</span><div class="ss-card-title">Fingerprinter</div><div class="ss-card-desc">Any file, batch mode</div></div>
             </div>
           </div>
@@ -216,7 +233,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
 
 <div class="ticker-wrap">
   <div class="ticker-track">
-    <span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">Still valid if we disappear</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Merkle verified</span><span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">Still valid if we disappear</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Merkle verified</span>
+    <span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">EU AI Act ready</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Dataset provenance</span><span class="ticker-item">Proof travels with the file</span><span class="ticker-item">No vendor dependency</span><span class="ticker-item">Alteration is detectable</span><span class="ticker-item">Chain of custody</span><span class="ticker-item">Constellation Network</span><span class="ticker-item">Verifiable by anyone</span><span class="ticker-item">EU AI Act ready</span><span class="ticker-item">PDF chain of evidence</span><span class="ticker-item">ECDSA signed</span><span class="ticker-item">SHA256 sealed</span><span class="ticker-item">Dataset provenance</span>
   </div>
 </div>
 
@@ -237,7 +254,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
     <div class="who-card"><span class="who-icon">⚖️</span><div class="who-title">Legal</div><div class="who-body">Cryptographic chain of custody. Holds up when opposing counsel challenges authenticity. Verification takes 30 seconds, requires nothing from us.</div></div>
     <div class="who-card"><span class="who-icon">🛡️</span><div class="who-title">Insurance</div><div class="who-body">Submitted evidence verified mathematically. Fraud doesn't survive a hash check. Automated, instant, no manual review required.</div></div>
     <div class="who-card"><span class="who-icon">🔍</span><div class="who-title">Investigations</div><div class="who-body">Surveillance and incident footage sealed on capture. Chain of evidence from the moment of recording to the moment it's presented.</div></div>
-    <div class="who-card"><span class="who-icon">🤖</span><div class="who-title">AI Systems</div><div class="who-body">Every decision an AI makes — sealed, timestamped, verifiable. Audit trail that satisfies compliance requirements and survives legal challenge.</div></div>
+    <div class="who-card"><span class="who-icon">🤖</span><div class="who-title">AI Systems</div><div class="who-body">Every decision an AI makes — sealed, timestamped, verifiable. Audit trail that satisfies emerging compliance requirements and survives legal challenge.</div></div>
     <div class="who-card"><span class="who-icon">🏢</span><div class="who-title">HR & Compliance</div><div class="who-body">Recorded incidents and interviews sealed at the moment of capture. Tamper-proof. Timestamped. Defensible in any proceeding.</div></div>
     <div class="who-card"><span class="who-icon">🏠</span><div class="who-title">Real Estate</div><div class="who-body">Property condition locked to a specific date and time. Undisputable record that predates any claim of damage or alteration.</div></div>
   </div>
@@ -249,9 +266,23 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
   <h2>One protocol. <em>Three steps.</em> No trust required.</h2>
   <p class="section-sub">The same cryptographic pipeline every time. No shortcuts, no exceptions.</p>
   <div class="how-steps">
-    <div class="how-step"><div class="step-num">01</div><div class="step-title">Seal</div><div class="step-body">Content gets hashed with SHA256, signed with ECDSA, and anchored to the Constellation Network blockchain. From this moment forward, any alteration is mathematically detectable — by anyone.</div><span class="step-arrow">→</span></div>
-    <div class="how-step"><div class="step-num">02</div><div class="step-title">Bundle</div><div class="step-body">The content, signature, PDF chain of evidence report, and full audit trail get packaged into one sealed file with a signed SHA256 sidecar. Everything needed to verify is inside. No external system required.</div><span class="step-arrow">→</span></div>
-    <div class="how-step"><div class="step-num">03</div><div class="step-title">Verify</div><div class="step-body">Drop the bundle here or open verify.html inside the zip. No account. No software. No us. The proof is self-contained and permanent. It was true before we existed and stays true if we disappear.</div></div>
+    <div class="how-step">
+      <div class="step-num">01</div>
+      <div class="step-title">Seal</div>
+      <div class="step-body">Content gets hashed with SHA256, signed with ECDSA, and anchored to the Constellation Network blockchain. From this moment forward, any alteration is mathematically detectable — by anyone.</div>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="how-step">
+      <div class="step-num">02</div>
+      <div class="step-title">Bundle</div>
+      <div class="step-body">The content, signature, PDF chain of evidence report, and full audit trail get packaged into one sealed file with a signed SHA256 sidecar. Everything needed to verify is inside. No external system required.</div>
+      <span class="step-arrow">→</span>
+    </div>
+    <div class="how-step">
+      <div class="step-num">03</div>
+      <div class="step-title">Verify</div>
+      <div class="step-body">Drop the bundle here or open verify.html inside the zip. No account. No software. No us. The proof is self-contained and permanent. It was true before we existed and stays true if we disappear.</div>
+    </div>
   </div>
 </section>
 
@@ -266,6 +297,37 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
     <div class="feature"><span class="feature-icon">📄</span><div class="feature-title">PDF Chain of Evidence</div><div class="feature-body">Professional PDF report generated automatically with every bundle. Verification results, cryptographic details, Constellation anchor — court-ready.</div></div>
     <div class="feature"><span class="feature-icon">✔</span><div class="feature-title">Instant Verification</div><div class="feature-body">Drop any bundle into the desktop app or the web verifier. Full cryptographic check in seconds. Valid verdict, signed receipt saved automatically.</div></div>
     <div class="feature"><span class="feature-icon">🔧</span><div class="feature-title">Video Fixer</div><div class="feature-body">Re-encodes incompatible footage to 1080p 30fps H.264 before tokenizing. Ensures consistent, verifiable output regardless of source format.</div></div>
+  </div>
+</section>
+
+<section id="compliance">
+  <div class="section-label">AI Accountability</div>
+  <h2>Proof for what your <em>AI decided.</em></h2>
+  <p class="section-sub">VidProof doesn't just seal video — it seals the decisions your AI systems make, and the data behind them. Same cryptographic protocol, same independent verification.</p>
+  <div class="compliance-grid">
+    <div class="compliance-main">
+      <div class="compliance-tag">EU AI Act · <span>Article 10 · 12 · 13</span></div>
+      <h3>Built around what regulators actually ask for.</h3>
+      <p>Every decision an AI system makes — a flagged transaction, a rejected application, a content moderation call — gets timestamped, hashed, and sealed the moment it happens. Confidence scores, reasoning, the factors behind the call. All captured, all immutable, all anchored to Constellation Network.</p>
+      <p>Datasets and model versions get their own registry, hashed for provenance and linked to the decisions they informed. When someone asks what trained the model and why it decided what it did, you open the bundle. The answer is already there, signed and unalterable.</p>
+    </div>
+    <div class="compliance-side">
+      <div class="art-card">
+        <div class="art-eyebrow">Article 12</div>
+        <div class="art-title">Decision Logging</div>
+        <div class="art-body">Every prediction, input, and output recorded automatically. Hashed, timestamped, sealed — not sampled, not best-effort.</div>
+      </div>
+      <div class="art-card">
+        <div class="art-eyebrow">Article 13</div>
+        <div class="art-title">Transparency</div>
+        <div class="art-body">Reasoning and key factors captured alongside every decision, shown in plain language in the chain of evidence report.</div>
+      </div>
+      <div class="art-card">
+        <div class="art-eyebrow">Article 10</div>
+        <div class="art-title">Data Governance</div>
+        <div class="art-body">A hashed registry of datasets and model versions, with lineage and bias-mitigation notes attached.</div>
+      </div>
+    </div>
   </div>
 </section>
 
@@ -294,7 +356,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
       <ul class="tier-points">
         <li>Desktop app installed on your hardware</li>
         <li>Your own Constellation API credentials</li>
-        <li>Full token library and project management</li>
+        <li>Compliance logging and dataset registry included</li>
         <li>Batch fingerprinting and video processing</li>
         <li>Your data never leaves your environment</li>
       </ul>
@@ -307,18 +369,22 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
   <div class="section-label">Verification</div>
   <h2>Drop it. <em>Get the truth.</em></h2>
   <p class="section-sub">Any proof bundle, verified in seconds. No account. No software. No us required.</p>
+
   <div class="verifier-box" id="verifierBox">
     <input type="file" id="verifierInput" accept=".zip" style="display:none">
     <span class="verifier-icon">📦</span>
     <div class="verifier-title">Drop your proof bundle</div>
     <div class="verifier-sub">or click to select — .zip file</div>
   </div>
+
   <div class="verify-result" id="verifyResult">
     <div style="font-size:40px;margin-bottom:12px" id="verifyIcon"></div>
     <div class="verify-verdict" id="verifyVerdict"></div>
     <div class="verify-sub-text" id="verifySub"></div>
   </div>
+
   <div class="verify-checks" id="verifyChecks"></div>
+
   <div class="verify-again" id="verifyAgain" style="display:none">
     <button onclick="resetVerifier()" style="font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;background:transparent;color:var(--dim);border:1px solid var(--border);padding:10px 20px;cursor:pointer;">↺ Verify another bundle</button>
   </div>
@@ -328,7 +394,7 @@ footer{border-top:1px solid var(--border);padding:32px 40px;display:flex;align-i
   <div class="section-label">Contact</div>
   <div class="contact-inner">
     <h2>First one's <em>on the house.</em></h2>
-    <p class="section-sub" style="margin:0 auto 32px;text-align:center">Lawyers, investigators, HR, insurance, real estate — if you need evidence that holds up when it gets challenged, drop me a line.</p>
+    <p class="section-sub" style="margin:0 auto 32px;text-align:center">Lawyers, investigators, HR, insurance, real estate, AI teams — if you need evidence that holds up when it gets challenged, drop me a line.</p>
     <a href="mailto:crith@crithlabs.com" class="contact-email">✉ crith@crithlabs.com</a>
   </div>
 </section>
@@ -357,10 +423,6 @@ async function sha256hex(buffer){
   return Array.from(new Uint8Array(hash)).map(b=>b.toString(16).padStart(2,'0')).join('')
 }
 
-async function sha256hexStr(str){
-  return sha256hex(new TextEncoder().encode(str))
-}
-
 async function computeMerkleRoot(hashes){
   if(!hashes||hashes.length===0)return null
   let current=[...hashes]
@@ -374,6 +436,10 @@ async function computeMerkleRoot(hashes){
     current=next
   }
   return current[0]
+}
+
+async function sha256hexStr(str){
+  return sha256hex(new TextEncoder().encode(str))
 }
 
 async function computeFileMerkleRoot(arrayBuffer){
@@ -440,10 +506,13 @@ async function processBundle(file){
     }
     if(!hashMatch)valid=false
 
-    // Step 5 — Merkle / session integrity
+    // Step 5 — Merkle / session / dataset integrity
     if(bundleType==='decision_log'){
       const hasSessionHash=!!manifest.session_hash
       checks.push({label:'Session integrity',status:hasSessionHash?'pass':'warn',detail:hasSessionHash?'Session hash present':'Missing'})
+    } else if(bundleType==='dataset_registry'){
+      const hasHash=!!manifest.output_hash
+      checks.push({label:'Dataset hash presence',status:hasHash?'pass':'warn',detail:hasHash?'Hash recorded':'Missing'})
     } else {
       const videoData=await zip.file('output.mp4').async('arraybuffer')
       const computedMerkle=await computeFileMerkleRoot(videoData)

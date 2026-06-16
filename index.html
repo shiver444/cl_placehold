@@ -408,6 +408,8 @@ async function processBundle(file){
     // Step 2 — Required files
     const required=bundleType==='decision_log'
       ?['manifest.json','manifest.sig',manifest.output_file,'chain_of_evidence.txt']
+      :bundleType==='dataset_registry'
+      ?['manifest.json','manifest.sig','dataset_entry.json','chain_of_evidence.txt']
       :['manifest.json','manifest.sig','output.mp4','tokens_used.json','proof_report.json','chain_of_evidence.txt']
     let filesValid=true
     for(const fname of required){
@@ -423,11 +425,19 @@ async function processBundle(file){
     if(!hasPubKey)valid=false
 
     // Step 4 — Content hash
-    const outputFileName=bundleType==='decision_log'?manifest.output_file:'output.mp4'
-    const outputData=await zip.file(outputFileName).async('arraybuffer')
-    const computedHash=await sha256hex(outputData)
-    const hashMatch=computedHash===manifest.output_hash
-    checks.push({label:bundleType==='decision_log'?'Decision log SHA256':'Video SHA256',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — content altered'})
+    let hashMatch=false
+    if(bundleType==='dataset_registry'){
+      const entryText=await zip.file('dataset_entry.json').async('string')
+      const entryData=JSON.parse(entryText)
+      hashMatch=entryData.hash===manifest.output_hash
+      checks.push({label:'Dataset hash',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — entry altered'})
+    } else {
+      const outputFileName=bundleType==='decision_log'?manifest.output_file:'output.mp4'
+      const outputData=await zip.file(outputFileName).async('arraybuffer')
+      const computedHash=await sha256hex(outputData)
+      hashMatch=computedHash===manifest.output_hash
+      checks.push({label:bundleType==='decision_log'?'Decision log SHA256':'Video SHA256',status:hashMatch?'pass':'fail',detail:hashMatch?'matches manifest':'MISMATCH — content altered'})
+    }
     if(!hashMatch)valid=false
 
     // Step 5 — Merkle / session integrity
@@ -442,10 +452,12 @@ async function processBundle(file){
       if(!merkleMatch)valid=false
     }
 
-    // Step 6 — Tokens / decisions
+    // Step 6 — Tokens / decisions / verification method
     if(bundleType==='decision_log'){
       const count=manifest.decision_count||0
       checks.push({label:'Decision count',status:count>0?'pass':'warn',detail:`${count} decisions recorded`})
+    } else if(bundleType==='dataset_registry'){
+      checks.push({label:'Verification method',status:'pass',detail:manifest.verified||'—'})
     } else {
       const tokens=manifest.tokens||[]
       checks.push({label:'Token records',status:tokens.length>0?'pass':'warn',detail:`${tokens.length} source token${tokens.length!==1?'s':''} recorded`})
@@ -457,7 +469,8 @@ async function processBundle(file){
     checks.push({label:'Constellation anchor',status:hasAnchor?'pass':'warn',detail:hasAnchor?fp.slice(0,20)+'...':'not anchored'})
 
     // Step 8 — Protocol version
-    checks.push({label:'VidProof protocol',status:'pass',detail:`v${manifest.vidproof_version||'—'} · ${bundleType==='decision_log'?'Decision Log':'Video Evidence'}`})
+    const typeLabel=bundleType==='decision_log'?'Decision Log':bundleType==='dataset_registry'?'Dataset Registry':'Video Evidence'
+    checks.push({label:'VidProof protocol',status:'pass',detail:`v${manifest.vidproof_version||'—'} · ${typeLabel}`})
 
   }catch(e){
     valid=false

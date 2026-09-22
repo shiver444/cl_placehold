@@ -1,0 +1,1037 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Miann's Filthy Basement — Members</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:       #0a0908;
+  --panel:    #1a100e;
+  --panel-2:  #241512;
+  --red:      #a8161c;
+  --red-glow: #e8232b;
+  --bone:     #e6dfd2;
+  --ash:      #6b6058;
+  --line:     #3a1210;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  background: var(--bg);
+  color: var(--bone);
+  font-family: 'JetBrains Mono', monospace;
+  overflow-x: hidden;
+  min-height: 100vh;
+}
+
+/* film grain */
+body::before {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 999;
+  opacity: 0.06; mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+/* vignette */
+body::after {
+  content: "";
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 998;
+  background: radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+}
+
+a { color: inherit; text-decoration: none; }
+
+@keyframes flicker {
+  0%, 92%, 100% { opacity: 1; text-shadow: 0 0 8px rgba(232,35,43,0.55); }
+  93%  { opacity: 0.4; text-shadow: none; }
+  94%  { opacity: 1;   text-shadow: 0 0 8px rgba(232,35,43,0.55); }
+  95%  { opacity: 0.55; text-shadow: none; }
+  96%  { opacity: 1;   text-shadow: 0 0 8px rgba(232,35,43,0.55); }
+}
+
+/* ── GATE SCREEN ── */
+#gate-screen {
+  position: fixed; inset: 0;
+  background: var(--bg);
+  z-index: 1000;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
+  text-align: center;
+}
+
+.gate-title {
+  font-family: 'Nosifer', cursive;
+  font-size: clamp(28px, 6vw, 52px);
+  color: var(--red-glow);
+  letter-spacing: 6px;
+  text-transform: uppercase;
+  margin-bottom: 8px;
+  animation: flicker 6s infinite;
+}
+
+.gate-sub {
+  font-size: 9px;
+  letter-spacing: 4px;
+  color: var(--ash);
+  text-transform: uppercase;
+  margin-bottom: 56px;
+}
+
+.gate-status {
+  font-size: 9px;
+  letter-spacing: 3px;
+  color: var(--ash);
+  text-transform: uppercase;
+  margin-bottom: 20px;
+}
+
+.gate-bar-wrap {
+  width: 260px;
+  height: 1px;
+  background: var(--line);
+  margin-bottom: 56px;
+  position: relative;
+  overflow: hidden;
+}
+
+.gate-bar {
+  height: 100%;
+  width: 0%;
+  background: var(--red-glow);
+  transition: width 1.2s ease;
+  box-shadow: 0 0 8px rgba(232,35,43,0.6);
+}
+
+.gate-error {
+  display: none;
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+.gate-error a {
+  color: var(--red-glow);
+  text-decoration: underline;
+}
+
+/* ── EXPIRY BAR ── */
+.expiry-bar {
+  display: none;
+  background: var(--line);
+  border-bottom: 1px solid var(--red);
+  padding: 10px 40px;
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  text-align: center;
+  position: relative;
+  z-index: 10;
+}
+
+/* ── HEADER ── */
+header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.1rem 1.6rem;
+  background: linear-gradient(to bottom, rgba(10,9,8,0.95), rgba(10,9,8,0.7));
+  border-bottom: 1px solid var(--line);
+  backdrop-filter: blur(6px);
+}
+
+.header-logo {
+  font-family: 'Nosifer', cursive;
+  font-size: 18px;
+  color: var(--red-glow);
+  letter-spacing: 4px;
+  animation: flicker 6s infinite;
+}
+
+.header-right {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.header-member {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--ash);
+  text-transform: uppercase;
+  text-align: right;
+  line-height: 1.8;
+}
+
+.header-member span {
+  display: block;
+  color: var(--bone);
+  font-size: 9px;
+}
+
+.header-tier {
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: var(--bg);
+  background: var(--red-glow);
+  padding: 4px 10px;
+  text-transform: uppercase;
+  clip-path: polygon(0 0, 100% 0, 100% 75%, 94% 100%, 6% 100%, 0 72%);
+}
+
+.header-nav {
+  display: flex;
+  gap: 20px;
+}
+
+.header-nav a {
+  font-size: 8px;
+  letter-spacing: 2px;
+  color: var(--ash);
+  text-transform: uppercase;
+  transition: color .2s;
+}
+
+.header-nav a:hover { color: var(--red-glow); }
+
+/* ── HERO ── */
+.hero {
+  padding: 80px 1.5rem 60px;
+  max-width: 900px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 1fr auto;
+  gap: 60px;
+  align-items: center;
+  border-bottom: 1px solid var(--line);
+  position: relative;
+  z-index: 1;
+}
+
+.hero-eyebrow {
+  font-family: 'Nosifer', cursive;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  display: inline-block;
+  margin-bottom: 1rem;
+  animation: flicker 6s infinite;
+}
+
+.hero-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(42px, 7vw, 72px);
+  letter-spacing: 4px;
+  color: var(--bone);
+  line-height: 1;
+  margin-bottom: 20px;
+}
+
+.hero-title em {
+  color: var(--red-glow);
+  font-style: normal;
+}
+
+.hero-welcome {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--ash);
+  text-transform: uppercase;
+  line-height: 2;
+}
+
+/* ── MEMBER CARD WIDGET ── */
+.card-widget {
+  width: 200px;
+  flex-shrink: 0;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  padding: 18px;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 0 40px rgba(168,22,28,0.1);
+}
+
+.card-widget::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    45deg,
+    transparent 0, transparent 3px,
+    rgba(168,22,28,.03) 3px, rgba(168,22,28,.03) 4px
+  );
+  pointer-events: none;
+}
+
+.cw-inner { position: relative; z-index: 1; }
+
+.cw-issuer {
+  font-size: 7px;
+  letter-spacing: 3px;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.cw-name {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 20px;
+  letter-spacing: 2px;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+  line-height: 1;
+}
+
+.cw-tier {
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: var(--bg);
+  background: var(--red-glow);
+  display: inline-block;
+  padding: 2px 8px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+}
+
+.cw-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--line);
+}
+
+.cw-label { font-size: 7px; letter-spacing: 1px; color: var(--ash); text-transform: uppercase; }
+.cw-val   { font-size: 7px; letter-spacing: 1px; color: var(--bone); }
+.cw-val.red { color: var(--red-glow); }
+
+.cw-footer {
+  margin-top: 12px;
+  font-size: 6px;
+  letter-spacing: 2px;
+  color: var(--red);
+  text-transform: uppercase;
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--line);
+}
+
+.cw-barcode {
+  margin-top: 10px;
+  height: 16px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--ash) 0,  var(--ash) 1px,
+    transparent 1px, transparent 3px,
+    var(--ash) 3px, var(--ash) 5px,
+    transparent 5px, transparent 8px,
+    var(--ash) 8px, var(--ash) 9px,
+    transparent 9px, transparent 13px,
+    var(--ash) 13px, var(--ash) 14px,
+    transparent 14px, transparent 17px
+  );
+  opacity: 0.25;
+}
+
+/* ── CONTENT ── */
+.content {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 60px 1.5rem;
+  position: relative;
+  z-index: 1;
+}
+
+/* ── TABS ── */
+.tabs {
+  display: flex;
+  gap: 1px;
+  background: var(--line);
+  margin-bottom: 1px;
+}
+
+.tab-btn {
+  flex: 1;
+  background: var(--panel);
+  border: none;
+  color: var(--ash);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  padding: 14px;
+  cursor: pointer;
+  transition: all .2s;
+  position: relative;
+}
+
+.tab-btn:hover { background: var(--panel-2); color: var(--bone); }
+
+.tab-btn.active {
+  background: var(--red);
+  color: var(--bone);
+}
+
+/* ── TAB PANELS ── */
+.tab-panel {
+  display: none;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: none;
+  padding: 40px;
+  min-height: 360px;
+}
+
+.tab-panel.active { display: block; }
+
+.panel-eyebrow {
+  font-family: 'Nosifer', cursive;
+  font-size: 0.65rem;
+  letter-spacing: 0.15em;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  animation: flicker 6s infinite;
+}
+
+/* ── TRACK LIST ── */
+.track-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  background: var(--line);
+  margin-bottom: 24px;
+}
+
+.track {
+  background: var(--panel-2);
+  padding: 16px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: background .15s;
+}
+
+.track:hover { background: #2e1917; }
+
+.track-num {
+  font-size: 9px;
+  color: var(--ash);
+  width: 20px;
+  flex-shrink: 0;
+}
+
+.track-info { flex: 1; }
+
+.track-title {
+  font-size: 11px;
+  color: var(--bone);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.track-meta {
+  font-size: 8px;
+  color: var(--ash);
+  letter-spacing: 1px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 0.55rem 1.1rem;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.68rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--bone);
+  background: var(--panel-2);
+  border: 1px solid var(--red);
+  transition: background .25s, color .25s, box-shadow .25s;
+  clip-path: polygon(0 0, 100% 0, 100% 82%, 96% 100%, 4% 100%, 0 78%);
+  white-space: nowrap;
+  cursor: pointer;
+}
+
+.btn:hover {
+  background: var(--red);
+  color: var(--bg);
+  box-shadow: 0 0 22px rgba(232,35,43,0.45);
+}
+
+/* ── VIDEO GRID ── */
+.video-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1px;
+  background: var(--line);
+  margin-bottom: 24px;
+}
+
+.video-card {
+  background: var(--panel-2);
+  padding: 20px;
+  cursor: pointer;
+  transition: background .15s;
+}
+
+.video-card:hover { background: #2e1917; }
+
+.video-thumb {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 12px;
+  position: relative;
+  overflow: hidden;
+}
+
+.video-thumb::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    rgba(168,22,28,.04) 0, rgba(168,22,28,.04) 1px,
+    transparent 1px, transparent 3px
+  );
+}
+
+.play-icon {
+  font-size: 26px;
+  color: var(--red-glow);
+  position: relative;
+  z-index: 1;
+  text-shadow: 0 0 20px rgba(232,35,43,0.5);
+}
+
+.video-title {
+  font-size: 9px;
+  color: var(--bone);
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.video-meta {
+  font-size: 8px;
+  color: var(--ash);
+  letter-spacing: 1px;
+}
+
+/* ── CHAT ── */
+.chat-wrap {
+  display: flex;
+  flex-direction: column;
+  height: 440px;
+}
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 1px;
+}
+
+.chat-messages::-webkit-scrollbar { width: 2px; }
+.chat-messages::-webkit-scrollbar-thumb { background: var(--line); }
+
+.msg-author {
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: var(--red-glow);
+  text-transform: uppercase;
+  margin-bottom: 4px;
+}
+
+.msg-author.sys { color: var(--ash); }
+
+.msg-text {
+  font-size: 10px;
+  color: var(--ash);
+  line-height: 1.6;
+}
+
+.msg-text.own { color: var(--bone); }
+
+.chat-row {
+  display: flex;
+  gap: 1px;
+}
+
+.chat-input {
+  flex: 1;
+  background: var(--bg);
+  border: 1px solid var(--line);
+  border-right: none;
+  color: var(--bone);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 1px;
+  padding: 13px 16px;
+  outline: none;
+  text-transform: uppercase;
+  transition: border-color .2s;
+}
+
+.chat-input:focus { border-color: var(--red); }
+.chat-input::placeholder { color: var(--ash); }
+
+.chat-send {
+  background: var(--red);
+  border: none;
+  color: var(--bone);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 13px 20px;
+  cursor: pointer;
+  transition: background .2s;
+}
+
+.chat-send:hover { background: var(--red-glow); }
+
+.chat-note {
+  font-size: 7px;
+  color: var(--line);
+  letter-spacing: 1px;
+  text-align: center;
+  margin-top: 10px;
+  text-transform: uppercase;
+}
+
+/* ── DEMO NOTE ── */
+.demo-note {
+  border-left: 2px solid var(--line);
+  padding: 12px 16px;
+  margin-top: 20px;
+  font-size: 8px;
+  color: var(--ash);
+  letter-spacing: 1px;
+  line-height: 1.8;
+  text-transform: uppercase;
+}
+
+/* ── MERCH STRIP ── */
+.merch-strip {
+  margin-top: 1px;
+  background: var(--panel);
+  border: 1px solid var(--line);
+  border-top: none;
+  padding: 18px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.merch-label {
+  font-size: 9px;
+  letter-spacing: 2px;
+  color: var(--bone);
+  text-transform: uppercase;
+  margin-bottom: 3px;
+}
+
+.merch-sub {
+  font-size: 8px;
+  color: var(--ash);
+  letter-spacing: 1px;
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--line);
+  padding: 24px 1.6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  z-index: 1;
+  margin-top: 60px;
+}
+
+.footer-left {
+  font-size: 7px;
+  letter-spacing: 2px;
+  color: var(--line);
+  text-transform: uppercase;
+}
+
+.footer-right {
+  display: flex;
+  gap: 20px;
+  font-size: 7px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+}
+
+.footer-right a {
+  color: var(--ash);
+  transition: color .2s;
+}
+
+.footer-right a:hover { color: var(--red-glow); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 680px) {
+  .hero { grid-template-columns: 1fr; padding: 48px 1.1rem 40px; gap: 32px; }
+  .card-widget { width: 100%; }
+  .video-grid  { grid-template-columns: 1fr; }
+  .tabs        { flex-direction: column; }
+  footer       { flex-direction: column; gap: 12px; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- GATE -->
+<div id="gate-screen">
+  <div class="gate-title">MIANN</div>
+  <div class="gate-sub">Filthy Basement · Member Verification</div>
+  <div class="gate-status" id="gate-status">Verifying credential...</div>
+  <div class="gate-bar-wrap">
+    <div class="gate-bar" id="gate-bar"></div>
+  </div>
+  <div class="gate-error" id="gate-error">
+    <div id="gate-error-msg"></div><br>
+    <a href="/miann">← Get your card</a>
+  </div>
+</div>
+
+<!-- EXPIRY WARNING -->
+<div class="expiry-bar" id="expiry-bar"></div>
+
+<!-- MAIN -->
+<div id="main-page" style="display:none;">
+
+  <header>
+    <div class="header-logo">Miann</div>
+    <div class="header-right">
+      <div class="header-nav">
+        <a href="/miann">← Public</a>
+        <a href="#" onclick="logout();return false;">Log out</a>
+      </div>
+      <div class="header-member">
+        Member
+        <span id="hdr-name">—</span>
+      </div>
+      <div class="header-tier" id="hdr-tier">—</div>
+    </div>
+  </header>
+
+  <!-- HERO -->
+  <section class="hero">
+    <div>
+      <div class="hero-eyebrow">Members Only · Hand Picked Filth</div>
+      <div class="hero-title">
+        Miann's<br>Filthy<br><em>Basement.</em>
+      </div>
+      <div class="hero-welcome" id="hero-welcome">
+        Welcome back.<br>You're in.
+      </div>
+    </div>
+    <div class="card-widget">
+      <div class="cw-inner">
+        <div class="cw-issuer">CrithLabs // Miann</div>
+        <div class="cw-name" id="cw-name">—</div>
+        <div class="cw-tier" id="cw-tier">—</div>
+        <div class="cw-row">
+          <span class="cw-label">ID</span>
+          <span class="cw-val" id="cw-id">—</span>
+        </div>
+        <div class="cw-row">
+          <span class="cw-label">Access</span>
+          <span class="cw-val" id="cw-sections">—</span>
+        </div>
+        <div class="cw-row">
+          <span class="cw-label">Valid until</span>
+          <span class="cw-val" id="cw-expiry">—</span>
+        </div>
+        <div class="cw-row">
+          <span class="cw-label">Constellation</span>
+          <span class="cw-val red">◈ Anchored</span>
+        </div>
+        <div class="cw-footer">// Authorized Access //</div>
+        <div class="cw-barcode"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <div class="tabs">
+      <button class="tab-btn active" onclick="switchTab('downloads',this)">// Downloads</button>
+      <button class="tab-btn" onclick="switchTab('bts',this)">// BTS Videos</button>
+      <button class="tab-btn" onclick="switchTab('chat',this)">// Chat</button>
+    </div>
+
+    <!-- DOWNLOADS -->
+    <div class="tab-panel active" id="panel-downloads">
+      <div class="panel-eyebrow">Song Downloads</div>
+      <div class="track-list">
+        <div class="track">
+          <div class="track-num">01</div>
+          <div class="track-info">
+            <div class="track-title">Demo Track</div>
+            <div class="track-meta">WAV · 320KBPS · 2026 · Demo only</div>
+          </div>
+          <a href="#" class="btn">↓ Download</a>
+        </div>
+        <div class="track">
+          <div class="track-num">02</div>
+          <div class="track-info">
+            <div class="track-title">Unreleased Demo</div>
+            <div class="track-meta">WAV · 320KBPS · 2026 · Demo only</div>
+          </div>
+          <a href="#" class="btn">↓ Download</a>
+        </div>
+        <div class="track">
+          <div class="track-num">03</div>
+          <div class="track-info">
+            <div class="track-title">Demo Mix</div>
+            <div class="track-meta">WAV · 320KBPS · 2026 · Demo only</div>
+          </div>
+          <a href="#" class="btn">↓ Download</a>
+        </div>
+      </div>
+      <div class="demo-note">
+        Demo content only. Real downloads drop when paid memberships open.<br>
+        Do not lose your card because you're not getting a new one.
+      </div>
+    </div>
+
+    <!-- BTS VIDEOS -->
+    <div class="tab-panel" id="panel-bts">
+      <div class="panel-eyebrow">Behind The Scenes</div>
+      <div class="video-grid">
+        <div class="video-card">
+          <div class="video-thumb"><div class="play-icon">▶</div></div>
+          <div class="video-title">Studio Session — Take 1</div>
+          <div class="video-meta">Demo footage · 2026</div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="play-icon">▶</div></div>
+          <div class="video-title">Rehearsal — Raw</div>
+          <div class="video-meta">Demo footage · 2026</div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="play-icon">▶</div></div>
+          <div class="video-title">Writing Session</div>
+          <div class="video-meta">Demo footage · 2026</div>
+        </div>
+        <div class="video-card">
+          <div class="video-thumb"><div class="play-icon">▶</div></div>
+          <div class="video-title">Live Soundcheck</div>
+          <div class="video-meta">Demo footage · 2026</div>
+        </div>
+      </div>
+      <div class="demo-note">Demo placeholders. Real BTS drops with paid memberships.</div>
+    </div>
+
+    <!-- CHAT -->
+    <div class="tab-panel" id="panel-chat">
+      <div class="panel-eyebrow">Chat Zone</div>
+      <div class="chat-wrap">
+        <div class="chat-messages" id="chat-messages">
+          <div>
+            <div class="msg-author sys">Miann // System</div>
+            <div class="msg-text">Welcome to the Filthy Basement. Demo chat — messages are local only for now. Persistent chat drops with paid memberships.</div>
+          </div>
+        </div>
+        <div class="chat-row">
+          <input type="text" class="chat-input" id="chat-input"
+            placeholder="Say something filthy..."
+            onkeydown="if(event.key==='Enter')sendMsg()">
+          <button class="chat-send" onclick="sendMsg()">Send //</button>
+        </div>
+      </div>
+      <div class="chat-note">Messages not stored. Demo only.</div>
+    </div>
+
+    <!-- MERCH STRIP -->
+    <div class="merch-strip">
+      <div>
+        <div class="merch-label">// Member Merch Discount</div>
+        <div class="merch-sub">Demo link — not a real discount (yet)</div>
+      </div>
+      <a href="#" class="btn">Get 20% Off //</a>
+    </div>
+
+  </div>
+
+  <footer>
+    <div class="footer-left">CrithLabs Credential Protocol · Authorized Access Only</div>
+    <div class="footer-right">
+      <a href="/miann">← Back to Miann</a>
+      <a href="#" onclick="logout();return false;">Log out</a>
+    </div>
+  </footer>
+
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+<script>
+const API_BASE    = 'https://your-api-server.com'
+const PUBLIC_PAGE = '/miann'
+
+let memberData = null
+
+function animateBar(pct, delay=0) {
+  setTimeout(() => { document.getElementById('gate-bar').style.width = pct + '%' }, delay)
+}
+
+function gateStatus(msg) {
+  document.getElementById('gate-status').textContent = msg
+}
+
+function gateError(msg) {
+  document.getElementById('gate-status').style.display = 'none'
+  document.getElementById('gate-bar').parentElement.style.display = 'none'
+  const el = document.getElementById('gate-error')
+  document.getElementById('gate-error-msg').innerHTML = msg
+  el.style.display = 'block'
+}
+
+window.addEventListener('load', async () => {
+  animateBar(30)
+
+  const params = new URLSearchParams(window.location.search)
+  const credId = params.get('id')
+  const hash   = params.get('h')
+
+  // Session storage — returning visitor
+  const stored = sessionStorage.getItem('miann_member')
+  if (stored) {
+    try {
+      const data = JSON.parse(stored)
+      if (new Date(data.expires_at) > new Date()) {
+        animateBar(100)
+        gateStatus('Access confirmed.')
+        setTimeout(() => grantAccess(data), 500)
+        return
+      }
+    } catch(e) {}
+    sessionStorage.removeItem('miann_member')
+  }
+
+  if (!credId) {
+    gateError('No credential found.<br>You need a member card to enter.')
+    return
+  }
+
+  animateBar(65)
+  gateStatus('Verifying signature...')
+
+  try {
+    const res = await fetch(`${API_BASE}/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential_id: credId, bundle_hash: hash }),
+    })
+    const data = await res.json()
+
+    if (data.valid) {
+      animateBar(100)
+      gateStatus('Access granted.')
+      sessionStorage.setItem('miann_member', JSON.stringify(data))
+      setTimeout(() => grantAccess(data), 500)
+    } else {
+      gateError(data.error || 'Credential invalid or revoked.')
+    }
+  } catch(e) {
+    gateError(`Verification server unavailable.<br>Try dropping your .zip bundle on <a href="${PUBLIC_PAGE}">the main page</a> instead.`)
+  }
+})
+
+function grantAccess(data) {
+  memberData = data
+
+  const name     = data.holder_name || data.name || 'Member'
+  const tier     = data.tier || 'MEMBER'
+  const credId   = (data.credential_id || '').slice(0,8).toUpperCase()
+  const sections = (data.sections || []).join(', ').toUpperCase() || 'ALL'
+  const expiry   = data.expires_at
+    ? new Date(data.expires_at).toLocaleDateString('en-GB', {day:'2-digit',month:'short',year:'numeric'})
+    : '—'
+
+  document.getElementById('hdr-name').textContent  = name.toUpperCase()
+  document.getElementById('hdr-tier').textContent  = tier
+  document.getElementById('cw-name').textContent   = name.toUpperCase()
+  document.getElementById('cw-tier').textContent   = tier
+  document.getElementById('cw-id').textContent     = credId + '...'
+  document.getElementById('cw-sections').textContent = sections
+  document.getElementById('cw-expiry').textContent = expiry
+  document.getElementById('hero-welcome').innerHTML =
+    `Welcome back, ${name.split(' ')[0]}.<br>You're in the Basement.`
+
+  if (data.expires_at) {
+    const days = Math.floor((new Date(data.expires_at) - new Date()) / 86400000)
+    if (days <= 7) {
+      const bar = document.getElementById('expiry-bar')
+      bar.textContent = `⚠ Your access expires in ${days} day${days!==1?'s':''}. Renew your membership to keep access.`
+      bar.style.display = 'block'
+    }
+  }
+
+  document.getElementById('gate-screen').style.display = 'none'
+  document.getElementById('main-page').style.display = 'block'
+  window.history.replaceState({}, '', window.location.pathname)
+}
+
+function switchTab(name, btn) {
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'))
+  document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'))
+  document.getElementById('panel-' + name).classList.add('active')
+  btn.classList.add('active')
+}
+
+function sendMsg() {
+  const input = document.getElementById('chat-input')
+  const msg   = input.value.trim()
+  if (!msg) return
+  const name = memberData ? (memberData.holder_name || memberData.name || 'Member').toUpperCase() : 'MEMBER'
+  const msgs = document.getElementById('chat-messages')
+  const div  = document.createElement('div')
+  div.innerHTML = `
+    <div class="msg-author">${name}</div>
+    <div class="msg-text own">${msg.replace(/</g,'&lt;')}</div>`
+  msgs.appendChild(div)
+  msgs.scrollTop = msgs.scrollHeight
+  input.value = ''
+}
+
+function logout() {
+  sessionStorage.removeItem('miann_member')
+  window.location.href = PUBLIC_PAGE
+}
+</script>
+</body>
+</html>

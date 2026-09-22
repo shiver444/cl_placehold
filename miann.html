@@ -348,6 +348,585 @@
   </div>
 </section>
 
+  <!-- ── HAND PICKED FILTH — MEMBER ACCESS ── -->
+<section id="member-access" style="background:#080808;padding:80px 40px;border-top:1px solid #1a1a1a;font-family:'DM Mono',monospace;">
+
+  <!-- DEMO POPUP BANNER -->
+  <div id="demo-banner" style="background:#00e87a;padding:12px 24px;text-align:center;margin-bottom:48px;cursor:pointer;position:relative;" onclick="document.getElementById('get-card-modal').style.display='flex'">
+    <span style="font-family:'DM Mono',monospace;font-size:11px;letter-spacing:3px;text-transform:uppercase;color:#080808;font-weight:600;">
+      ◈ THIS WEEK ONLY — FREE DEMO ALL ACCESS PASS — CLICK HERE ◈
+    </span>
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;color:#0a3d1f;margin-top:4px;">
+      No payment. No commitment. Get your card instantly.
+    </div>
+  </div>
+
+  <!-- SECTION HEADER -->
+  <div style="max-width:900px;margin:0 auto;">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#00e87a;margin-bottom:12px;display:flex;align-items:center;gap:12px;">
+      <span style="display:block;width:24px;height:1px;background:#00e87a;"></span>
+      Hand Picked Filth · Member Access
+    </div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:48px;color:#f0ede6;letter-spacing:2px;margin-bottom:8px;line-height:1;">
+      INSERT YOUR CARD.
+    </h2>
+    <p style="font-size:12px;color:#444;letter-spacing:1px;margin-bottom:48px;">
+      Drop your member card below, scan the QR, or click your personal access link from email.
+    </p>
+
+    <!-- THREE VERIFICATION OPTIONS -->
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:#1a1a1a;margin-bottom:48px;">
+
+      <!-- OPTION 1: DROP CARD -->
+      <div style="background:#0d0d0d;padding:32px 24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:12px;">📄</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#f0ede6;margin-bottom:6px;">Drop your card</div>
+        <div style="font-size:9px;color:#444;line-height:1.6;">Drag your card file or bundle ZIP onto the zone below</div>
+      </div>
+
+      <!-- OPTION 2: SCAN QR -->
+      <div style="background:#0d0d0d;padding:32px 24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:12px;">📷</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#f0ede6;margin-bottom:6px;">Scan QR</div>
+        <div style="font-size:9px;color:#444;line-height:1.6;">Use your phone to scan the QR on your member card</div>
+      </div>
+
+      <!-- OPTION 3: PERSONAL LINK -->
+      <div style="background:#0d0d0d;padding:32px 24px;text-align:center;">
+        <div style="font-size:28px;margin-bottom:12px;">✉</div>
+        <div style="font-size:10px;letter-spacing:2px;text-transform:uppercase;color:#f0ede6;margin-bottom:6px;">Email link</div>
+        <div style="font-size:9px;color:#444;line-height:1.6;">Click the personal access link in your welcome email</div>
+      </div>
+
+    </div>
+
+    <!-- DROP ZONE -->
+    <div id="drop-zone"
+      style="border:1px dashed #2a2a2a;padding:60px 40px;text-align:center;cursor:pointer;transition:all .2s;margin-bottom:24px;position:relative;"
+      ondragover="event.preventDefault();this.style.borderColor='#00e87a';this.style.background='rgba(0,232,122,.04)'"
+      ondragleave="this.style.borderColor='#2a2a2a';this.style.background='transparent'"
+      ondrop="handleDrop(event)"
+      onclick="document.getElementById('card-file-input').click()">
+      <input type="file" id="card-file-input" accept=".zip,.html,.json" style="display:none" onchange="handleFileSelect(this)">
+      <div style="font-size:32px;margin-bottom:12px;">◈</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#f0ede6;margin-bottom:8px;">DROP CARD HERE</div>
+      <div style="font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#333;">or click to select — .zip or .html card file</div>
+    </div>
+
+    <!-- QR SCANNER -->
+    <div style="text-align:center;margin-bottom:24px;">
+      <button onclick="toggleQRScanner()"
+        style="background:transparent;border:1px solid #2a2a2a;color:#555;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 24px;cursor:pointer;transition:all .2s;"
+        onmouseover="this.style.borderColor='#00e87a';this.style.color='#00e87a'"
+        onmouseout="this.style.borderColor='#2a2a2a';this.style.color='#555'">
+        📷 Scan QR Code with Camera
+      </button>
+      <div id="qr-scanner-wrap" style="display:none;margin-top:16px;">
+        <video id="qr-video" style="width:100%;max-width:320px;border:1px solid #2a2a2a;" autoplay playsinline></video>
+        <div style="font-size:9px;color:#444;margin-top:8px;letter-spacing:1px;">Point camera at the QR code on your card</div>
+        <button onclick="stopQRScanner()" style="margin-top:8px;background:transparent;border:1px solid #333;color:#555;font-family:'DM Mono',monospace;font-size:9px;padding:6px 16px;cursor:pointer;">Stop Scanner</button>
+      </div>
+    </div>
+
+    <!-- PERSONAL LINK INPUT -->
+    <div style="display:flex;gap:8px;margin-bottom:48px;">
+      <input type="text" id="link-token-input" placeholder="Paste your personal access token here..."
+        style="flex:1;background:#0d0d0d;border:1px solid #1a1a1a;color:#f0ede6;font-family:'DM Mono',monospace;font-size:10px;padding:12px 16px;outline:none;"
+        onkeydown="if(event.key==='Enter')verifyToken()">
+      <button onclick="verifyToken()"
+        style="background:#00e87a;border:none;color:#080808;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px 20px;cursor:pointer;">
+        Verify →
+      </button>
+    </div>
+
+    <!-- VERIFICATION RESULT -->
+    <div id="verify-result" style="display:none;margin-bottom:48px;"></div>
+
+    <!-- MEMBER AREA (hidden until verified) -->
+    <div id="member-area" style="display:none;">
+      <div style="border-top:2px solid #00e87a;padding-top:48px;margin-top:48px;">
+
+        <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#00e87a;margin-bottom:8px;display:flex;align-items:center;gap:12px;">
+          <span style="display:block;width:24px;height:1px;background:#00e87a;"></span>
+          Member Area · <span id="member-name-display"></span> · <span id="member-tier-display"></span>
+        </div>
+        <h3 style="font-family:'Bebas Neue',sans-serif;font-size:36px;color:#f0ede6;letter-spacing:2px;margin-bottom:32px;">YOU'RE IN.</h3>
+
+        <!-- TABS -->
+        <div style="display:flex;gap:1px;background:#1a1a1a;margin-bottom:1px;">
+          <button class="member-tab active-tab" onclick="switchTab('downloads',this)"
+            style="flex:1;background:#00e87a;border:none;color:#080808;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px;cursor:pointer;">
+            Downloads
+          </button>
+          <button class="member-tab" onclick="switchTab('bts',this)"
+            style="flex:1;background:#0d0d0d;border:none;color:#555;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px;cursor:pointer;">
+            BTS Videos
+          </button>
+          <button class="member-tab" onclick="switchTab('chat',this)"
+            style="flex:1;background:#0d0d0d;border:none;color:#555;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;text-transform:uppercase;padding:12px;cursor:pointer;">
+            Chat
+          </button>
+        </div>
+
+        <!-- DOWNLOADS TAB -->
+        <div id="tab-downloads" class="tab-content" style="background:#0d0d0d;border:1px solid #1a1a1a;padding:32px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#f0ede6;margin-bottom:24px;">Song Downloads</div>
+          <div style="display:flex;flex-direction:column;gap:1px;background:#1a1a1a;">
+            <div style="background:#080808;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:11px;color:#f0ede6;letter-spacing:1px;">Track 01 — Demo Track</div>
+                <div style="font-size:9px;color:#444;margin-top:2px;letter-spacing:1px;">WAV · 320kbps · 2026</div>
+              </div>
+              <a href="#" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#080808;background:#00e87a;padding:8px 16px;text-decoration:none;">↓ Download</a>
+            </div>
+            <div style="background:#080808;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:11px;color:#f0ede6;letter-spacing:1px;">Track 02 — Unreleased Demo</div>
+                <div style="font-size:9px;color:#444;margin-top:2px;letter-spacing:1px;">WAV · 320kbps · 2026</div>
+              </div>
+              <a href="#" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#080808;background:#00e87a;padding:8px 16px;text-decoration:none;">↓ Download</a>
+            </div>
+            <div style="background:#080808;padding:16px 20px;display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:11px;color:#f0ede6;letter-spacing:1px;">Track 03 — Demo Mix</div>
+                <div style="font-size:9px;color:#444;margin-top:2px;letter-spacing:1px;">WAV · 320kbps · 2026</div>
+              </div>
+              <a href="#" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#080808;background:#00e87a;padding:8px 16px;text-decoration:none;">↓ Download</a>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding:16px;background:#080808;border-left:2px solid #00e87a;">
+            <div style="font-size:9px;color:#444;letter-spacing:1px;line-height:1.6;">Demo content only. Real downloads coming soon for paid members.</div>
+          </div>
+        </div>
+
+        <!-- BTS VIDEOS TAB -->
+        <div id="tab-bts" class="tab-content" style="display:none;background:#0d0d0d;border:1px solid #1a1a1a;padding:32px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#f0ede6;margin-bottom:24px;">Behind The Scenes</div>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:#1a1a1a;">
+            <div style="background:#080808;padding:24px;text-align:center;">
+              <div style="width:100%;aspect-ratio:16/9;background:#0a0a0a;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+                <span style="font-size:24px;">▶</span>
+              </div>
+              <div style="font-size:10px;color:#f0ede6;letter-spacing:1px;">Studio Session — Take 1</div>
+              <div style="font-size:9px;color:#444;margin-top:4px;">Demo footage</div>
+            </div>
+            <div style="background:#080808;padding:24px;text-align:center;">
+              <div style="width:100%;aspect-ratio:16/9;background:#0a0a0a;border:1px solid #1a1a1a;display:flex;align-items:center;justify-content:center;margin-bottom:12px;">
+                <span style="font-size:24px;">▶</span>
+              </div>
+              <div style="font-size:10px;color:#f0ede6;letter-spacing:1px;">Rehearsal — Raw</div>
+              <div style="font-size:9px;color:#444;margin-top:4px;">Demo footage</div>
+            </div>
+          </div>
+          <div style="margin-top:24px;padding:16px;background:#080808;border-left:2px solid #00e87a;">
+            <div style="font-size:9px;color:#444;letter-spacing:1px;line-height:1.6;">Demo placeholders. Real BTS content drops when paid memberships open.</div>
+          </div>
+        </div>
+
+        <!-- CHAT TAB -->
+        <div id="tab-chat" class="tab-content" style="display:none;background:#0d0d0d;border:1px solid #1a1a1a;padding:32px;">
+          <div style="font-family:'Bebas Neue',sans-serif;font-size:24px;letter-spacing:2px;color:#f0ede6;margin-bottom:24px;">Chat Zone</div>
+          <div id="chat-messages" style="height:320px;overflow-y:auto;background:#080808;border:1px solid #1a1a1a;padding:16px;margin-bottom:12px;display:flex;flex-direction:column;gap:10px;">
+            <div style="display:flex;flex-direction:column;gap:2px;">
+              <span style="font-size:8px;color:#00e87a;letter-spacing:1px;">MIANN · System</span>
+              <span style="font-size:10px;color:#888;line-height:1.5;">Welcome to the Filthy Basement. This is the demo chat — messages are local only for now. Real chat drops with paid memberships.</span>
+            </div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <input type="text" id="chat-input" placeholder="Say something filthy..."
+              style="flex:1;background:#080808;border:1px solid #1a1a1a;color:#f0ede6;font-family:'DM Mono',monospace;font-size:10px;padding:12px 16px;outline:none;"
+              onkeydown="if(event.key==='Enter')sendChatMessage()">
+            <button onclick="sendChatMessage()"
+              style="background:#00e87a;border:none;color:#080808;font-family:'DM Mono',monospace;font-size:10px;letter-spacing:2px;padding:12px 16px;cursor:pointer;">
+              Send
+            </button>
+          </div>
+          <div style="font-size:8px;color:#2a2a2a;letter-spacing:1px;margin-top:8px;">Messages are not stored. Demo only.</div>
+        </div>
+
+        <!-- MERCH LINK -->
+        <div style="margin-top:24px;background:#080808;border:1px solid #1a1a1a;padding:20px 24px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:10px;color:#f0ede6;letter-spacing:2px;text-transform:uppercase;">Member Merch Discount</div>
+            <div style="font-size:9px;color:#444;margin-top:4px;letter-spacing:1px;">Demo link — not a real discount</div>
+          </div>
+          <a href="#" style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:2px;text-transform:uppercase;color:#080808;background:#00e87a;padding:10px 20px;text-decoration:none;">
+            Get 20% Off →
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- GET CARD MODAL -->
+<div id="get-card-modal" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:999;align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#0d0d0d;border:1px solid #2a2a2a;max-width:480px;width:100%;padding:48px;">
+    <div style="font-family:'DM Mono',monospace;font-size:9px;letter-spacing:4px;text-transform:uppercase;color:#00e87a;margin-bottom:8px;">Free Demo</div>
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:36px;letter-spacing:2px;color:#f0ede6;margin-bottom:8px;">GET YOUR CARD</div>
+    <div style="font-size:10px;color:#444;letter-spacing:1px;margin-bottom:32px;line-height:1.7;">
+      Enter your name and email. Your member card arrives instantly. No payment. No commitment. This is a demo — real memberships open soon.
+    </div>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:24px;">
+      <input type="text" id="signup-name" placeholder="Your name"
+        style="background:#080808;border:1px solid #1a1a1a;color:#f0ede6;font-family:'DM Mono',monospace;font-size:10px;padding:14px 16px;outline:none;width:100%;"
+        oninput="this.style.borderColor='#2a2a2a'">
+      <input type="email" id="signup-email" placeholder="Your email"
+        style="background:#080808;border:1px solid #1a1a1a;color:#f0ede6;font-family:'DM Mono',monospace;font-size:10px;padding:14px 16px;outline:none;width:100%;"
+        oninput="this.style.borderColor='#2a2a2a'">
+    </div>
+
+    <div id="signup-error" style="display:none;font-size:9px;color:#ff4444;letter-spacing:1px;margin-bottom:12px;"></div>
+    <div id="signup-success" style="display:none;font-size:9px;color:#00e87a;letter-spacing:1px;line-height:1.6;margin-bottom:12px;"></div>
+
+    <div style="display:flex;gap:8px;">
+      <button onclick="requestDemoCard()"
+        style="flex:1;background:#00e87a;border:none;color:#080808;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:2px;text-transform:uppercase;padding:14px;cursor:pointer;">
+        ◈ Send My Card
+      </button>
+      <button onclick="document.getElementById('get-card-modal').style.display='none'"
+        style="background:transparent;border:1px solid #2a2a2a;color:#555;font-family:'DM Mono',monospace;font-size:10px;padding:14px 20px;cursor:pointer;">
+        ✕
+      </button>
+    </div>
+
+    <div style="font-size:8px;color:#2a2a2a;letter-spacing:1px;margin-top:16px;text-align:center;">
+      CrithLabs Credential Protocol · Your card is cryptographically signed and yours forever
+    </div>
+  </div>
+</div>
+
+<!-- JSZIP for bundle verification -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+
+<!-- JSQR for QR scanning -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jsqr/1.4.0/jsQR.min.js"></script>
+
+<script>
+// ── CONFIG ──
+const API_BASE = 'https://your-api-server.com' // replace with your credential_api.py URL
+const ISSUER_PUBLIC_KEY = 'YOUR_PUBLIC_KEY_HEX_HERE' // replace with your credential_public.pem hex
+
+// ── STATE ──
+let memberData = null
+let qrStream   = null
+
+// ── TAB SWITCHING ──
+function switchTab(tab, btn) {
+  document.querySelectorAll('.tab-content').forEach(t => t.style.display = 'none')
+  document.querySelectorAll('.member-tab').forEach(b => {
+    b.style.background = '#0d0d0d'
+    b.style.color = '#555'
+  })
+  document.getElementById('tab-' + tab).style.display = 'block'
+  btn.style.background = '#00e87a'
+  btn.style.color = '#080808'
+}
+
+// ── FILE DROP / SELECT ──
+function handleDrop(e) {
+  e.preventDefault()
+  document.getElementById('drop-zone').style.borderColor = '#2a2a2a'
+  document.getElementById('drop-zone').style.background = 'transparent'
+  const file = e.dataTransfer.files[0]
+  if (file) processFile(file)
+}
+
+function handleFileSelect(input) {
+  const file = input.files[0]
+  if (file) processFile(file)
+}
+
+async function processFile(file) {
+  showVerifyResult('checking', '🔍 Reading credential...')
+
+  try {
+    if (file.name.endsWith('.zip')) {
+      await verifyZipBundle(file)
+    } else if (file.name.endsWith('.html')) {
+      await verifyHtmlCard(file)
+    } else if (file.name.endsWith('.json')) {
+      const text = await file.text()
+      const data = JSON.parse(text)
+      verifyCredentialData(data)
+    } else {
+      showVerifyResult('invalid', '❌ Unrecognised file type. Drop a .zip bundle or .html card.')
+    }
+  } catch(e) {
+    showVerifyResult('invalid', `❌ Error reading file: ${e.message}`)
+  }
+}
+
+// ── VERIFY ZIP BUNDLE ──
+async function verifyZipBundle(file) {
+  const zip = await JSZip.loadAsync(await file.arrayBuffer())
+
+  if (!zip.file('manifest.json')) {
+    showVerifyResult('invalid', '❌ Not a valid credential bundle — manifest.json missing.')
+    return
+  }
+
+  const manifest = JSON.parse(await zip.file('manifest.json').async('string'))
+
+  if (manifest.bundle_type !== 'credential') {
+    showVerifyResult('invalid', '❌ This is a VidProof evidence bundle, not a member credential.')
+    return
+  }
+
+  verifyManifest(manifest)
+}
+
+// ── VERIFY HTML CARD ──
+async function verifyHtmlCard(file) {
+  // Extract credential ID from the HTML filename or content
+  const text = await file.text()
+  const idMatch = text.match(/credential_id['":\s]+([a-f0-9]{16})/)
+  const hashMatch = text.match(/bundle_hash['":\s]+([a-f0-9]{32})/)
+
+  if (!idMatch) {
+    showVerifyResult('invalid', '❌ Could not find credential data in this card file.')
+    return
+  }
+
+  // Verify against API
+  await verifyWithAPI(idMatch[1], hashMatch ? hashMatch[1] : null)
+}
+
+// ── VERIFY MANIFEST (client-side) ──
+function verifyManifest(manifest) {
+  const now = new Date()
+  const expiry = new Date(manifest.expires_at)
+
+  if (expiry < now) {
+    showVerifyResult('invalid', `❌ Credential expired on ${expiry.toLocaleDateString()}.`)
+    return
+  }
+
+  if (manifest.bundle_type !== 'credential') {
+    showVerifyResult('invalid', '❌ Not a member credential.')
+    return
+  }
+
+  // Valid — grant access
+  grantAccess({
+    name:          manifest.holder_name,
+    email:         manifest.holder_email,
+    tier:          manifest.tier,
+    expires_at:    manifest.expires_at,
+    credential_id: manifest.credential_id,
+  })
+}
+
+// ── VERIFY WITH API ──
+async function verifyWithAPI(credential_id, bundle_hash) {
+  try {
+    const res = await fetch(`${API_BASE}/verify`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ credential_id, bundle_hash }),
+    })
+    const data = await res.json()
+    if (data.valid) {
+      grantAccess(data)
+    } else {
+      showVerifyResult('invalid', `❌ ${data.error || 'Credential invalid or revoked.'}`)
+    }
+  } catch(e) {
+    // API unavailable — fallback to client-side check already done
+    showVerifyResult('invalid', '❌ Could not reach verification server. Try dropping your .zip bundle file instead.')
+  }
+}
+
+// ── VERIFY TOKEN (personal link) ──
+async function verifyToken() {
+  const token = document.getElementById('link-token-input').value.trim()
+  if (!token) return
+
+  // Token format: credential_id:bundle_hash
+  const parts = token.split(':')
+  if (parts.length >= 2) {
+    await verifyWithAPI(parts[0], parts[1])
+  } else {
+    await verifyWithAPI(token, null)
+  }
+}
+
+// ── QR SCANNER ──
+function toggleQRScanner() {
+  const wrap = document.getElementById('qr-scanner-wrap')
+  if (wrap.style.display === 'none') {
+    wrap.style.display = 'block'
+    startQRScanner()
+  } else {
+    wrap.style.display = 'none'
+    stopQRScanner()
+  }
+}
+
+async function startQRScanner() {
+  try {
+    qrStream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: 'environment' } })
+    const video = document.getElementById('qr-video')
+    video.srcObject = qrStream
+    video.play()
+    scanQRFrame(video)
+  } catch(e) {
+    showVerifyResult('invalid', '❌ Camera access denied. Use file drop instead.')
+    document.getElementById('qr-scanner-wrap').style.display = 'none'
+  }
+}
+
+function scanQRFrame(video) {
+  if (!qrStream) return
+  const canvas = document.createElement('canvas')
+  canvas.width  = video.videoWidth  || 320
+  canvas.height = video.videoHeight || 240
+  const ctx = canvas.getContext('2d')
+  ctx.drawImage(video, 0, 0, canvas.width, canvas.height)
+  const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height)
+  const code = jsQR(imageData.data, imageData.width, imageData.height)
+  if (code) {
+    stopQRScanner()
+    document.getElementById('qr-scanner-wrap').style.display = 'none'
+    try {
+      const qrData = JSON.parse(code.data)
+      verifyWithAPI(qrData.id, qrData.h)
+    } catch(e) {
+      verifyWithAPI(code.data, null)
+    }
+  } else {
+    requestAnimationFrame(() => scanQRFrame(video))
+  }
+}
+
+function stopQRScanner() {
+  if (qrStream) {
+    qrStream.getTracks().forEach(t => t.stop())
+    qrStream = null
+  }
+}
+
+// ── GRANT ACCESS ──
+function grantAccess(data) {
+  memberData = data
+  const expiry = new Date(data.expires_at).toLocaleDateString()
+
+  showVerifyResult('valid',
+    `✔ VALID — Welcome, ${data.name || data.holder_name}. ` +
+    `${data.tier} access until ${expiry}.`
+  )
+
+  document.getElementById('member-name-display').textContent = data.name || data.holder_name
+  document.getElementById('member-tier-display').textContent = data.tier
+
+  setTimeout(() => {
+    document.getElementById('member-area').style.display = 'block'
+    document.getElementById('member-area').scrollIntoView({ behavior: 'smooth' })
+  }, 800)
+}
+
+// ── SHOW VERIFY RESULT ──
+function showVerifyResult(status, message) {
+  const el = document.getElementById('verify-result')
+  el.style.display = 'block'
+
+  const colors = {
+    checking: { bg: '#0d0d0d', border: '#2a2a2a', color: '#888' },
+    valid:    { bg: 'rgba(0,232,122,.05)', border: 'rgba(0,232,122,.3)', color: '#00e87a' },
+    invalid:  { bg: 'rgba(255,60,60,.05)', border: 'rgba(255,60,60,.3)', color: '#ff4444' },
+  }
+  const c = colors[status] || colors.checking
+
+  el.innerHTML = `
+    <div style="background:${c.bg};border:1px solid ${c.border};padding:20px 24px;font-family:'DM Mono',monospace;font-size:11px;letter-spacing:1px;color:${c.color};">
+      ${message}
+    </div>`
+}
+
+// ── REQUEST DEMO CARD ──
+async function requestDemoCard() {
+  const name  = document.getElementById('signup-name').value.trim()
+  const email = document.getElementById('signup-email').value.trim()
+  const errEl = document.getElementById('signup-error')
+  const sucEl = document.getElementById('signup-success')
+
+  errEl.style.display = 'none'
+  sucEl.style.display = 'none'
+
+  if (!name) { document.getElementById('signup-name').style.borderColor='#ff4444'; errEl.textContent='Enter your name.'; errEl.style.display='block'; return }
+  if (!email || !email.includes('@')) { document.getElementById('signup-email').style.borderColor='#ff4444'; errEl.textContent='Enter a valid email.'; errEl.style.display='block'; return }
+
+  const btn = event.target
+  btn.textContent = 'Sending...'
+  btn.disabled = true
+
+  try {
+    const res = await fetch(`${API_BASE}/issue`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name,
+        email,
+        tier:        'DEMO',
+        expiry_days: 31,
+        sections:    ['downloads', 'bts', 'chat'],
+      }),
+    })
+    const data = await res.json()
+    if (data.success) {
+      sucEl.innerHTML = `✔ Card sent to ${email}.<br>Check your inbox — your card and access link are on their way.`
+      sucEl.style.display = 'block'
+      btn.textContent = '✔ Sent'
+    } else {
+      errEl.textContent = data.error || 'Something went wrong. Try again.'
+      errEl.style.display = 'block'
+      btn.textContent = '◈ Send My Card'
+      btn.disabled = false
+    }
+  } catch(e) {
+    errEl.textContent = 'Could not reach server. Try again shortly.'
+    errEl.style.display = 'block'
+    btn.textContent = '◈ Send My Card'
+    btn.disabled = false
+  }
+}
+
+// ── CHAT ──
+function sendChatMessage() {
+  const input = document.getElementById('chat-input')
+  const msg = input.value.trim()
+  if (!msg) return
+
+  const name = memberData ? (memberData.name || memberData.holder_name) : 'Member'
+  const messages = document.getElementById('chat-messages')
+
+  const div = document.createElement('div')
+  div.style.cssText = 'display:flex;flex-direction:column;gap:2px;'
+  div.innerHTML = `
+    <span style="font-size:8px;color:#00e87a;letter-spacing:1px;">${name.toUpperCase()}</span>
+    <span style="font-size:10px;color:#f0ede6;line-height:1.5;">${msg}</span>`
+  messages.appendChild(div)
+  messages.scrollTop = messages.scrollHeight
+
+  input.value = ''
+}
+
+// ── CHECK URL TOKEN ON LOAD ──
+window.addEventListener('load', () => {
+  const params = new URLSearchParams(window.location.search)
+  const id = params.get('id')
+  const h  = params.get('h')
+  if (id) {
+    document.getElementById('member-access').scrollIntoView({ behavior: 'smooth' })
+    showVerifyResult('checking', '🔍 Verifying your access link...')
+    setTimeout(() => verifyWithAPI(id, h), 600)
+  }
+})
+</script>
+
 <div class="divider" style="max-width:900px;"></div>
 
 <footer class="contact">

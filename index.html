@@ -5,316 +5,542 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>CrithLabs</title>
 <meta name="description" content="CrithLabs. Projects, tools and sound from the lab.">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
 <style>
   :root{
-    --bg:        #0a0908;
-    --panel:     #1a100e;
-    --panel-2:   #241512;
-    --red:       #a8161c;
-    --red-glow:  #e8232b;
-    --bone:      #e6dfd2;
-    --ash:       #6b6058;
-    --line:      #3a1210;
+    --desktop:  #008080;
+    --face:     #c0c0c0;
+    --hi:       #ffffff;
+    --shadow:   #808080;
+    --dark:     #000000;
+    --navy:     #000080;
+    --navy-2:   #1084d0;
+    --font:     "MS Sans Serif", "Microsoft Sans Serif", Tahoma, "Segoe UI", Arial, sans-serif;
   }
 
   *{ box-sizing:border-box; }
-  html{ scroll-behavior:smooth; }
+  html,body{ height:100%; }
 
   body{
     margin:0;
-    background:var(--bg);
-    color:var(--bone);
-    font-family:'JetBrains Mono', monospace;
-    overflow-x:hidden;
-    position:relative;
-  }
-
-  /* film grain overlay */
-  body::before{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:999;
-    opacity:0.06;
-    mix-blend-mode:overlay;
-    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
-  }
-
-  /* vignette */
-  body::after{
-    content:"";
-    position:fixed;
-    inset:0;
-    pointer-events:none;
-    z-index:998;
-    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+    background:var(--desktop);
+    color:var(--dark);
+    font-family:var(--font);
+    font-size:13px;
+    line-height:1.35;
+    overflow:hidden;
+    -webkit-font-smoothing:none;
   }
 
   a{ color:inherit; text-decoration:none; }
 
-  .eyebrow{
-    font-family:'Nosifer', cursive;
-    font-size:0.7rem;
-    letter-spacing:0.15em;
-    color:var(--red-glow);
-    text-transform:uppercase;
-    display:inline-block;
-    margin-bottom:0.9rem;
-    animation:flicker 6s infinite;
+  /* ---------- 3D bevel helpers ---------- */
+  .raised{
+    background:var(--face);
+    border:2px solid;
+    border-color:var(--hi) var(--dark) var(--dark) var(--hi);
+    box-shadow:inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+  }
+  .sunken{
+    background:#fff;
+    border:2px solid;
+    border-color:var(--shadow) var(--hi) var(--hi) var(--shadow);
+    box-shadow:inset 1px 1px 0 var(--dark), inset -1px -1px 0 #dfdfdf;
+  }
+  .btn95{
+    font:inherit;
+    color:var(--dark);
+    background:var(--face);
+    border:2px solid;
+    border-color:var(--hi) var(--dark) var(--dark) var(--hi);
+    box-shadow:inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+    cursor:pointer;
+    padding:0 10px;
+    min-height:24px;
+  }
+  .btn95:active, .btn95.pressed{
+    border-color:var(--dark) var(--hi) var(--hi) var(--dark);
+    box-shadow:inset 1px 1px 0 var(--shadow), inset -1px -1px 0 #dfdfdf;
+    padding:1px 9px 0 11px;
+  }
+  .btn95:focus-visible, a:focus-visible{
+    outline:1px dotted var(--dark);
+    outline-offset:-4px;
   }
 
-  @keyframes flicker{
-    0%, 92%, 100%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
-    93%{ opacity:0.4; text-shadow:none; }
-    94%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
-    95%{ opacity:0.55; text-shadow:none; }
-    96%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
-  }
-
-  @media (prefers-reduced-motion: reduce){
-    .eyebrow, .scroll-cue span{ animation:none !important; }
-  }
-
-  header{
+  /* ---------- desktop ---------- */
+  .desktop{
     position:fixed;
-    top:0; left:0; right:0;
-    z-index:100;
+    inset:0 0 34px 0;
+    padding:14px;
+    overflow:auto;
+  }
+
+  .icons{
+    display:flex;
+    flex-direction:column;
+    flex-wrap:wrap;
+    align-content:flex-start;
+    gap:14px 6px;
+    height:100%;
+    max-height:calc(100vh - 62px);
+  }
+
+  .icon{
+    width:86px;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:5px;
+    padding:4px 2px;
+    color:#fff;
+    text-align:center;
+    font-size:12px;
+    cursor:pointer;
+  }
+  .icon svg{ width:40px; height:40px; image-rendering:pixelated; }
+  .icon span{ padding:1px 3px; word-break:break-word; }
+  .icon:hover span,
+  .icon:focus-visible span{
+    background:var(--navy);
+    outline:1px dotted #fff;
+    outline-offset:-1px;
+  }
+  .icon:focus-visible{ outline:none; }
+
+  /* ---------- main window ---------- */
+  .window{
+    position:absolute;
+    top:46px;
+    left:50%;
+    transform:translateX(-35%);
+    width:min(560px, calc(100vw - 130px));
+    padding:2px;
+  }
+
+  .titlebar{
     display:flex;
     align-items:center;
     justify-content:space-between;
-    padding:1.1rem 1.6rem;
-    background:linear-gradient(to bottom, rgba(10,9,8,0.9), transparent);
+    gap:6px;
+    padding:3px 3px 3px 4px;
+    background:linear-gradient(to right, var(--navy), var(--navy-2));
+    color:#fff;
+    font-weight:700;
+    user-select:none;
+  }
+  .titlebar .name{
+    display:flex; align-items:center; gap:5px;
+    white-space:nowrap; overflow:hidden; text-overflow:ellipsis;
+  }
+  .titlebar .name svg{ width:16px; height:16px; flex:none; }
+
+  .tbtns{ display:flex; gap:2px; flex:none; }
+  .tbtn{
+    width:16px; height:14px;
+    padding:0; min-height:0;
+    display:grid; place-items:center;
+    font:700 10px/1 var(--font);
   }
 
-  .wordmark{
-    font-family:'Bebas Neue', sans-serif;
-    font-size:1.5rem;
-    letter-spacing:0.12em;
-    color:var(--bone);
-    text-shadow:0 0 10px rgba(168,22,28,0.5);
-  }
-
-  header nav a{
-    font-size:0.72rem;
-    letter-spacing:0.08em;
-    color:var(--ash);
-    text-transform:uppercase;
-    transition:color 0.2s ease;
-    margin-left:1.2rem;
-  }
-  header nav a:hover{ color:var(--red-glow); }
-
-  section{
-    position:relative;
-    z-index:1;
-    padding:6rem 1.5rem;
-    max-width:900px;
-    margin:0 auto;
-  }
-
-  .hero{
-    min-height:100svh;
+  .menubar{
     display:flex;
-    flex-direction:column;
+    gap:2px;
+    padding:2px 2px;
+  }
+  .menubar a{ padding:2px 8px; }
+  .menubar a:hover{ background:var(--navy); color:#fff; }
+  .menubar u{ text-decoration:underline; }
+
+  .addr{
+    display:flex; align-items:center; gap:6px;
+    padding:3px 4px;
+    border-top:1px solid var(--shadow);
+  }
+  .addr label{ color:#404040; }
+  .addr .field{
+    flex:1;
+    padding:2px 5px;
+    font-family:"Courier New", monospace;
+    font-size:12px;
+  }
+
+  .content{
+    margin:3px;
+    padding:14px 16px 16px;
+    max-height:calc(100vh - 250px);
+    overflow:auto;
+  }
+
+  .content h1{
+    margin:0 0 4px;
+    font:700 22px/1.1 var(--font);
+    letter-spacing:0.5px;
+  }
+  .content p{ margin:0 0 12px; color:#404040; }
+
+  .list{ list-style:none; margin:0; padding:0; }
+  .list li + li{ margin-top:2px; }
+  .row{
+    display:grid;
+    grid-template-columns:36px 1fr;
+    gap:10px;
     align-items:center;
-    justify-content:center;
-    text-align:center;
-    padding-top:8rem;
+    padding:6px 8px;
+  }
+  .row svg{ width:32px; height:32px; }
+  .row b{ display:block; }
+  .row small{ display:block; color:#404040; }
+  .row:hover, .row:focus-visible{
+    background:var(--navy);
+    color:#fff;
+    outline:1px dotted #fff;
+    outline-offset:-2px;
+  }
+  .row:hover small, .row:focus-visible small{ color:#dcdcdc; }
+
+  .row.soon{ opacity:.55; pointer-events:none; }
+
+  .rule{
+    border:0;
+    border-top:1px solid var(--shadow);
+    border-bottom:1px solid var(--hi);
+    margin:14px 0;
   }
 
-  .hero-title{
-    font-family:'Bebas Neue', sans-serif;
-    font-size:clamp(3.4rem, 15vw, 8rem);
-    letter-spacing:0.08em;
-    font-weight:400;
-    line-height:1;
-    margin:0 0 1.2rem 0;
-    color:var(--bone);
-    text-shadow:0 0 30px rgba(168,22,28,0.45);
+  .statusbar{
+    display:flex;
+    gap:3px;
+    padding:2px 3px 3px;
+    font-size:12px;
   }
+  .statusbar div{
+    padding:1px 6px;
+    border:1px solid;
+    border-color:var(--shadow) var(--hi) var(--hi) var(--shadow);
+  }
+  .statusbar .grow{ flex:1; }
 
-  .hero p{
-    color:var(--ash);
-    font-size:0.85rem;
-    max-width:36ch;
-    margin:0 auto;
-    line-height:1.6;
+  /* ---------- taskbar ---------- */
+  .taskbar{
+    position:fixed;
+    left:0; right:0; bottom:0;
+    height:34px;
+    display:flex;
+    align-items:center;
+    gap:4px;
+    padding:3px 3px 2px;
+    background:var(--face);
+    border-top:2px solid var(--hi);
+    box-shadow:0 -1px 0 #dfdfdf;
+    z-index:20;
   }
-
-  .scroll-cue{
-    margin-top:3rem;
-    font-size:0.65rem;
-    letter-spacing:0.2em;
-    color:var(--ash);
-    text-transform:uppercase;
-    opacity:0.7;
+  .start{
+    display:flex; align-items:center; gap:5px;
+    font-weight:700;
+    height:26px;
+    padding:0 8px 0 5px;
   }
-  .scroll-cue span{
-    display:block;
-    margin-top:0.5rem;
-    animation:bob 2.2s ease-in-out infinite;
-  }
-  @keyframes bob{
-    0%,100%{ transform:translateY(0); }
-    50%{ transform:translateY(6px); }
-  }
-
-  h2.section-title{
-    font-family:'Bebas Neue', sans-serif;
-    font-size:clamp(1.6rem, 5vw, 2.4rem);
-    letter-spacing:0.03em;
-    font-weight:400;
-    margin:0 0 2rem 0;
-    color:var(--bone);
-  }
+  .start svg{ width:18px; height:18px; }
 
   .divider{
-    width:100%;
-    height:1px;
-    background:linear-gradient(to right, transparent, var(--line) 20%, var(--line) 80%, transparent);
-    margin:0 auto;
+    width:2px; height:24px;
+    border-left:1px solid var(--shadow);
+    border-right:1px solid var(--hi);
   }
 
-  /* ---- link cards (add new sub-pages here) ---- */
-  .link-grid,
-  .contact-grid{
-    display:grid;
-    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
-    gap:1rem;
+  .task{
+    display:flex; align-items:center; gap:5px;
+    min-width:0; width:170px;
+    height:26px;
+    font-weight:700;
+    text-align:left;
   }
-  .contact-grid{
-    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
-    max-width:760px;
-    margin:2.4rem auto 0;
+  .task span{ overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
+  .task svg{ width:16px; height:16px; flex:none; }
+
+  .tray{
+    margin-left:auto;
+    display:flex; align-items:center; gap:8px;
+    height:26px;
+    padding:0 10px;
+    border:1px solid;
+    border-color:var(--shadow) var(--hi) var(--hi) var(--shadow);
+    font-size:12px;
+  }
+  .tray svg{ width:14px; height:14px; }
+
+  /* ---------- start menu ---------- */
+  .menu{
+    position:fixed;
+    left:3px; bottom:34px;
+    width:210px;
+    display:none;
+    z-index:30;
+    padding:2px;
+  }
+  .menu.open{ display:flex; }
+  .menu .side{
+    width:26px;
+    background:linear-gradient(to top, var(--navy), var(--navy-2));
+    position:relative;
+  }
+  .menu .side span{
+    position:absolute;
+    left:50%; bottom:8px;
+    transform:translateX(-50%) rotate(-90deg);
+    transform-origin:center;
+    white-space:nowrap;
+    color:#fff;
+    font:700 18px/1 var(--font);
+    letter-spacing:1px;
+    width:0; height:0;
+  }
+  .menu .side span b{ position:absolute; left:-2px; bottom:-8px; font-weight:700; }
+  .menu .side span i{ font-style:normal; font-weight:400; color:#c0d8ff; }
+  .menu ul{ list-style:none; margin:0; padding:0; flex:1; }
+  .menu li a{
+    display:flex; align-items:center; gap:10px;
+    padding:7px 10px;
+    font-size:13px;
+  }
+  .menu li a svg{ width:24px; height:24px; flex:none; }
+  .menu li a:hover, .menu li a:focus-visible{ background:var(--navy); color:#fff; outline:none; }
+  .menu li.sep{ height:2px; margin:3px 2px; border-top:1px solid var(--shadow); border-bottom:1px solid var(--hi); }
+
+  /* ---------- small screens ---------- */
+  @media (max-width:700px){
+    body{ overflow:auto; }
+    .desktop{ position:static; inset:auto; padding:10px 10px 46px; overflow:visible; }
+    .icons{ flex-direction:row; height:auto; max-height:none; gap:8px 4px; margin-bottom:12px; }
+    .window{
+      position:static;
+      transform:none;
+      width:100%;
+    }
+    .content{ max-height:none; }
+    .task{ width:auto; flex:1; }
+    .tray .tz{ display:none; }
   }
 
-  .card{
-    display:flex;
-    flex-direction:column;
-    gap:0.45rem;
-    padding:1.4rem 1.1rem;
-    background:var(--panel);
-    border:1px solid var(--line);
-    transition:border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
-  }
-  .card:hover{
-    border-color:var(--red);
-    background:var(--panel-2);
-    transform:translateY(-3px);
-  }
-  .card .label{
-    font-size:0.62rem;
-    letter-spacing:0.14em;
-    text-transform:uppercase;
-    color:var(--red-glow);
-  }
-  .card .value{
-    font-size:0.95rem;
-    color:var(--bone);
-    word-break:break-word;
-  }
-  .card .desc{
-    font-size:0.75rem;
-    color:var(--ash);
-    line-height:1.5;
-  }
-  .card.soon{
-    opacity:0.45;
-    pointer-events:none;
-    border-style:dashed;
-  }
-
-  footer.contact{
-    padding:5rem 1.5rem 3rem;
-    text-align:center;
-  }
-
-  .fine-print{
-    margin-top:3.5rem;
-    color:var(--ash);
-    font-size:0.65rem;
-    letter-spacing:0.05em;
-  }
-
-  @media (max-width:520px){
-    header{ padding:0.9rem 1.1rem; }
-    .wordmark{ font-size:1.25rem; }
-    section{ padding:4.5rem 1.1rem; }
-  }
+  @media (prefers-reduced-motion:reduce){ *{ scroll-behavior:auto !important; } }
 </style>
 </head>
 <body>
 
-<header>
-  <a class="wordmark" href="/">CrithLabs</a>
-  <nav>
-    <a href="#projects">Projects</a>
-    <a href="#contact">Contact</a>
+<!-- reusable pixel-ish icons -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <!-- folder -->
+    <symbol id="i-folder" viewBox="0 0 32 32">
+      <path d="M2 7h10l3 3h15v17H2z" fill="#ffff00" stroke="#000" stroke-width="1.5"/>
+      <path d="M2 12h28v15H2z" fill="#e8d400" stroke="#000" stroke-width="1.5"/>
+      <path d="M3 13h26" stroke="#fff" stroke-width="1"/>
+    </symbol>
+    <!-- shield / proof -->
+    <symbol id="i-shield" viewBox="0 0 32 32">
+      <path d="M16 3l11 4v8c0 7-5 12-11 14C10 27 5 22 5 15V7z" fill="#c0c0c0" stroke="#000" stroke-width="1.5"/>
+      <path d="M16 3l11 4v8c0 7-5 12-11 14z" fill="#808080"/>
+      <path d="M10 15l4 4 8-9" fill="none" stroke="#000080" stroke-width="3" stroke-linecap="square"/>
+    </symbol>
+    <!-- speaker / music -->
+    <symbol id="i-music" viewBox="0 0 32 32">
+      <rect x="4" y="3" width="24" height="26" fill="#c0c0c0" stroke="#000" stroke-width="1.5"/>
+      <circle cx="16" cy="19" r="6" fill="#000"/>
+      <circle cx="16" cy="19" r="2" fill="#c0c0c0"/>
+      <circle cx="16" cy="9" r="2" fill="#000"/>
+    </symbol>
+    <!-- wrench / tool -->
+    <symbol id="i-tool" viewBox="0 0 32 32">
+      <rect x="3" y="5" width="26" height="22" fill="#c0c0c0" stroke="#000" stroke-width="1.5"/>
+      <rect x="3" y="5" width="26" height="5" fill="#000080"/>
+      <path d="M8 16h16M8 20h10M8 24h13" stroke="#000" stroke-width="1.5"/>
+      <rect x="22" y="17" width="4" height="4" fill="#008080" stroke="#000"/>
+    </symbol>
+    <!-- mail -->
+    <symbol id="i-mail" viewBox="0 0 32 32">
+      <rect x="3" y="7" width="26" height="18" fill="#fff" stroke="#000" stroke-width="1.5"/>
+      <path d="M3 8l13 10L29 8" fill="none" stroke="#000" stroke-width="1.5"/>
+    </symbol>
+    <!-- computer -->
+    <symbol id="i-pc" viewBox="0 0 32 32">
+      <rect x="4" y="3" width="24" height="18" fill="#c0c0c0" stroke="#000" stroke-width="1.5"/>
+      <rect x="7" y="6" width="18" height="12" fill="#008080" stroke="#000"/>
+      <rect x="10" y="23" width="12" height="3" fill="#c0c0c0" stroke="#000"/>
+      <rect x="6" y="26" width="20" height="3" fill="#c0c0c0" stroke="#000"/>
+    </symbol>
+    <!-- windows-ish flag -->
+    <symbol id="i-flag" viewBox="0 0 18 18">
+      <path d="M2 3q3-2 6 0v6q-3-2-6 0z" fill="#f00"/>
+      <path d="M9 3q3 2 6 0v6q-3 2-6 0z" fill="#0a0"/>
+      <path d="M2 10q3-2 6 0v6q-3-2-6 0z" fill="#00f"/>
+      <path d="M9 10q3 2 6 0v6q-3 2-6 0z" fill="#fd0"/>
+    </symbol>
+    <!-- speaker tray -->
+    <symbol id="i-vol" viewBox="0 0 14 14">
+      <path d="M1 5h3l4-3v10L4 9H1z" fill="#000"/>
+      <path d="M10 4q2 3 0 6" fill="none" stroke="#000"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="desktop">
+
+  <!-- desktop icons: add new sub-pages here -->
+  <nav class="icons" aria-label="Desktop">
+    <a class="icon" href="/vidproof">
+      <svg><use href="#i-shield"/></svg>
+      <span>VidProof</span>
+    </a>
+    <a class="icon" href="/proofmaker">
+      <svg><use href="#i-tool"/></svg>
+      <span>The Proofmaker</span>
+    </a>
+    <a class="icon" href="/miann">
+      <svg><use href="#i-music"/></svg>
+      <span>MianN</span>
+    </a>
+    <a class="icon" href="mailto:crith@crithlabs.com">
+      <svg><use href="#i-mail"/></svg>
+      <span>Contact</span>
+    </a>
   </nav>
-</header>
 
-<section class="hero">
-  <span class="eyebrow">Under Construction</span>
-  <h1 class="hero-title">CrithLabs</h1>
-  <p>Projects, tools and sound from the lab.</p>
-  <div class="scroll-cue">Enter<span>&#8595;</span></div>
-</section>
-
-<section id="projects">
-  <span class="eyebrow">The Lab</span>
-  <h2 class="section-title">Projects</h2>
-
-  <div class="link-grid">
-    <a class="card" href="/vidproof">
-      <span class="label">Tool</span>
-      <span class="value">VidProof</span>
-      <span class="desc">Proof that travels with the file. Verifiable by anyone.</span>
-    </a>
-
-    <a class="card" href="/miann">
-      <span class="label">Music</span>
-      <span class="value">MianN</span>
-      <span class="desc">Dark techno, industrial, punk. The filthy basement.</span>
-    </a>
-
-    <!-- To add a page, copy a card above and change href, label, value and desc.
-    <a class="card" href="/new-page">
-      <span class="label">Category</span>
-      <span class="value">Title</span>
-      <span class="desc">One-line description.</span>
-    </a>
-    -->
-
-    <div class="card soon">
-      <span class="label">Soon</span>
-      <span class="value">More</span>
-      <span class="desc">Something is being built down here.</span>
+  <!-- main window -->
+  <section class="window raised" aria-labelledby="win-title">
+    <div class="titlebar">
+      <div class="name">
+        <svg><use href="#i-pc"/></svg>
+        <span id="win-title">CrithLabs</span>
+      </div>
+      <div class="tbtns" aria-hidden="true">
+        <span class="btn95 tbtn">_</span>
+        <span class="btn95 tbtn">&#9633;</span>
+        <span class="btn95 tbtn">&#215;</span>
+      </div>
     </div>
+
+    <div class="menubar" aria-hidden="true">
+      <a><u>F</u>ile</a><a><u>E</u>dit</a><a><u>V</u>iew</a><a><u>H</u>elp</a>
+    </div>
+
+    <div class="addr">
+      <label>Address</label>
+      <div class="field sunken">C:\CRITHLABS\</div>
+    </div>
+
+    <div class="content sunken">
+      <h1>CrithLabs</h1>
+      <p>Projects, tools and sound from the lab. Pick one.</p>
+
+      <ul class="list">
+        <li>
+          <a class="row" href="/vidproof">
+            <svg><use href="#i-shield"/></svg>
+            <span><b>VidProof</b><small>Prove what actually happened. Proof that travels with the file.</small></span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="/proofmaker">
+            <svg><use href="#i-tool"/></svg>
+            <span><b>The Proofmaker</b><small>Tool. Fingerprint a file and get verifiable proof, no third party.</small></span>
+          </a>
+        </li>
+        <li>
+          <a class="row" href="/miann">
+            <svg><use href="#i-music"/></svg>
+            <span><b>MianN</b><small>Dark techno, industrial, punk. The filthy basement.</small></span>
+          </a>
+        </li>
+
+        <!-- To add a page, copy a row above and change href, icon, title and text.
+        <li>
+          <a class="row" href="/new-page">
+            <svg><use href="#i-folder"/></svg>
+            <span><b>Title</b><small>One-line description.</small></span>
+          </a>
+        </li>
+        -->
+
+        <li>
+          <div class="row soon">
+            <svg><use href="#i-folder"/></svg>
+            <span><b>More</b><small>Something is being built down here.</small></span>
+          </div>
+        </li>
+      </ul>
+
+      <hr class="rule">
+      <p style="margin:0">Questions, collabs, projects: <a href="mailto:crith@crithlabs.com"><u>crith@crithlabs.com</u></a></p>
+    </div>
+
+    <div class="statusbar">
+      <div class="grow">3 object(s)</div>
+      <div>Under construction</div>
+    </div>
+  </section>
+</main>
+
+<!-- start menu -->
+<div class="menu raised" id="menu" role="menu" aria-label="Start menu">
+  <div class="side"><span><b>Crith<i>Labs</i></b></span></div>
+  <ul>
+    <li><a role="menuitem" href="/vidproof"><svg><use href="#i-shield"/></svg>VidProof</a></li>
+    <li><a role="menuitem" href="/proofmaker"><svg><use href="#i-tool"/></svg>The Proofmaker</a></li>
+    <li><a role="menuitem" href="/miann"><svg><use href="#i-music"/></svg>MianN</a></li>
+    <li class="sep"></li>
+    <li><a role="menuitem" href="mailto:crith@crithlabs.com"><svg><use href="#i-mail"/></svg>Contact</a></li>
+  </ul>
+</div>
+
+<!-- taskbar -->
+<div class="taskbar">
+  <button class="btn95 start" id="start" aria-haspopup="true" aria-expanded="false" aria-controls="menu">
+    <svg><use href="#i-flag"/></svg>Start
+  </button>
+  <div class="divider"></div>
+  <a class="btn95 task pressed" href="/" aria-current="page">
+    <svg><use href="#i-pc"/></svg><span>CrithLabs</span>
+  </a>
+  <div class="tray">
+    <svg><use href="#i-vol"/></svg>
+    <span id="clock">12:00</span>
   </div>
-</section>
+</div>
 
-<div class="divider" style="max-width:900px;"></div>
+<script>
+(function(){
+  var start = document.getElementById('start');
+  var menu  = document.getElementById('menu');
+  var clock = document.getElementById('clock');
 
-<footer class="contact" id="contact">
-  <span class="eyebrow">Reach Out</span>
-  <h2 class="section-title">Contact</h2>
-  <p style="color:var(--ash); font-size:0.85rem; max-width:40ch; margin:0 auto;">
-    Get in touch for projects, collabs, or general inquiries.
-  </p>
+  function setMenu(open){
+    menu.classList.toggle('open', open);
+    start.classList.toggle('pressed', open);
+    start.setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
 
-  <div class="contact-grid">
-    <a class="card" href="mailto:crith@crithlabs.com">
-      <span class="label">Email</span>
-      <span class="value">crith@crithlabs.com</span>
-    </a>
-  </div>
+  start.addEventListener('click', function(e){
+    e.stopPropagation();
+    setMenu(!menu.classList.contains('open'));
+  });
+  document.addEventListener('click', function(e){
+    if (!menu.contains(e.target)) setMenu(false);
+  });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape') { setMenu(false); start.focus(); }
+  });
 
-  <p class="fine-print">CRITHLABS</p>
-</footer>
+  function tick(){
+    var d = new Date();
+    var h = d.getHours(), m = d.getMinutes();
+    var ap = h >= 12 ? 'PM' : 'AM';
+    h = h % 12 || 12;
+    clock.textContent = h + ':' + (m < 10 ? '0' : '') + m + ' ' + ap;
+  }
+  tick();
+  setInterval(tick, 15000);
+})();
+</script>
 
 </body>
 </html>

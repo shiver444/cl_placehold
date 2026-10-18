@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CrithLabs</title>
+<meta name="description" content="CrithLabs. Projects, tools and sound from the lab.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Nosifer&family=Bebas+Neue&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:        #0a0908;
+    --panel:     #1a100e;
+    --panel-2:   #241512;
+    --red:       #a8161c;
+    --red-glow:  #e8232b;
+    --bone:      #e6dfd2;
+    --ash:       #6b6058;
+    --line:      #3a1210;
+  }
+
+  *{ box-sizing:border-box; }
+  html{ scroll-behavior:smooth; }
+
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--bone);
+    font-family:'JetBrains Mono', monospace;
+    overflow-x:hidden;
+    position:relative;
+  }
+
+  /* film grain overlay */
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:999;
+    opacity:0.06;
+    mix-blend-mode:overlay;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* vignette */
+  body::after{
+    content:"";
+    position:fixed;
+    inset:0;
+    pointer-events:none;
+    z-index:998;
+    background:radial-gradient(ellipse at center, transparent 40%, rgba(0,0,0,0.75) 100%);
+  }
+
+  a{ color:inherit; text-decoration:none; }
+
+  .eyebrow{
+    font-family:'Nosifer', cursive;
+    font-size:0.7rem;
+    letter-spacing:0.15em;
+    color:var(--red-glow);
+    text-transform:uppercase;
+    display:inline-block;
+    margin-bottom:0.9rem;
+    animation:flicker 6s infinite;
+  }
+
+  @keyframes flicker{
+    0%, 92%, 100%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
+    93%{ opacity:0.4; text-shadow:none; }
+    94%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
+    95%{ opacity:0.55; text-shadow:none; }
+    96%{ opacity:1; text-shadow:0 0 8px rgba(232,35,43,0.55); }
+  }
+
+  @media (prefers-reduced-motion: reduce){
+    .eyebrow, .scroll-cue span{ animation:none !important; }
+  }
+
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:100;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:1.1rem 1.6rem;
+    background:linear-gradient(to bottom, rgba(10,9,8,0.9), transparent);
+  }
+
+  .wordmark{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:1.5rem;
+    letter-spacing:0.12em;
+    color:var(--bone);
+    text-shadow:0 0 10px rgba(168,22,28,0.5);
+  }
+
+  header nav a{
+    font-size:0.72rem;
+    letter-spacing:0.08em;
+    color:var(--ash);
+    text-transform:uppercase;
+    transition:color 0.2s ease;
+    margin-left:1.2rem;
+  }
+  header nav a:hover{ color:var(--red-glow); }
+
+  section{
+    position:relative;
+    z-index:1;
+    padding:6rem 1.5rem;
+    max-width:900px;
+    margin:0 auto;
+  }
+
+  .hero{
+    min-height:100svh;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    text-align:center;
+    padding-top:8rem;
+  }
+
+  .hero-title{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(3.4rem, 15vw, 8rem);
+    letter-spacing:0.08em;
+    font-weight:400;
+    line-height:1;
+    margin:0 0 1.2rem 0;
+    color:var(--bone);
+    text-shadow:0 0 30px rgba(168,22,28,0.45);
+  }
+
+  .hero p{
+    color:var(--ash);
+    font-size:0.85rem;
+    max-width:36ch;
+    margin:0 auto;
+    line-height:1.6;
+  }
+
+  .scroll-cue{
+    margin-top:3rem;
+    font-size:0.65rem;
+    letter-spacing:0.2em;
+    color:var(--ash);
+    text-transform:uppercase;
+    opacity:0.7;
+  }
+  .scroll-cue span{
+    display:block;
+    margin-top:0.5rem;
+    animation:bob 2.2s ease-in-out infinite;
+  }
+  @keyframes bob{
+    0%,100%{ transform:translateY(0); }
+    50%{ transform:translateY(6px); }
+  }
+
+  h2.section-title{
+    font-family:'Bebas Neue', sans-serif;
+    font-size:clamp(1.6rem, 5vw, 2.4rem);
+    letter-spacing:0.03em;
+    font-weight:400;
+    margin:0 0 2rem 0;
+    color:var(--bone);
+  }
+
+  .divider{
+    width:100%;
+    height:1px;
+    background:linear-gradient(to right, transparent, var(--line) 20%, var(--line) 80%, transparent);
+    margin:0 auto;
+  }
+
+  /* ---- link cards (add new sub-pages here) ---- */
+  .link-grid,
+  .contact-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+    gap:1rem;
+  }
+  .contact-grid{
+    grid-template-columns:repeat(auto-fit, minmax(180px, 1fr));
+    max-width:760px;
+    margin:2.4rem auto 0;
+  }
+
+  .card{
+    display:flex;
+    flex-direction:column;
+    gap:0.45rem;
+    padding:1.4rem 1.1rem;
+    background:var(--panel);
+    border:1px solid var(--line);
+    transition:border-color 0.25s ease, transform 0.25s ease, background 0.25s ease;
+  }
+  .card:hover{
+    border-color:var(--red);
+    background:var(--panel-2);
+    transform:translateY(-3px);
+  }
+  .card .label{
+    font-size:0.62rem;
+    letter-spacing:0.14em;
+    text-transform:uppercase;
+    color:var(--red-glow);
+  }
+  .card .value{
+    font-size:0.95rem;
+    color:var(--bone);
+    word-break:break-word;
+  }
+  .card .desc{
+    font-size:0.75rem;
+    color:var(--ash);
+    line-height:1.5;
+  }
+  .card.soon{
+    opacity:0.45;
+    pointer-events:none;
+    border-style:dashed;
+  }
+
+  footer.contact{
+    padding:5rem 1.5rem 3rem;
+    text-align:center;
+  }
+
+  .fine-print{
+    margin-top:3.5rem;
+    color:var(--ash);
+    font-size:0.65rem;
+    letter-spacing:0.05em;
+  }
+
+  @media (max-width:520px){
+    header{ padding:0.9rem 1.1rem; }
+    .wordmark{ font-size:1.25rem; }
+    section{ padding:4.5rem 1.1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="wordmark" href="/">CrithLabs</a>
+  <nav>
+    <a href="#projects">Projects</a>
+    <a href="#contact">Contact</a>
+  </nav>
+</header>
+
+<section class="hero">
+  <span class="eyebrow">Under Construction</span>
+  <h1 class="hero-title">CrithLabs</h1>
+  <p>Projects, tools and sound from the lab.</p>
+  <div class="scroll-cue">Enter<span>&#8595;</span></div>
+</section>
+
+<section id="projects">
+  <span class="eyebrow">The Lab</span>
+  <h2 class="section-title">Projects</h2>
+
+  <div class="link-grid">
+    <a class="card" href="/vidproof">
+      <span class="label">Tool</span>
+      <span class="value">VidProof</span>
+      <span class="desc">Proof that travels with the file. Verifiable by anyone.</span>
+    </a>
+
+    <a class="card" href="/miann">
+      <span class="label">Music</span>
+      <span class="value">MianN</span>
+      <span class="desc">Dark techno, industrial, punk. The filthy basement.</span>
+    </a>
+
+    <!-- To add a page, copy a card above and change href, label, value and desc.
+    <a class="card" href="/new-page">
+      <span class="label">Category</span>
+      <span class="value">Title</span>
+      <span class="desc">One-line description.</span>
+    </a>
+    -->
+
+    <div class="card soon">
+      <span class="label">Soon</span>
+      <span class="value">More</span>
+      <span class="desc">Something is being built down here.</span>
+    </div>
+  </div>
+</section>
+
+<div class="divider" style="max-width:900px;"></div>
+
+<footer class="contact" id="contact">
+  <span class="eyebrow">Reach Out</span>
+  <h2 class="section-title">Contact</h2>
+  <p style="color:var(--ash); font-size:0.85rem; max-width:40ch; margin:0 auto;">
+    Get in touch for projects, collabs, or general inquiries.
+  </p>
+
+  <div class="contact-grid">
+    <a class="card" href="mailto:crith@crithlabs.com">
+      <span class="label">Email</span>
+      <span class="value">crith@crithlabs.com</span>
+    </a>
+  </div>
+
+  <p class="fine-print">CRITHLABS</p>
+</footer>
+
+</body>
+</html>

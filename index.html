@@ -307,6 +307,65 @@
   .menu li a:hover, .menu li a:focus-visible{ background:var(--navy); color:#fff; outline:none; }
   .menu li.sep{ height:2px; margin:3px 2px; border-top:1px solid var(--shadow); border-bottom:1px solid var(--hi); }
 
+
+  /* ---------- NEW badge ---------- */
+  .new{
+    display:inline-block;
+    margin-left:6px;
+    padding:0 4px;
+    background:#f00;
+    color:#fff;
+    font:700 10px/14px var(--font);
+    font-style:normal;
+    letter-spacing:.5px;
+    vertical-align:middle;
+    animation:blink 1s steps(1) infinite;
+  }
+  @keyframes blink{ 50%{ background:#ffff00; color:#f00; } }
+  .icon{ position:relative; }
+  .icon .new{
+    position:absolute;
+    top:-2px; right:6px;
+    margin:0;
+  }
+  .row:hover .new, .row:focus-visible .new{ animation:none; background:#ff0; color:#f00; }
+
+  /* ---------- dialog ---------- */
+  .scrim{
+    position:fixed; inset:0;
+    display:none;
+    place-items:center;
+    z-index:40;
+    padding:12px;
+  }
+  .scrim.open{ display:grid; }
+  .dialog{
+    width:min(360px, 100%);
+    padding:2px;
+    box-shadow:2px 2px 0 var(--dark), inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+  }
+  .dialog .body{
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:14px;
+    align-items:start;
+    padding:18px 16px 12px;
+  }
+  .dialog .body svg{ width:40px; height:40px; }
+  .dialog h2{ margin:0 0 8px; font:700 15px/1.2 var(--font); }
+  .dialog p{ margin:0; font-size:12px; line-height:1.4; }
+  .dialog .actions{
+    display:flex; justify-content:center; gap:8px;
+    padding:6px 16px 14px;
+  }
+  .dialog .actions .btn95{
+    display:inline-grid; place-items:center;
+    min-width:92px; min-height:26px;
+    font-weight:700;
+  }
+  .dialog .actions .btn95.default{ outline:1px solid var(--dark); outline-offset:-4px; }
+  .dialog .actions .btn95.default:focus-visible{ outline:1px dotted var(--dark); }
+
   /* ---------- small screens ---------- */
   @media (max-width:700px){
     body{ overflow:auto; }
@@ -330,6 +389,18 @@
 <!-- reusable pixel-ish icons -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <defs>
+    <!-- car -->
+    <symbol id="i-car" viewBox="0 0 32 32">
+      <path d="M3 19l3-7c1-2 2-3 4-3h12c2 0 3 1 4 3l3 7v6H3z" fill="#f00" stroke="#000" stroke-width="1.5"/>
+      <path d="M9 12h6v5H7zM17 12h6l2 5h-8z" fill="#80d0ff" stroke="#000" stroke-width="1"/>
+      <circle cx="9" cy="25" r="3.5" fill="#000"/><circle cx="23" cy="25" r="3.5" fill="#000"/>
+      <circle cx="9" cy="25" r="1.2" fill="#c0c0c0"/><circle cx="23" cy="25" r="1.2" fill="#c0c0c0"/>
+    </symbol>
+    <!-- warning -->
+    <symbol id="i-warn" viewBox="0 0 32 32">
+      <path d="M16 3L30 28H2z" fill="#ffff00" stroke="#000" stroke-width="1.5" stroke-linejoin="round"/>
+      <path d="M16 11v8" stroke="#000" stroke-width="3"/><rect x="14.5" y="21.5" width="3" height="3" fill="#000"/>
+    </symbol>
     <!-- folder -->
     <symbol id="i-folder" viewBox="0 0 32 32">
       <path d="M2 7h10l3 3h15v17H2z" fill="#ffff00" stroke="#000" stroke-width="1.5"/>
@@ -387,6 +458,11 @@
 
   <!-- desktop icons: add new sub-pages here -->
   <nav class="icons" aria-label="Desktop">
+    <a class="icon" href="https://roadvandal.crithlabs.com">
+      <i class="new">NEW!</i>
+      <svg><use href="#i-car"/></svg>
+      <span>Road Vandal</span>
+    </a>
     <a class="icon" href="/vidproof">
       <svg><use href="#i-shield"/></svg>
       <span>VidProof</span>
@@ -434,6 +510,12 @@
 
       <ul class="list">
         <li>
+          <a class="row" href="https://roadvandal.crithlabs.com">
+            <svg><use href="#i-car"/></svg>
+            <span><b>Road Vandal <i class="new">NEW!</i></b><small>FOR THREE MINUTES, YOU ARE THE WORST DRIVER IN THE WORLD. HALLOWEEN RACE: ROAD VANDAL. PLAY NOW.</small></span>
+          </a>
+        </li>
+        <li>
           <a class="row" href="/vidproof">
             <svg><use href="#i-shield"/></svg>
             <span><b>VidProof</b><small>Prove what actually happened. Proof that travels with the file.</small></span>
@@ -474,7 +556,7 @@
     </div>
 
     <div class="statusbar">
-      <div class="grow">3 object(s)</div>
+      <div class="grow">4 object(s)</div>
       <div>Under construction</div>
     </div>
   </section>
@@ -484,12 +566,34 @@
 <div class="menu raised" id="menu" role="menu" aria-label="Start menu">
   <div class="side"><span><b>Crith<i>Labs</i></b></span></div>
   <ul>
+    <li><a role="menuitem" href="https://roadvandal.crithlabs.com"><svg><use href="#i-car"/></svg>Road Vandal</a></li>
     <li><a role="menuitem" href="/vidproof"><svg><use href="#i-shield"/></svg>VidProof</a></li>
     <li><a role="menuitem" href="/proofmaker"><svg><use href="#i-tool"/></svg>The Proofmaker</a></li>
     <li><a role="menuitem" href="/miann"><svg><use href="#i-music"/></svg>MianN</a></li>
     <li class="sep"></li>
     <li><a role="menuitem" href="mailto:crith@crithlabs.com"><svg><use href="#i-mail"/></svg>Contact</a></li>
   </ul>
+</div>
+
+<!-- BRAND NEW dialog -->
+<div class="scrim" id="scrim">
+  <div class="dialog raised" role="dialog" aria-modal="true" aria-labelledby="dlg-title" aria-describedby="dlg-text">
+    <div class="titlebar">
+      <div class="name"><svg><use href="#i-warn"/></svg><span>CrithLabs</span></div>
+      <div class="tbtns"><button class="btn95 tbtn" id="dlg-x" aria-label="Close">&#215;</button></div>
+    </div>
+    <div class="body">
+      <svg aria-hidden="true"><use href="#i-car"/></svg>
+      <div>
+        <h2 id="dlg-title">BRAND NEW! Road Vandal</h2>
+        <p id="dlg-text">FOR THREE MINUTES, YOU ARE THE WORST DRIVER IN THE WORLD. HALLOWEEN RACE: ROAD VANDAL. PLAY NOW.</p>
+      </div>
+    </div>
+    <div class="actions">
+      <a class="btn95 default" id="dlg-play" href="https://roadvandal.crithlabs.com">Play now</a>
+      <button class="btn95" id="dlg-ok" type="button">Later</button>
+    </div>
+  </div>
 </div>
 
 <!-- taskbar -->
@@ -539,6 +643,27 @@
   }
   tick();
   setInterval(tick, 15000);
+
+  /* ---- BRAND NEW dialog: shows once per visitor ---- */
+  var KEY = 'crith_seen_roadvandal';
+  var scrim = document.getElementById('scrim');
+  function seen(){ try { return localStorage.getItem(KEY) === '1'; } catch(e){ return false; } }
+  function mark(){ try { localStorage.setItem(KEY, '1'); } catch(e){} }
+  function closeDlg(){ scrim.classList.remove('open'); mark(); }
+  if (!seen()){
+    setTimeout(function(){
+      scrim.classList.add('open');
+      document.getElementById('dlg-play').focus();
+    }, 900);
+  }
+  document.getElementById('dlg-ok').addEventListener('click', closeDlg);
+  document.getElementById('dlg-x').addEventListener('click', closeDlg);
+  document.getElementById('dlg-play').addEventListener('click', mark);
+  scrim.addEventListener('click', function(e){ if (e.target === scrim) closeDlg(); });
+  document.addEventListener('keydown', function(e){
+    if (e.key === 'Escape' && scrim.classList.contains('open')) closeDlg();
+  });
+
 })();
 </script>
 

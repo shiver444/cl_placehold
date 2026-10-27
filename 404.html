@@ -1,72 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>404 Not Found | CrithLabs</title>
-    <link href="https://fonts.googleapis.com/css2?family=Creepster&display=swap" rel="stylesheet">
-    <style>
-        body, html {
-            height: 100%;
-            margin: 0;
-            padding: 0;
-            background-color: black;
-            color: #8b0000;
-            font-family: 'Arial', sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-        }
-        .container {
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-        h1 {
-            font-size: 2em;
-            font-family: 'Creepster', cursive;
-        }
-        p {
-            font-size: 1.2em;
-        }
-        .links-container {
-            display: flex;
-            justify-content: center; /* Aligns items horizontally */
-            flex-wrap: wrap; /* Allows items to wrap on small screens */
-            gap: 10px; /* Adds space between links */
-            margin-top: 20px; /* Additional spacing from the text above */
-        }
-        a {
-            color: #8b0000;
-            text-decoration: none;
-            font-weight: bold;
-        }
-        a:hover {
-            text-decoration: underline;
-        }
-        @media (max-width: 600px) {
-            h1 {
-                font-size: 1.5em;
-            }
-            p {
-                font-size: 1em;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>404 Not Found | CrithLabs</title>
+<meta name="robots" content="noindex">
+<style>
+  :root{
+    --desktop:  #008080;
+    --face:     #c0c0c0;
+    --hi:       #ffffff;
+    --shadow:   #808080;
+    --dark:     #000000;
+    --navy:     #000080;
+    --navy-2:   #1084d0;
+    --font:     "MS Sans Serif", "Microsoft Sans Serif", Tahoma, "Segoe UI", Arial, sans-serif;
+  }
+  *{ box-sizing:border-box; }
+  html,body{ height:100%; }
+  body{
+    margin:0;
+    background:var(--desktop);
+    color:var(--dark);
+    font-family:var(--font);
+    font-size:13px;
+    line-height:1.35;
+    display:grid;
+    place-items:center;
+    padding:12px 12px 46px;
+    -webkit-font-smoothing:none;
+  }
+  a{ color:inherit; text-decoration:none; }
+
+  .raised{
+    background:var(--face);
+    border:2px solid;
+    border-color:var(--hi) var(--dark) var(--dark) var(--hi);
+    box-shadow:inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+  }
+  .btn95{
+    font:inherit;
+    font-weight:700;
+    color:var(--dark);
+    background:var(--face);
+    border:2px solid;
+    border-color:var(--hi) var(--dark) var(--dark) var(--hi);
+    box-shadow:inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+    cursor:pointer;
+    padding:0 10px;
+    min-height:26px;
+    display:inline-grid;
+    place-items:center;
+  }
+  .btn95:active{
+    border-color:var(--dark) var(--hi) var(--hi) var(--dark);
+    box-shadow:inset 1px 1px 0 var(--shadow), inset -1px -1px 0 #dfdfdf;
+    padding:1px 9px 0 11px;
+  }
+  .btn95:focus-visible{ outline:1px dotted var(--dark); outline-offset:-4px; }
+
+  .dialog{
+    width:min(420px, 100%);
+    padding:2px;
+    box-shadow:2px 2px 0 var(--dark), inset -1px -1px 0 var(--shadow), inset 1px 1px 0 #dfdfdf;
+  }
+  .titlebar{
+    display:flex; align-items:center; justify-content:space-between; gap:6px;
+    padding:3px 3px 3px 4px;
+    background:linear-gradient(to right, var(--navy), var(--navy-2));
+    color:#fff;
+    font-weight:700;
+    user-select:none;
+  }
+  .titlebar .name{ display:flex; align-items:center; gap:5px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; }
+  .titlebar svg{ width:16px; height:16px; flex:none; }
+  .tbtn{
+    width:16px; height:14px; padding:0; min-height:0;
+    font:700 10px/1 var(--font);
+  }
+
+  .body{
+    display:grid;
+    grid-template-columns:40px 1fr;
+    gap:14px;
+    align-items:start;
+    padding:20px 16px 8px;
+  }
+  .body > svg{ width:40px; height:40px; }
+  .body h1{ margin:0 0 8px; font:700 16px/1.2 var(--font); }
+  .body p{ margin:0 0 6px; font-size:13px; }
+  .body .path{
+    margin:10px 0 0;
+    padding:3px 6px;
+    background:#fff;
+    border:2px solid;
+    border-color:var(--shadow) var(--hi) var(--hi) var(--shadow);
+    box-shadow:inset 1px 1px 0 var(--dark);
+    font:12px "Courier New", monospace;
+    word-break:break-all;
+  }
+
+  .actions{
+    display:flex; flex-wrap:wrap; justify-content:center; gap:8px;
+    padding:12px 16px 16px;
+  }
+  .actions .btn95{ min-width:96px; }
+  .actions .btn95.default{ outline:1px solid var(--dark); outline-offset:-4px; }
+  .actions .btn95.default:focus-visible{ outline:1px dotted var(--dark); }
+
+  /* taskbar */
+  .taskbar{
+    position:fixed; left:0; right:0; bottom:0;
+    height:34px;
+    display:flex; align-items:center; gap:4px;
+    padding:3px 3px 2px;
+    background:var(--face);
+    border-top:2px solid var(--hi);
+    box-shadow:0 -1px 0 #dfdfdf;
+  }
+  .start{
+    display:flex; align-items:center; gap:5px;
+    height:26px; padding:0 8px 0 5px;
+  }
+  .start svg{ width:18px; height:18px; }
+  .tray{
+    margin-left:auto;
+    display:flex; align-items:center;
+    height:26px; padding:0 10px;
+    border:1px solid;
+    border-color:var(--shadow) var(--hi) var(--hi) var(--shadow);
+    font-size:12px;
+  }
+</style>
 </head>
 <body>
-    <div class="container">
-        <h1>404: Pit unlocked</h1>
-        <p>Nooo! Not the pit!</p>
-        <p>Let's get you back to safety:</p>
-        <div class="links-container">
-            <a href="https://www.crithlabs.com/">Home</a> |
-            <a href="https://www.crithlabs.com/about">About</a> |
-            <a href="https://www.crithlabs.com/tv">CrithLabs TV</a> |
-            <a href="https://www.crithlabs.com/join">Join</a>
-        </div>
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <symbol id="i-err" viewBox="0 0 32 32">
+      <circle cx="16" cy="16" r="13" fill="#f00" stroke="#000" stroke-width="1.5"/>
+      <path d="M10.5 10.5l11 11M21.5 10.5l-11 11" stroke="#fff" stroke-width="4" stroke-linecap="square"/>
+    </symbol>
+    <symbol id="i-flag" viewBox="0 0 18 18">
+      <path d="M2 3q3-2 6 0v6q-3-2-6 0z" fill="#f00"/>
+      <path d="M9 3q3 2 6 0v6q-3 2-6 0z" fill="#0a0"/>
+      <path d="M2 10q3-2 6 0v6q-3-2-6 0z" fill="#00f"/>
+      <path d="M9 10q3 2 6 0v6q-3 2-6 0z" fill="#fd0"/>
+    </symbol>
+  </defs>
+</svg>
+
+<main class="dialog raised" role="alertdialog" aria-labelledby="t" aria-describedby="d">
+  <div class="titlebar">
+    <div class="name"><svg><use href="#i-err"/></svg><span>CrithLabs</span></div>
+    <a class="btn95 tbtn" href="/" aria-label="Close and go home">&#215;</a>
+  </div>
+
+  <div class="body">
+    <svg aria-hidden="true"><use href="#i-err"/></svg>
+    <div id="d">
+      <h1 id="t">404: Pit unlocked</h1>
+      <p>Nooo! Not the pit!</p>
+      <p>Let's get you back to safety.</p>
+      <div class="path" id="path">C:\CRITHLABS\</div>
     </div>
+  </div>
+
+  <div class="actions">
+    <a class="btn95 default" href="/">Home</a>
+    <a class="btn95" href="https://roadvandal.crithlabs.com">Road Vandal</a>
+    <a class="btn95" href="/vidproof">VidProof</a>
+    <a class="btn95" href="/proofmaker">The Proofmaker</a>
+    <a class="btn95" href="/miann">MianN</a>
+  </div>
+</main>
+
+<div class="taskbar">
+  <a class="btn95 start" href="/"><svg><use href="#i-flag"/></svg>Start</a>
+  <div class="tray">404</div>
+</div>
+
+<script>
+  /* show the address that wasn't found, Win95 style */
+  try {
+    var p = decodeURIComponent(location.pathname).replace(/\//g, '\\');
+    document.getElementById('path').textContent = 'C:\\CRITHLABS' + (p === '\\' ? '' : p) + ' not found';
+  } catch (e) {}
+</script>
+
 </body>
 </html>
